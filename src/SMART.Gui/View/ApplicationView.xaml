@@ -1,0 +1,352 @@
+﻿<sfcontrols:RibbonWindow 
+    x:Class="SMART.Gui.View.ApplicationView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"    
+    xmlns:sfcontrols="clr-namespace:Syncfusion.Windows.Tools.Controls;assembly=SyncFusion.Tools.WPF"
+    xmlns:sfshared="clr-namespace:Syncfusion.Windows.Shared;assembly=SyncFusion.Shared.WPF"
+    xmlns:Gui="clr-namespace:SMART.Gui"
+    xmlns:Commands="clr-namespace:SMART.Gui.Commands"
+    xmlns:View="clr-namespace:SMART.Gui.View"
+    xmlns:Controls="clr-namespace:SMART.Gui.Controls"
+    ResizeMode="CanResizeWithGrip" 
+    WindowStartupLocation="CenterScreen" 
+    Height="799" 
+    Width="1138" 
+    WindowState="Normal"             
+    Title="{Binding Name}" sfcontrols:Ribbon.ActiveColorScheme="Silver" >
+
+    <sfcontrols:RibbonWindow.Resources>
+        <ResourceDictionary>
+
+            <DataTemplate x:Key="CommandButton">
+                <Button Margin="2,0,0,0" ToolTip="{Binding Description}" Command="{Binding}">
+                    <Image Margin="2" Source="{Binding Path=Icon}" Height="14" Width="14"/>
+                </Button>
+            </DataTemplate>
+
+            <Style x:Key="UserControlOverlayRectangleStyle" TargetType="{x:Type Rectangle}">
+                <Setter Property="Fill" Value="#FF151515"/>
+                <Setter Property="Opacity" Value="0.80"/>
+            </Style>
+
+            <Style x:Key="toggleButton" TargetType="ToggleButton">
+                <Setter Property="OverridesDefaultStyle" Value="True"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ToggleButton">
+                            <Border Name="border" Width="{TemplateBinding Width}" Height="{TemplateBinding Height}"  >
+                                <ContentPresenter Content="{TemplateBinding Content}" ToolTip="{TemplateBinding ToolTip}" />
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsChecked" Value="True">
+                                    <Setter TargetName="border" Property="Background" Value="SteelBlue"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+        </ResourceDictionary>
+
+
+    </sfcontrols:RibbonWindow.Resources>
+
+    <sfcontrols:RibbonWindow.StatusBar>
+        <sfcontrols:RibbonStatusBar x:Name="appStatusBar" Grid.Row="2">
+            <DockPanel>
+                <StatusBarItem DockPanel.Dock="Left">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="/Resources/Images/TestCase.png" Width="16" Height="16"/>
+                        <TextBlock Margin="5,0,0,0" Text="TestCases"></TextBlock>
+                        <TextBlock Margin="5,0,0,0" Text="{Binding Path=Project.Tests.Count ,FallbackValue=0}"></TextBlock>
+                    </StackPanel>
+                </StatusBarItem>
+                <Separator DockPanel.Dock="Left"/>
+                <StatusBarItem DockPanel.Dock="Left">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="/Resources/Images/Model.png" Width="16" Height="16"></Image>
+                        <TextBlock Margin="5,0,0,0" Text="Models"></TextBlock>
+                        <TextBlock Margin="5,0,0,0" Text="{Binding Path=Project.Models.Count ,FallbackValue=0}"></TextBlock>
+                    </StackPanel>
+                </StatusBarItem>
+                <Separator DockPanel.Dock="Left"/>
+                <StatusBarItem DockPanel.Dock="Left">
+                    <ProgressBar x:Name="progress" Value="0" Width="400"/>
+                </StatusBarItem>
+                <Separator DockPanel.Dock="Left"/>
+                <StatusBarItem>
+                    <TextBlock Text="{Binding Status}"></TextBlock>
+                </StatusBarItem>
+                <StatusBarItem DockPanel.Dock="Right" Padding="6,0,32,0" Content="{Binding Path=VersionInfo}"/>
+                <StatusBarItem />
+            </DockPanel>
+        </sfcontrols:RibbonStatusBar>
+    </sfcontrols:RibbonWindow.StatusBar>
+
+    <Grid x:Name="mainGrid"  >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <sfcontrols:Ribbon Grid.Row="0" x:Name="appRibbon" VerticalAlignment="Top" >
+
+            <sfcontrols:Ribbon.ApplicationMenu>
+                <sfcontrols:ApplicationMenu ApplicationButtonImage="/Resources/Images/system_verification_symbol_rgb.ico" IsPopupOpen="False">
+                    <sfcontrols:ApplicationMenu.MenuItems>
+                        <ItemsControl>
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Vertical"/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <Gui:RecentFileList x:Name="RecentFiles" Visibility="Collapsed" />
+                        </ItemsControl>
+
+                        <TextBlock MinWidth="300" FontWeight="Bold" />
+                        <!--<Separator Padding="0"/>-->
+                    </sfcontrols:ApplicationMenu.MenuItems>
+                    <sfcontrols:SimpleMenuButton
+                        Label="{Binding NewProject.Text}"
+                        ToolTip="{Binding NewProject.Description}"
+                        Command="{Binding NewProject}"  
+                        Icon="{Binding NewProject.Icon}" />
+                    <sfcontrols:SimpleMenuButton
+                        Label="{Binding OpenProject.Text}"
+                        ToolTip="{Binding OpenProject.Description}"
+                        Command="{Binding OpenProject}"  
+                        Icon="{Binding OpenProject.Icon}" />
+                    <sfcontrols:SimpleMenuButton 
+                        Label="{Binding SaveProject.Text}"
+                        ToolTip="{Binding SaveProject.Description}"
+                        Command="{Binding SaveProject}"  
+                        Icon="{Binding SaveProject.Icon}" />
+                    <sfcontrols:SplitMenuButton
+                        Label="{Binding SaveAsProject.Text}"
+                        ToolTip="{Binding SaveAsProject.Description}"
+                        Command="{Binding SaveAsProject}"  
+                        Icon="{Binding SaveAsProject.Icon}" >
+                        <sfcontrols:ApplicationMenuGroup Header="Save in another format" IconBarEnabled="False">
+                            <sfcontrols:SimpleMenuButton  
+                                Label="{Binding SaveAsProject.Text}"
+                                Command="{Binding SaveAsProject}"
+                                Description="Save a copy of the project to your computer in one of the several formates"	   
+                                Icon="{Binding SaveAsProject.Icon}"/>
+                        </sfcontrols:ApplicationMenuGroup>
+                    </sfcontrols:SplitMenuButton>
+
+                    <sfcontrols:ApplicationMenu.ApplicationItems>
+                        <sfcontrols:ButtonPanel>
+                            <sfcontrols:RibbonButton 
+                                SizeForm = "Small" 
+                                Label="Options" 
+                                SmallIcon="/Resources/Images/Options.png"/>
+                        </sfcontrols:ButtonPanel>
+                        <sfcontrols:ButtonPanel>
+                            <sfcontrols:RibbonButton  
+                                Click="ExitButton_Click"
+                                SizeForm="Small"
+                                Label="Exit"
+                                ToolTip="Exit SMART"
+                                SmallIcon="/Resources/Images/Exit.png" />
+                        </sfcontrols:ButtonPanel>
+                    </sfcontrols:ApplicationMenu.ApplicationItems>
+
+                </sfcontrols:ApplicationMenu>
+            </sfcontrols:Ribbon.ApplicationMenu>
+
+            <sfcontrols:Ribbon.QuickAccessToolBar>
+                <sfcontrols:QuickAccessToolBar>
+                    <sfcontrols:RibbonButton sfcontrols:Ribbon.KeyTip="1" Command="ApplicationCommands.New" />
+                </sfcontrols:QuickAccessToolBar>
+            </sfcontrols:Ribbon.QuickAccessToolBar>
+
+            <sfcontrols:RibbonTab Caption="Home" sfcontrols:Ribbon.KeyTip="H">
+
+                <sfcontrols:RibbonBar Header="Clipboard" Name="barClipboard"  sfcontrols:Ribbon.KeyTip="FN">
+                    <!--<sfcontrols:SplitButton Label="Paste"   LargeIcon="/Resources/Images/Paste32.png" Command="ApplicationCommands.Paste" >-->
+                    <!--</sfcontrols:SplitButton>-->
+
+                    <sfcontrols:RibbonButton  Label="Cut"   SmallIcon="/Resources/Images/Cut.png"  Command="ApplicationCommands.Cut"  />
+                    <sfcontrols:RibbonButton  Label="Copy"   SmallIcon="/Resources/Images/Copy.png"  Command="ApplicationCommands.Copy"  />
+                    <sfcontrols:RibbonButton SmallIcon="/Resources/Images/Paste16.png"  Label="Paste" Command="ApplicationCommands.Paste" />
+
+                    <sfcontrols:ButtonPanel>
+                        <sfcontrols:RibbonButton  Label="Redo" ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, Mode=OneWay}" SmallIcon="/Resources/Images/Redo.png"  Command="ApplicationCommands.Redo"  />
+                        <sfcontrols:RibbonButton  Label="Undo" ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text, Mode=OneWay}" SmallIcon="/Resources/Images/Undo.png"  Command="ApplicationCommands.Undo"  />
+                        <!--<ListBox Height="100" Width="200" DisplayMemberPath="."   ItemsSource="{DynamicResource Commands:SmartCommands.UndoCommand.ReturnValue}" />
+                        </sfcontrols:SplitButton>-->
+
+                    </sfcontrols:ButtonPanel>
+                </sfcontrols:RibbonBar>
+
+                <sfcontrols:RibbonBar Header="Layout algorithms" HorizontalContentAlignment="Stretch" Padding="3" VerticalContentAlignment="Center">
+                    <sfcontrols:RibbonGallery IsEnabled="True" HorizontalContentAlignment="Stretch" x:Name="layoutGallery" Width="330" >
+                        <sfcontrols:RibbonGalleryItem ToolTip="Hierarchical (classic)" Width="64" Command="Commands:SmartCommands.LayoutCommand">
+                            <Image Source="/Resources/Images/layouts/hierarchical_classic_48.png" />
+                        </sfcontrols:RibbonGalleryItem>
+                        <!--<sfcontrols:GalleryItem Caption="Hierarchical (incremental)" Width="64">
+                            <Image Source="/Resources/Images/layouts/hierarchical_interactive_48.png" />
+                        </sfcontrols:GalleryItem>
+                        <sfcontrols:GalleryItem Caption="Organic (classic)" Width="64">
+                            <Image Source="/Resources/Images/layouts/organic_classic_48.png" />
+                        </sfcontrols:GalleryItem>
+                        <sfcontrols:GalleryItem Caption="Organic (SMART)" Width="64">
+                            <Image Source="/Resources/Images/layouts/organic_SMART_48.png" />
+                        </sfcontrols:GalleryItem>
+                        <sfcontrols:GalleryItem Caption="Circular" Width="64">
+                            <Image Source="/Resources/Images/layouts/circular_48.png" />
+                        </sfcontrols:GalleryItem>
+                        <sfcontrols:GalleryItem Caption="Tree" Width="64">
+                            <Image Source="/Resources/Images/layouts/tree_48.png" />
+                        </sfcontrols:GalleryItem>-->
+                    </sfcontrols:RibbonGallery>
+                </sfcontrols:RibbonBar>
+
+                <sfcontrols:RibbonBar Header="Tools" HorizontalContentAlignment="Stretch" Padding="3" VerticalContentAlignment="Center">
+
+                    <StackPanel Orientation="Vertical">
+                        <StackPanel Orientation="Horizontal">
+                            <sfcontrols:RibbonButton 
+                                ToolTip="Show/hide grid" 
+                                SmallIcon="/Resources/Images/ShowGridlines.png" 
+                                Command="Commands:SmartCommands.ToggleGridLines" 
+                                IsEnabled="true" />
+                            <sfcontrols:RibbonButton 
+                                ToolTip="Zoom all" 
+                                SmallIcon="/Resources/Images/zoomcontent.png" 
+                                Command="Commands:SmartCommands.ZoomAll" 
+                                IsEnabled="true" />
+                            <ToggleButton
+                                Name="zoomRectButton"
+                                Style="{StaticResource toggleButton}"
+                                ToolTip="Zoom rectangle"                        
+                                Command="{x:Static Commands:SmartCommands.ZoomRect}" 
+                                CommandParameter="{Binding ElementName=zoomRectButton, Path=IsChecked}"                            
+                                IsEnabled="true" >
+                                <ToggleButton.Content>
+                                    <Image Source="/Resources/Images/ZoomRect.png" MaxHeight="16" />
+                                </ToggleButton.Content>
+                            </ToggleButton>
+                            <sfcontrols:RibbonButton 
+                                ToolTip="Zoom out" 
+                                SmallIcon="/Resources/Images/ZoomOut.png" 
+                                Command="Commands:SmartCommands.ZoomOut" 
+                                IsEnabled="true" />
+                            <sfcontrols:RibbonButton 
+                                ToolTip="Zoom in" 
+                                SmallIcon="/Resources/Images/ZoomIn.png" 
+                                Command="Commands:SmartCommands.ZoomIn" 
+                                IsEnabled="true" />
+                        </StackPanel>
+
+                        <RadioButton 
+                        Content="Pan and Zoom"  
+                        IsChecked="True"
+                        Command="Commands:SmartCommands.PanAndZoom" 
+                        IsEnabled="true" />
+                        <RadioButton
+                        Content="Create nodes and transitions"                        
+                        Command="Commands:SmartCommands.CreateNodes" 
+                        IsEnabled="true" />
+                        <RadioButton
+                        Content="Show nearest neighbours"                        
+                        Command="Commands:SmartCommands.NearestNeighbour" 
+                        IsEnabled="true" />
+                    </StackPanel>
+                </sfcontrols:RibbonBar>
+            </sfcontrols:RibbonTab>
+
+            <sfcontrols:RibbonTab Caption="Test" sfcontrols:Ribbon.KeyTip="T" ContextColor="LightGreen" >
+
+                <sfcontrols:RibbonBar Header="Test execution" Padding="5" VerticalAlignment="Stretch" VerticalContentAlignment="Center">
+                    <sfcontrols:GroupPanel Margin="5">
+                        <WrapPanel>
+                            <sfcontrols:RibbonButton Label="Start" SmallIcon="/Resources/Images/run.png" />
+                            <sfcontrols:RibbonButton Label="Stop" SmallIcon="/Resources/Images/stop.png" />
+                            <sfcontrols:RibbonButton Label="Pause" SmallIcon="/Resources/Images/pause.png" />
+                            <sfcontrols:RibbonButton Label="Restart" SmallIcon="/Resources/Images/restart.png" />
+                        </WrapPanel>
+                    </sfcontrols:GroupPanel>
+                </sfcontrols:RibbonBar>
+
+            </sfcontrols:RibbonTab>
+
+        </sfcontrols:Ribbon>
+
+        <sfcontrols:DockingManager x:Name="appDock" Grid.Row="1" sfshared:SkinStorage.VisualStyle="Office2007Silver" ContainerMode="TDI"
+                                   DataContext="{Binding ElementName=mainGrid}" Visibility="Visible" >
+        </sfcontrols:DockingManager>
+
+        <!-- Popup handling -->
+        <ContentControl x:Name="popUpBackground" Panel.ZIndex="999999" Grid.Row="0" Grid.RowSpan="3" Width="Auto" Height="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Content="{Binding PopUpContent}" >
+            <ContentControl.Template>
+                <ControlTemplate TargetType="ContentControl">
+                    <Grid Width="Auto" Height="Auto" x:Name="theGrid" Visibility="Collapsed">
+                        <Border>
+                            <Border.OpacityMask>
+                                <LinearGradientBrush StartPoint=".5,0" EndPoint=".5,1">
+                                    <GradientStop Offset="0" Color="#00000000"/>
+                                    <GradientStop Offset=".01" Color="#FF000000"/>
+                                    <GradientStop Offset=".99" Color="#FF000000"/>
+                                    <GradientStop Offset="1" Color="#00000000"/>
+                                </LinearGradientBrush>
+                            </Border.OpacityMask>
+
+                            <Rectangle x:Name="MainRectangle" Margin="0,0,0,0" Style="{DynamicResource UserControlOverlayRectangleStyle}" >
+                                <Rectangle.OpacityMask>
+                                    <LinearGradientBrush StartPoint="0,.5" EndPoint="1,.5">
+                                        <GradientStop Offset="0" Color="#00000000"/>
+                                        <GradientStop Offset=".01" Color="#FF000000"/>
+                                        <GradientStop Offset=".99" Color="#FF000000"/>
+                                        <GradientStop Offset="1" Color="#00000000"/>
+                                    </LinearGradientBrush>
+                                </Rectangle.OpacityMask>
+                            </Rectangle>
+                        </Border>
+
+                        <ContentControl HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" HorizontalAlignment="Center" Width="Auto" Height="Auto" VerticalAlignment="Center" Margin="10,10,10,10" Content="{TemplateBinding Content}" />
+
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <DataTrigger Binding="{Binding ShowPopUp}" Value="false">
+                            <DataTrigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="theGrid" Storyboard.TargetProperty="(UIElement.Visibility)">
+                                            <DiscreteObjectKeyFrame KeyTime="00:00:1" Value="{x:Static Visibility.Collapsed}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="theGrid" Storyboard.TargetProperty="(UIElement.Opacity)">
+                                            <SplineDoubleKeyFrame KeyTime="00:00:1" Value="0"/>
+                                        </DoubleAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </DataTrigger.EnterActions>
+
+                            <DataTrigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard >
+                                        <ObjectAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="theGrid" Storyboard.TargetProperty="(UIElement.Visibility)">
+                                            <DiscreteObjectKeyFrame KeyTime="00:00:00" Value="{x:Static Visibility.Visible}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="theGrid" Storyboard.TargetProperty="(UIElement.Opacity)">
+                                            <SplineDoubleKeyFrame KeyTime="00:00:1" Value="1"/>
+                                        </DoubleAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </DataTrigger.ExitActions>
+                        </DataTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </ContentControl.Template>
+        </ContentControl>
+    </Grid>
+
+</sfcontrols:RibbonWindow>
+
+
+    
+
+    

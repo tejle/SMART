@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+	<DrawingImage x:Key="Horizon_Image_Reference">
+		<DrawingImage.Drawing>
+			<DrawingGroup>
+				<DrawingGroup.Children>
+					<GeometryDrawing Brush="#FF003300" Geometry="F1 M 315.024,141.015L 331.503,92.1747L 429.333,224.925L 272.157,260.443L 290.233,204.009C 246.993,185.528 185.745,184.413 92.2933,230.176L 88.0227,225.648C 165.943,143.991 241.8,114.796 315.024,141.015 Z "/>
+					<GeometryDrawing Geometry="M 333.393,100.327L 318.244,145.225C 247.495,118.132 173.521,142.589 96.232,223.587C 190.177,177.583 251.924,181.733 295.765,201.457L 278.872,254.197L 422.817,221.671L 333.393,100.327 Z ">
+						<GeometryDrawing.Brush>
+							<LinearGradientBrush StartPoint="-6.77472e-007,0.499998" EndPoint="1,0.499998">
+								<LinearGradientBrush.GradientStops>
+									<GradientStop Color="#FF006600" Offset="0"/>
+									<GradientStop Color="#FF33FF00" Offset="0.999985"/>
+								</LinearGradientBrush.GradientStops>
+							</LinearGradientBrush>
+						</GeometryDrawing.Brush>
+					</GeometryDrawing>
+				</DrawingGroup.Children>
+			</DrawingGroup>
+		</DrawingImage.Drawing>
+	</DrawingImage>
+</ResourceDictionary>

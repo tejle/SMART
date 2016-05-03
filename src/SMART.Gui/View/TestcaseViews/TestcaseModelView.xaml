@@ -1,0 +1,36 @@
+﻿<sfdiagram:DiagramControl   
+    x:Class="SMART.Gui.View.TestcaseViews.TestcaseModelView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:sfdiagram="clr-namespace:Syncfusion.Windows.Diagram;assembly=Syncfusion.Diagram.WPF"    
+    xmlns:sfcontrols="clr-namespace:Syncfusion.Windows.Tools.Controls;assembly=SyncFusion.Tools.WPF"
+    sfcontrols:DockingManager.Header="{Binding Name}"
+    sfcontrols:DockingManager.State="Document"    
+    HorizontalAlignment="Stretch"
+    VerticalAlignment="Stretch"
+    HorizontalContentAlignment="Stretch" 
+    VerticalContentAlignment="Stretch"   
+    >
+
+    <sfcontrols:DockingManager.Icon>
+        <ImageBrush ImageSource="{Binding Icon}" />
+    </sfcontrols:DockingManager.Icon>
+
+    <sfdiagram:DiagramControl.Model>
+        <sfdiagram:DiagramModel 
+                    x:Name="diagramModel"   
+                    >
+        </sfdiagram:DiagramModel>
+    </sfdiagram:DiagramControl.Model>
+    <sfdiagram:DiagramControl.View >
+        <sfdiagram:DiagramView 
+                    Bounds="0,0,1200,1200" 
+                    x:Name="diagramView"  
+                    ShowHorizontalGridLine="False" 
+                    ShowVerticalGridLine="False" 
+                    ShowHorizontalRulers="False"                                    
+                    ShowVerticalRulers="False"
+            >
+        </sfdiagram:DiagramView>
+    </sfdiagram:DiagramControl.View>
+</sfdiagram:DiagramControl>

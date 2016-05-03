@@ -1,0 +1,70 @@
+﻿<UserControl 
+      x:Class="SMART.Gui.Controls.InfoPopup.InfoPopup"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      mc:Ignorable="d"
+      d:DesignWidth="169"
+      d:DesignHeight="79"
+      x:Name="me"
+      Opacity="0.895">
+    <Border
+        Margin="5,5,5,5"
+        BorderBrush="{DynamicResource PopupBorderBrush}"
+        BorderThickness="1,1,1,1">
+        <Border.Background>
+            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                <GradientStop Color="#FF7CCBE8" Offset="0"/>
+                <GradientStop Color="#FFFFFFFF" Offset="1"/>
+            </LinearGradientBrush>
+        </Border.Background>
+        <Border.Effect>
+            <DropShadowEffect
+        Color="#FF393939" />
+        </Border.Effect>
+        <Grid
+          MinHeight="68"
+          MinWidth="160"
+          MaxWidth="300">
+            <Grid.RowDefinitions>
+                <RowDefinition
+                    Height="Auto" />
+                <RowDefinition
+                     Height="*" />
+            </Grid.RowDefinitions>
+
+            <TextBlock
+                HorizontalAlignment="Left"
+                Margin="62,10,10,0"
+                x:Name="txtTitle"
+                TextWrapping="Wrap"
+                d:LayoutOverrides="Width"
+                FontSize="14"
+                Text="{Binding ElementName=me, Path=HeaderText}"
+                VerticalAlignment="Top"
+                Visibility="Collapsed" Foreground="#FF007FFF" FontWeight="Bold" />
+            <Image
+                HorizontalAlignment="Left"
+                Margin="10,10,0,0"
+                VerticalAlignment="Top"
+                MaxWidth="48"
+                MaxHeight="48"
+                Source="{Binding ElementName=me, Path=InfoImage}"
+                Stretch="Fill"
+                Grid.Row="0"
+                Grid.RowSpan="2" />
+            <TextBlock
+                Margin="62,10,10,10"
+                VerticalAlignment="Top"
+                TextWrapping="Wrap"
+                HorizontalAlignment="Left"
+                x:Name="txtInfo"
+                d:LayoutOverrides="VerticalAlignment, Width"
+                FontSize="12"
+                Text="{Binding ElementName=me, Path=BodyText}"
+                Grid.Row="1" />
+
+        </Grid>
+    </Border>
+</UserControl>

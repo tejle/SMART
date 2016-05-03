@@ -1,0 +1,252 @@
+﻿<UserControl 
+    x:Class="SMART.Gui.Reports.BasicExecutionReport"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Converters="clr-namespace:SMART.Gui.Converters"
+    xmlns:Charting="clr-namespace:System.Windows.Controls.DataVisualization.Charting;assembly=System.Windows.Controls.DataVisualization.Toolkit"
+    xmlns:Controls="clr-namespace:SMART.Gui.Controls"    
+    Height="1022" Width="754">
+
+    <UserControl.Resources>
+        <Converters:BoolToVisibilityConverter x:Key="visibleConverter" />
+
+        <DataTemplate x:Key="settingsTemplate">
+            <StackPanel Orientation="Vertical">
+                <TextBlock Text="{Binding Name}" />
+                <ItemsControl ItemsSource="{Binding Settings}" Margin="25,0,0,0">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="3*" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="{Binding Name}" Grid.Column="0"  />
+                                <TextBlock Text="{Binding FormattedValue}" Grid.Column="1" />
+                            </Grid>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
+        </DataTemplate>
+
+    </UserControl.Resources>
+
+    <Grid Margin="0,0,50,0" >
+        <Grid.ColumnDefinitions>
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0" Margin="0,0,0,25">
+
+            <Image Source="/Resources/Images/system_verification_symbol_rgb.png" Width="64" HorizontalAlignment="Left"  VerticalAlignment="Top" />
+
+            <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                <TextBlock Text="{Binding Created, StringFormat='Test Report {0}'}" HorizontalAlignment="Center" FontWeight="Medium" FontSize="16pt" />
+                <TextBlock Text="{Binding ProjectName}" HorizontalAlignment="Center" FontWeight="Medium" FontSize="16pt" />
+            </StackPanel>
+
+        </Grid>
+
+        <StackPanel Orientation="Vertical" Grid.Row="1" HorizontalAlignment="Stretch">
+
+            <Grid Margin="0,0,0,10">
+                <Controls:RoundedBox />
+
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="10" >
+                    <Image Source="{StaticResource Horizon_Image_Check}"                       
+                       Width="32" VerticalAlignment="Center"
+                       Visibility="{Binding Passed, Converter={StaticResource visibleConverter}}"  />
+                    <Image Source="{StaticResource Horizon_Image_Error}" 
+                       Width="32" VerticalAlignment="Center"
+                       Visibility="{Binding Passed, Converter={StaticResource visibleConverter}, ConverterParameter=True}"  />
+                    <TextBlock Text="{Binding ScenarioName, StringFormat='Execution Summary: {0}'}" 
+                           Margin="25,0,0,0"
+                           HorizontalAlignment="Left" 
+                           VerticalAlignment="Center" 
+                           FontWeight="Medium" 
+                           FontSize="12pt" />
+                </StackPanel>
+
+            </Grid>
+
+            <Grid Margin="0,0,0,10">
+                <Controls:RoundedBox />
+
+                <Grid Margin="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="2*" />
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Text="Models included" Grid.Row="0" Grid.Column="0" FontWeight="Medium" />
+                    <TextBlock Text="Algorithms" Grid.Row="1" Grid.Column="0" FontWeight="Medium" />
+                    <TextBlock Text="Generation stop criterias" Grid.Row="2" Grid.Column="0" FontWeight="Medium" />
+                    <TextBlock Text="Adapters" Grid.Row="3" Grid.Column="0" FontWeight="Medium" />
+                    <TextBlock Text="Execution stop criterias" Grid.Row="4" Grid.Column="0" FontWeight="Medium" />
+                    <TextBlock Text="Responsible tester" Grid.Row="5" Grid.Column="0" FontWeight="Medium" />
+                    <TextBlock Text="Total elapsed time" Grid.Row="6" Grid.Column="0" FontWeight="Medium" />
+
+                    <ItemsControl ItemsSource="{Binding Models}" 
+                              DisplayMemberPath="Name" 
+                              Grid.Row="0" Grid.Column="1" 
+                              BorderThickness="0" Margin="0,0,0,15" />
+                    <ItemsControl ItemsSource="{Binding Algorithms}" 
+                              ItemTemplate="{StaticResource settingsTemplate}"
+                              Grid.Row="1" Grid.Column="1" 
+                              BorderThickness="0" Margin="0,0,0,15"/>
+                    <ItemsControl ItemsSource="{Binding GenerationStopCriterias}" 
+                              ItemTemplate="{StaticResource settingsTemplate}"                              
+                              Grid.Row="2" Grid.Column="1" 
+                              BorderThickness="0" Margin="0,0,0,15" />
+                    <ItemsControl ItemsSource="{Binding Adapters}" 
+                              ItemTemplate="{StaticResource settingsTemplate}"
+                              Grid.Row="3" Grid.Column="1" 
+                              BorderThickness="0" Margin="0,0,0,15"/>
+                    <ItemsControl ItemsSource="{Binding ExecutionStopCriterias}" 
+                              ItemTemplate="{StaticResource settingsTemplate}"
+                              Grid.Row="4" Grid.Column="1" 
+                              BorderThickness="0" Margin="0,0,0,15"/>
+
+                    <TextBlock Text="{Binding ResponsibleTester}" Grid.Row="5" Grid.Column="1" />
+                    <TextBlock Text="{Binding TotalElapsedTime}" Grid.Row="6" Grid.Column="1" />
+
+
+                </Grid>
+            </Grid>
+
+        </StackPanel>
+
+        <Grid Grid.Row="2" HorizontalAlignment="Stretch" >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <Grid  Margin="0,0,0,10" Grid.Row="0" VerticalAlignment="Center">
+
+                <Controls:RoundedBox />
+
+                <Grid Margin="10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="2*" />
+                    </Grid.ColumnDefinitions>
+
+                    <Grid Grid.Column="0" VerticalAlignment="Center">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1.2*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Text="Number of states" Grid.Row="0" Grid.Column="0" FontWeight="Medium" />
+                        <TextBlock Text="Covered states" Grid.Row="1" Grid.Column="0" FontWeight="Medium" />
+                        <TextBlock Text="Failed states" Grid.Row="2" Grid.Column="0" FontWeight="Medium" />
+
+                        <TextBlock Text="{Binding StateCount}" Grid.Row="0" Grid.Column="1" />
+                        <TextBlock Grid.Row="1" Grid.Column="1" >
+                    <TextBlock.Text>
+                        <MultiBinding StringFormat="{}{0} ({1:P0})">
+                            <Binding Path="CoveredStates" />
+                            <Binding Path="CoveredStatesPercent" />
+                        </MultiBinding>
+                    </TextBlock.Text>
+                        </TextBlock>
+                        <TextBlock Text="{Binding DefectStates}" Grid.Row="2" Grid.Column="1" />
+
+                    </Grid>
+
+                    <Charting:Chart                
+                        Grid.Column="1" 
+                        BorderThickness="0"                
+                        Title="" TitleStyle="{x:Null}">
+                        <Charting:Chart.Series>
+                            <Charting:PieSeries
+                                Title="Series 1"
+                                ItemsSource="{Binding StateCoverage}"
+                                DependentValueBinding="{Binding Second}"
+                                IndependentValueBinding="{Binding First}">
+                            </Charting:PieSeries>
+                        </Charting:Chart.Series>
+                    </Charting:Chart>
+
+                </Grid>
+
+            </Grid>
+
+            <Grid Margin="0,0,0,10" Grid.Row="1" VerticalAlignment="Center">
+                <Controls:RoundedBox />
+
+                <Grid Margin="10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="2*" />
+                    </Grid.ColumnDefinitions>
+
+                    <Grid Grid.Column="0" VerticalAlignment="Center">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1.2*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Text="Number of transitions" Grid.Row="0" Grid.Column="0" FontWeight="Medium" />
+                        <TextBlock Text="Covered transitions" Grid.Row="1" Grid.Column="0" FontWeight="Medium" />
+                        <TextBlock Text="Failed transitions" Grid.Row="2" Grid.Column="0" FontWeight="Medium" />
+
+                        <TextBlock Text="{Binding TransitionCount}" Grid.Row="0" Grid.Column="1" />
+                        <TextBlock Grid.Row="1" Grid.Column="1" >
+                    <TextBlock.Text>
+                        <MultiBinding StringFormat="{}{0} ({1:P0})">
+                            <Binding Path="CoveredTransitions" />
+                            <Binding Path="CoveredTransitionsPercent" />
+                        </MultiBinding>
+                    </TextBlock.Text>
+                        </TextBlock>
+                        <TextBlock Text="{Binding DefectTransitions}" Grid.Row="2" Grid.Column="1" />
+
+                    </Grid>
+
+                    <Charting:Chart                
+                        Grid.Column="1" 
+                        BorderThickness="0"
+                        Title="" TitleStyle="{x:Null}">
+                        <Charting:Chart.Series>
+                            <Charting:PieSeries
+                                Title="Series 1"
+                                ItemsSource="{Binding TransitionCoverage}"
+                                DependentValueBinding="{Binding Second}"
+                                IndependentValueBinding="{Binding First}">
+                            </Charting:PieSeries>
+                        </Charting:Chart.Series>
+                    </Charting:Chart>
+
+                </Grid>
+            </Grid>
+        </Grid>
+
+    </Grid>
+</UserControl>

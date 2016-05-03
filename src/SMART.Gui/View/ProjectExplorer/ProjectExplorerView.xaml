@@ -1,0 +1,229 @@
+﻿<ScrollViewer 
+    x:Class="SMART.Gui.View.ProjectExplorer.ProjectExplorerView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:diagnostics="clr-namespace:System.Diagnostics;assembly=WindowsBase"
+    xmlns:Controls="clr-namespace:SMART.Gui.Controls"
+    xmlns:ProjectExplorer="clr-namespace:SMART.Gui.ViewModel.ProjectExplorer"
+
+    VerticalAlignment="Stretch"
+    Background="White"                
+    Focusable="False"
+    >
+    <!--xmlns:sfcontrols="clr-namespace:Syncfusion.Windows.Tools.Controls;assembly=Syncfusion.Tools.WPF"
+    sfcontrols:DockingManager.CanClose="False"
+    sfcontrols:DockingManager.CanDocument="False"                       
+    sfcontrols:DockingManager.SideInDockedMode="Left" 
+    sfcontrols:DockingManager.DesiredWidthInDockedMode="250" 
+    sfcontrols:DockingManager.Header="Project explorer"-->
+    <ScrollViewer.Resources>
+
+        <HierarchicalDataTemplate DataType="{x:Type ProjectExplorer:ProjectFolderViewModel}" ItemsSource="{Binding FolderViewModels}">
+            <ContentPresenter Content="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Content}" >
+                <ContentPresenter.ContextMenu>
+                    <ContextMenu DataContext="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Parent.DataContext}">
+                        <MenuItem Header="{Binding Rename.Text}" Command="{Binding Rename}" CommandParameter="{Binding}" >
+                            <MenuItem.Icon>
+                                <Image Source="{Binding Rename.Icon}" MaxHeight="16" MaxWidth="16"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <MenuItem Header="{Binding AddModel.Text}" Command="{Binding AddModel}" CommandParameter="{Binding}">
+                            <MenuItem.Icon>
+                                <Image Source="{Binding AddModel.Icon}" MaxHeight="16" MaxWidth="16"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <MenuItem Header="{Binding AddTestcase.Text}" Command="{Binding AddTestcase}" CommandParameter="{Binding}" >
+                            <MenuItem.Icon>
+                                <Image Source="{Binding AddTestcase.Icon}" MaxHeight="16" MaxWidth="16"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                    </ContextMenu>
+                </ContentPresenter.ContextMenu>
+            </ContentPresenter>
+        </HierarchicalDataTemplate>
+
+        <HierarchicalDataTemplate DataType="{x:Type ProjectExplorer:RootModelFolderViewModel}" ItemsSource="{Binding FolderViewModels}" >
+            <ContentPresenter Content="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Content}" >
+                <ContentPresenter.ContextMenu>
+                    <ContextMenu DataContext="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Parent.DataContext}">
+                        <MenuItem Header="{Binding AddModel.Text}" Command="{Binding AddModel}" CommandParameter="{Binding}" >
+                            <MenuItem.Icon>
+                                <Image Source="{Binding AddModel.Icon}" MaxHeight="16" MaxWidth="16"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                    </ContextMenu>
+                </ContentPresenter.ContextMenu>
+            </ContentPresenter>
+        </HierarchicalDataTemplate>
+
+        <HierarchicalDataTemplate DataType="{x:Type ProjectExplorer:RootTestcaseFolderViewModel}" ItemsSource="{Binding FolderViewModels}" >
+            <ContentPresenter Content="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Content}" >
+                <ContentPresenter.ContextMenu>
+                    <ContextMenu DataContext="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Parent.DataContext}">
+                        <MenuItem Header="{Binding AddTestcase.Text}" Command="{Binding AddTestcase}" CommandParameter="{Binding}" >
+                            <MenuItem.Icon>
+                                <Image Source="{Binding AddTestcase.Icon}" MaxHeight="16" MaxWidth="16"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                    </ContextMenu>
+                </ContentPresenter.ContextMenu>
+            </ContentPresenter>
+        </HierarchicalDataTemplate>
+
+        <HierarchicalDataTemplate DataType="{x:Type ProjectExplorer:TestcaseFolderViewModel}" ItemsSource="{Binding FolderViewModels}" >
+            <ContentPresenter Content="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Content}" >
+                <ContentPresenter.Resources>
+                    <Controls:DataResource 
+                        x:Key="configureTestcase" 
+                        BindingTarget="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Parent.DataContext.Configure}" />
+                </ContentPresenter.Resources>
+                <ContentPresenter.InputBindings>
+                    <MouseBinding Gesture="LeftDoubleClick">
+                        <MouseBinding.Command>
+                            <Controls:DataResourceBindingExtension DataResource="{StaticResource configureTestcase}" />
+                        </MouseBinding.Command>
+                    </MouseBinding>
+                </ContentPresenter.InputBindings>
+                <ContentPresenter.ContextMenu>
+                    <ContextMenu DataContext="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Parent.DataContext}">
+                        <!--<MenuItem Header="{Binding Open.Text}" Command="{Binding Open}" CommandParameter="{Binding}" >
+                            <MenuItem.Icon>
+                                <Image Source="{Binding Open.Icon}" MaxHeight="16" MaxWidth="16"/>
+                            </MenuItem.Icon>
+                        </MenuItem>-->
+                        <MenuItem Header="{Binding Configure.Text}" Command="{Binding Configure}" CommandParameter="{Binding}" >
+                            <MenuItem.Icon>
+                                <Image Source="{Binding Configure.Icon}" MaxHeight="16" MaxWidth="16"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <MenuItem Header="{Binding GenerateCode.Text}" Command="{Binding GenerateCode}" CommandParameter="{Binding}" >
+                            <MenuItem.Icon>
+                                <Image Source="{Binding GenerateCode.Icon}" MaxHeight="16" MaxWidth="16"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <MenuItem Header="{Binding Execute.Text}" Command="{Binding Execute}" CommandParameter="{Binding}" >
+                            <MenuItem.Icon>
+                                <Image Source="{Binding Execute.Icon}" MaxHeight="16" MaxWidth="16"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <Separator />
+                        <MenuItem Header="{Binding AddModel.Text}" Command="{Binding AddModel}" CommandParameter="{Binding}" >
+                            <MenuItem.Icon>
+                                <Image Source="{Binding AddModel.Icon}" MaxHeight="16" MaxWidth="16"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <Separator />
+                        <MenuItem Header="{Binding Remove.Text}" Command="{Binding Remove}" CommandParameter="{Binding}" >
+                            <MenuItem.Icon>
+                                <Image Source="{Binding Remove.Icon}" MaxHeight="16" MaxWidth="16"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <MenuItem Header="{Binding Rename.Text}" Command="{Binding Rename}" CommandParameter="{Binding}" >
+                            <MenuItem.Icon>
+                                <Image Source="{Binding Rename.Icon}" MaxHeight="16" MaxWidth="16"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                    </ContextMenu>
+                </ContentPresenter.ContextMenu>
+            </ContentPresenter>
+        </HierarchicalDataTemplate>
+
+        <DataTemplate DataType="{x:Type ProjectExplorer:TestcaseModelFolderViewModel}"  >
+            <ContentPresenter Content="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Content}" >
+                <ContentPresenter.Resources>
+                    <Controls:DataResource 
+                        x:Key="openTestcaseModel" 
+                        BindingTarget="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Parent.DataContext.Open}" />
+                </ContentPresenter.Resources>
+                <ContentPresenter.InputBindings>
+                    <MouseBinding Gesture="LeftDoubleClick">
+                        <MouseBinding.Command>
+                            <Controls:DataResourceBindingExtension DataResource="{StaticResource openTestcaseModel}" />
+                        </MouseBinding.Command>
+                    </MouseBinding>
+                </ContentPresenter.InputBindings>
+                <ContentPresenter.ContextMenu>
+                    <ContextMenu DataContext="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Parent.DataContext}">
+                        <MenuItem Header="{Binding Open.Text}" Command="{Binding Open}" CommandParameter="{Binding}" >
+                            <MenuItem.Icon>
+                                <Image Source="{Binding Open.Icon}" MaxHeight="16" MaxWidth="16"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <MenuItem Header="{Binding Remove.Text}" Command="{Binding Remove}" CommandParameter="{Binding}" >
+                            <MenuItem.Icon>
+                                <Image Source="{Binding Remove.Icon}" MaxHeight="16" MaxWidth="16"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <MenuItem Header="{Binding Rename.Text}" Command="{Binding Rename}" CommandParameter="{Binding}">
+                            <MenuItem.Icon>
+                                <Image Source="{Binding Rename.Icon}" MaxHeight="16" MaxWidth="16"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                    </ContextMenu>
+                </ContentPresenter.ContextMenu>
+            </ContentPresenter>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type ProjectExplorer:ModelFolderViewModel}"  >
+            <ContentPresenter Content="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Content}" >
+                <ContentPresenter.Resources>
+                    <Controls:DataResource 
+                        x:Key="openModel" 
+                        BindingTarget="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Parent.DataContext.Open}" />
+                </ContentPresenter.Resources>
+                <ContentPresenter.InputBindings>
+                    <MouseBinding Gesture="LeftDoubleClick">
+                        <MouseBinding.Command>
+                            <Controls:DataResourceBindingExtension DataResource="{StaticResource openModel}" />
+                        </MouseBinding.Command>
+                    </MouseBinding>
+                </ContentPresenter.InputBindings>
+                <ContentPresenter.ContextMenu>
+                    <ContextMenu DataContext="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Parent.DataContext}">
+                        <MenuItem Header="{Binding Open.Text}" Command="{Binding Open}" CommandParameter="{Binding}" >
+                            <MenuItem.Icon>
+                                <Image Source="{Binding Open.Icon}" MaxHeight="16" MaxWidth="16"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <MenuItem Header="{Binding Remove.Text}" Command="{Binding Remove}" CommandParameter="{Binding}" >
+                            <MenuItem.Icon>
+                                <Image Source="{Binding Remove.Icon}" MaxHeight="16" MaxWidth="16"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <MenuItem Header="{Binding Rename.Text}" Command="{Binding Rename}" CommandParameter="{Binding}">
+                            <MenuItem.Icon>
+                                <Image Source="{Binding Rename.Icon}" MaxHeight="16" MaxWidth="16"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <MenuItem Header="{Binding AddToTestcase.Text}" Command="{Binding AddToTestcase}" CommandParameter="{Binding}" >
+                            <MenuItem.Icon>
+                                <Image Source="{Binding AddToTestcase.Icon}" MaxHeight="16" MaxWidth="16"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                    </ContextMenu>
+                </ContentPresenter.ContextMenu>
+            </ContentPresenter>
+        </DataTemplate>
+
+    </ScrollViewer.Resources>
+
+    <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch" >
+
+        <!--<sfcontrols:TreeViewAdv x:Name="projectStructure" ItemsSource="{Binding Path=ProjectFolderViewModels}"  Focusable="True" BorderThickness="0" AnimationType="None" AllowDragDrop="False" >
+            <sfcontrols:TreeViewAdv.EditedItemTemplate >
+                <DataTemplate DataType="{x:Type sfcontrols:TreeViewItemAdv}">
+                    <Border BorderBrush="Red" BorderThickness="1" Margin="1" Padding="1">
+                        <TextBox Text="{Binding  Path=(sfcontrols:TreeViewItemAdv.Header), Mode=TwoWay, RelativeSource={RelativeSource AncestorType={x:Type sfcontrols:TreeViewItemAdv}}}"  />
+                    </Border>
+                </DataTemplate>
+            </sfcontrols:TreeViewAdv.EditedItemTemplate>
+            <sfcontrols:TreeViewAdv.Resources>
+                <Style TargetType="{x:Type sfcontrols:TreeViewItemAdv}">
+                    <Setter Property="IsExpanded" Value="True" />
+                    <Setter Property="Header" Value="{Binding Name, Mode=TwoWay}" />
+                    <Setter Property="LeftImageSource" Value="{Binding Icon, Mode=OneTime}" />
+                </Style>
+            </sfcontrols:TreeViewAdv.Resources>
+        </sfcontrols:TreeViewAdv>-->
+    </StackPanel>
+</ScrollViewer>

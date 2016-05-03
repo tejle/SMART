@@ -1,0 +1,85 @@
+﻿<ContentControl 
+    x:Class="SMART.Gui.View.ReportsView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Converters="clr-namespace:SMART.Gui.Converters"
+    >
+    <ContentControl.Resources>
+
+        <Converters:GridViewColumnWidthCalculator x:Key="widthConverter" />
+
+    </ContentControl.Resources>
+
+    <Grid Margin="10" >
+
+        <DockPanel >
+            <Grid DockPanel.Dock="Top">
+                <TextBlock HorizontalAlignment="Left" Text="Reports" FontFamily="Segoe UI" FontWeight="Medium" Foreground="Gray"  FontSize="12pt" />
+                <Button 
+                HorizontalAlignment="Right" 
+                Style="{DynamicResource TitleBarButton}" 
+                Content="{DynamicResource Horizon_Image_Exit}" 
+                ToolTip="Close" 
+                Command="{Binding Close}" />
+
+            </Grid>            
+
+            <ListView x:Name="reportList"  DockPanel.Dock="Top" ItemsSource="{Binding Reports}" >
+                <ListView.View>
+                    <GridView AllowsColumnReorder="False" >
+                        <GridViewColumn Header="" Width="Auto" >
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Image x:Name="check" Source="{StaticResource Horizon_Image_Check}" Height="16" ToolTip="Passed" />
+                                        <Image x:Name="error" Source="{StaticResource Horizon_Image_Error}" Height="16" ToolTip="Failed" Visibility="Collapsed"  />
+                                    </Grid>
+                                    <DataTemplate.Triggers>
+                                        <DataTrigger Binding="{Binding Passed}" Value="False">
+                                            <Setter TargetName="check" Property="Visibility" Value="Collapsed" />
+                                            <Setter TargetName="error" Property="Visibility" Value="Visible" />
+                                        </DataTrigger>
+                                    </DataTemplate.Triggers>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn x:Name="scenarioColumn" Header="Scenario" Width="140" >
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding ScenarioName}" ToolTip="{Binding ScenarioName}" TextTrimming="CharacterEllipsis" />
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="Date" Width="110" DisplayMemberBinding="{Binding Created}" />
+                        <GridViewColumn Header="Duration" Width="85" DisplayMemberBinding="{Binding TotalElapsedTime}" />
+                        <GridViewColumn Header="State coverage" Width="75" 
+                                    DisplayMemberBinding="{Binding CoveredStatesPercent, StringFormat='{}{0:P0}'}" />
+                        <GridViewColumn Header="Transition coverage" Width="75" 
+                                    DisplayMemberBinding="{Binding CoveredTransitionsPercent, StringFormat='{}{0:P0}'}" />
+                        <GridViewColumn Header="Failed states" Width="60" DisplayMemberBinding="{Binding DefectStates}" />
+                        <GridViewColumn Header="Failed transitions" Width="75" DisplayMemberBinding="{Binding DefectTransitions}" />
+                        <GridViewColumn
+                            Header="" 
+                            Width="Auto" >
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Grid HorizontalAlignment="Right" Width="Auto" >
+                                        <Button                                        
+                                        Style="{StaticResource TitleBarButton}" 
+                                        Content="{StaticResource Horizon_Image_Search}"
+                                        ToolTip="View report"
+                                        Command="{Binding ShowReport}"
+                                        CommandParameter="{Binding}"
+                                        Width="16"
+                                        Height="16"
+                                            />
+                                    </Grid>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </DockPanel>
+    </Grid>
+</ContentControl>

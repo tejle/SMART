@@ -1,0 +1,296 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{1EA7DECA-587D-4289-998A-0A58988F9E58}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SMART.Core</RootNamespace>
+    <AssemblyName>SMART.Core</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Publish|AnyCPU' ">
+    <OutputPath>bin\Publish\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>..\..\bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <OutputPath>..\..\bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Publish|x86' ">
+    <OutputPath>bin\x86\Publish\</OutputPath>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="ICSharpCode.SharpZipLib, Version=0.85.5.452, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\ICSharpCode\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity, Version=1.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\Unity\Microsoft.Practices.Unity.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="PresentationFramework">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition, Version=2008.11.24.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\MEF\System.ComponentModel.Composition.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Agents\ErrorReportingAgent.cs" />
+    <Compile Include="Agents\ISmartAgent.cs" />
+    <Compile Include="Agents\SmartAgentStatus.cs" />
+    <Compile Include="BasicStep.cs" />
+    <Compile Include="BusinessLayer\Threading\AbortableThreadPool.cs" />
+    <Compile Include="BusinessLayer\Threading\ThreadPoolAbortMethod.cs" />
+    <Compile Include="BusinessLayer\Threading\WorkItem.cs" />
+    <Compile Include="BusinessLayer\Threading\WorkItemStatus.cs" />
+    <Compile Include="DataLayer\Interfaces\IProjectIOHandler.cs" />
+    <Compile Include="DataLayer\Interfaces\IReportReader.cs" />
+    <Compile Include="DataLayer\Interfaces\IReportWriter.cs" />
+    <Compile Include="DataLayer\ReportReader.cs" />
+    <Compile Include="DataLayer\ReportWriter.cs" />
+    <Compile Include="DeepCloning.cs" />
+    <Compile Include="DomainModel\BatchModel.cs" />
+    <Compile Include="Interfaces\IExecutionEnvironment.cs" />
+    <Compile Include="Interfaces\IModelCompiler.cs" />
+    <Compile Include="Interfaces\IStatisticsService.cs" />
+    <Compile Include="DomainModel\Layouts\ForceBasedLayout.cs" />
+    <Compile Include="DomainModel\Layouts\ILayout.cs" />
+    <Compile Include="DomainModel\Layouts\LayoutBase.cs" />
+    <Compile Include="DomainModel\Layouts\LayoutModel.cs" />
+    <Compile Include="DomainModel\Layouts\Tree.cs" />
+    <Compile Include="DomainModel\Layouts\TreeLayoutBase.cs" />
+    <Compile Include="DomainModel\Layouts\WalkerTreeLayout.cs" />
+    <Compile Include="Interfaces\Reporting\IReportAdapter.cs" />
+    <Compile Include="Interfaces\Reporting\IReportAlgorithm.cs" />
+    <Compile Include="Interfaces\Reporting\IReportConfigSetting.cs" />
+    <Compile Include="Interfaces\Reporting\IReportElement.cs" />
+    <Compile Include="Interfaces\Reporting\IReportExecutionStopCriteria.cs" />
+    <Compile Include="Interfaces\Reporting\IReportGenerationStopCriteria.cs" />
+    <Compile Include="Interfaces\Reporting\IReportModel.cs" />
+    <Compile Include="Interfaces\Reporting\IReportScenarioSetting.cs" />
+    <Compile Include="Interfaces\Reporting\IReportState.cs" />
+    <Compile Include="Interfaces\Reporting\IReportTransition.cs" />
+    <Compile Include="Workflow\Reporting\ReportAdapter.cs" />
+    <Compile Include="Workflow\Reporting\ReportAlgorithm.cs" />
+    <Compile Include="Workflow\Reporting\ReportConfigSetting.cs" />
+    <Compile Include="Workflow\Reporting\ReportExecutionStopCriteria.cs" />
+    <Compile Include="Workflow\Reporting\ReportGenerationStopCriteria.cs" />
+    <Compile Include="Workflow\Reporting\ReportModel.cs" />
+    <Compile Include="Workflow\Reporting\ReportState.cs" />
+    <Compile Include="Workflow\Reporting\ReportTransition.cs" />
+    <Compile Include="Workflow\TestcaseGenerationEngine.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Workflow\TestExecutionDefectDetected.cs" />
+    <Compile Include="Workflow\TestExecutionEngine.cs" />
+    <Compile Include="Workflow\TestGenerationEvent.cs" />
+    <Compile Include="Events\ErrorMessageEvent.cs" />
+    <Compile Include="Interfaces\IBatchModel.cs" />
+    <Compile Include="Interfaces\IExecutionStopCriteria.cs" />
+    <Compile Include="Interfaces\IModel.cs" />
+    <Compile Include="DomainModel\Layouts\OrthogonalLayout.cs" />
+    <Compile Include="DomainModel\Model.cs" />
+    <Compile Include="DomainModel\ModelDecorator.cs" />
+    <Compile Include="DomainModel\ModelElement.cs" />
+    <Compile Include="DomainModel\SmartEntityBase.cs" />
+    <Compile Include="DomainModel\StartState.cs" />
+    <Compile Include="DomainModel\State.cs" />
+    <Compile Include="DomainModel\StateType.cs" />
+    <Compile Include="DomainModel\StopState.cs" />
+    <Compile Include="DomainModel\Transition.cs" />
+    <Compile Include="Events\EventSubscription.cs" />
+    <Compile Include="Interfaces\ISmartNotifyCollectionChanged.cs" />
+    <Compile Include="Events\SmartEvent.cs" />
+    <Compile Include="Events\SmartEventBase.cs" />
+    <Compile Include="Events\SmartNotifyCollectionChangedAction.cs" />
+    <Compile Include="Events\SmartNotifyCollectionChangedEventArgs.cs" />
+    <Compile Include="Events\SmartNotifyCollectionChangedEventHandler.cs" />
+    <Compile Include="Exceptions\ModelException.cs" />
+    <Compile Include="ExtentionsOfIIdentifyable.cs" />
+    <Compile Include="DataLayer\Interfaces\IConfigSetting.cs" />
+    <Compile Include="DataLayer\Interfaces\IIdentifyable.cs" />
+    <Compile Include="DataLayer\Interfaces\IProjectWriter.cs" />
+    <Compile Include="DataLayer\ProjectIOHandler.cs" />
+    <Compile Include="DataLayer\ProjectWriter.cs" />
+    <Compile Include="DataLayer\ReaderBase.cs" />
+    <Compile Include="DataLayer\WriterBase.cs" />
+    <Compile Include="ExtentionsOfConfigAttributeObjects.cs" />
+    <Compile Include="DataLayer\ConfigSetting.cs" />
+    <Compile Include="DataLayer\Interfaces\ITestcaseWriter.cs" />
+    <Compile Include="DataLayer\TestcaseWriter.cs" />
+    <Compile Include="DataLayer\Interfaces\IModelWriter.cs" />
+    <Compile Include="DataLayer\ModelWriter.cs" />
+    <Compile Include="ExtentionsOfIEnumerableOfT.cs" />
+    <Compile Include="Interfaces\IModelElement.cs" />
+    <Compile Include="Interfaces\Factories\IExecutionStopCriteriaFactory.cs" />
+    <Compile Include="Interfaces\Metadata\IGenerationStopCriteriaMetadata.cs" />
+    <Compile Include="Interfaces\Repository\IExecutionStopCriteriaRepository.cs" />
+    <Compile Include="Interfaces\Repository\IRepository.cs" />
+    <Compile Include="Interfaces\IGenerationStopCriteria.cs" />
+    <Compile Include="Interfaces\Factories\IAdapterFactory.cs" />
+    <Compile Include="Interfaces\Repository\IAdapterRespository.cs" />
+    <Compile Include="Interfaces\Factories\IAlgorithmFactory.cs" />
+    <Compile Include="Interfaces\Repository\IAlgorithmRepository.cs" />
+    <Compile Include="Interfaces\Factories\IFactory.cs" />
+    <Compile Include="Interfaces\Factories\IGenerationStopCriteriaFactory.cs" />
+    <Compile Include="Interfaces\Repository\IGenerationStopCriteriaRepository.cs" />
+    <Compile Include="Interfaces\Factories\IStatisticsFactory.cs" />
+    <Compile Include="Interfaces\Repository\IStatisticsRepository.cs" />
+    <Compile Include="Interfaces\Factories\ITestGenerationStopCriteriaFactory.cs" />
+    <Compile Include="Interfaces\Services\IEventService.cs" />
+    <Compile Include="Interfaces\Events\IEventSubscription.cs" />
+    <Compile Include="Interfaces\Services\IModelMergeService.cs" />
+    <Compile Include="Interfaces\Services\IModelService.cs" />
+    <Compile Include="Interfaces\Services\IProjectService.cs" />
+    <Compile Include="Interfaces\Services\ITestcaseService.cs" />
+    <Compile Include="Interfaces\ITaggable.cs" />
+    <Compile Include="Metadata\AdapterAttribute.cs" />
+    <Compile Include="Metadata\AlgorithmAttribute.cs" />
+    <Compile Include="Metadata\ClassDescription.cs" />
+    <Compile Include="Metadata\ConfigAttribute.cs" />
+    <Compile Include="Metadata\ConfigEditor.cs" />
+    <Compile Include="Interfaces\Metadata\IStatisticMetadata.cs" />
+    <Compile Include="Interfaces\Metadata\IAdapterMetadata.cs" />
+    <Compile Include="Interfaces\Metadata\IAlgorithmMetadata.cs" />
+    <Compile Include="Interfaces\Metadata\ISandboxMetadata.cs" />
+    <Compile Include="Interfaces\Metadata\IStopCriteriaMetadata.cs" />
+    <Compile Include="Interfaces\Metadata\IExecutionStopCriteriaMetadata.cs" />
+    <Compile Include="Metadata\ExecutionStopCriteriaAttribute.cs" />
+    <Compile Include="Metadata\SandboxAttribute.cs" />
+    <Compile Include="DataLayer\ModelReader.cs" />
+    <Compile Include="DataLayer\Interfaces\IModelReader.cs" />
+    <Compile Include="DataLayer\Interfaces\ITestcaseReader.cs" />
+    <Compile Include="DataLayer\ProjectReader.cs" />
+    <Compile Include="DataLayer\Interfaces\IProjectReader.cs" />
+    <Compile Include="DataLayer\TestcaseReader.cs" />
+    <Compile Include="Interfaces\IModelBuilder.cs" />
+    <Compile Include="Interfaces\IAdapter.cs" />
+    <Compile Include="Interfaces\IAlgorithm.cs" />
+    <Compile Include="Interfaces\IStatistic.cs" />
+    <Compile Include="Interfaces\IStep.cs" />
+    <Compile Include="Interfaces\IStopCriteria.cs" />
+    <Compile Include="Metadata\StatisticAttribute.cs" />
+    <Compile Include="Metadata\StopCriteriaAttribute.cs" />
+    <Compile Include="Metadata\GenerationStopCriteriaAttribute.cs" />
+    <Compile Include="Interfaces\ISandbox.cs" />
+    <Compile Include="Interfaces\ISmartNotifyPropertyChanged.cs" />
+    <Compile Include="Interfaces\ITestCase.cs" />
+    <Compile Include="Interfaces\IProject.cs" />
+    <Compile Include="DomainModel\Project.cs" />
+    <Compile Include="Events\SmartPropertyChangedEventArgs.cs" />
+    <Compile Include="DomainModel\TestCase.cs" />
+    <Compile Include="DomainModel\Validation\FileMustExistAttribute.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DomainModel\Validation\IValidator.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DomainModel\Validation\RequiredAttribute.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DomainModel\Validation\RequiredCompilableAttribute.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DomainModel\Validation\RequiredRegexMatchAttribute.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DomainModel\Validation\ValidationManager.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DomainModel\Validation\ValidatorBase.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ModelCompiler.cs" />
+    <Compile Include="ModelCopier.cs" />
+    <Compile Include="NonSerialiazableTypeSurrogateSelector.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SimpleExecutionEnvironment.cs" />
+    <Compile Include="SimpleModelCompiler.cs" />
+    <Compile Include="SmartImage.cs" />
+    <Compile Include="SmartSize.cs" />
+    <Compile Include="SmartPoint.cs" />
+    <Compile Include="StringHelper.cs" />
+    <Compile Include="Workflow\ExecuteCompletedEventArgs.cs" />
+    <Compile Include="Workflow\GenerateCompleteEventArgs.cs" />
+    <Compile Include="Workflow\CompileCompleteEventArgs.cs" />
+    <Compile Include="Interfaces\Reporting\IReport.cs" />
+    <Compile Include="Interfaces\Reporting\IReportScenario.cs" />
+    <Compile Include="Workflow\PrintService.cs" />
+    <Compile Include="Workflow\Reporting\Report.cs" />
+    <Compile Include="Workflow\Reporting\ReportScenario.cs" />
+    <Compile Include="Workflow\Reporting\ReportService.cs" />
+    <Compile Include="Workflow\SmartEngine.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Workflow\UnitOfWork.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
+    <None Include="ClassDiagram1.cd" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SMART.IOC\SMART.IOC.csproj">
+      <Project>{B1F62904-5760-49E0-8B51-6FADA7E004F9}</Project>
+      <Name>SMART.IOC</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

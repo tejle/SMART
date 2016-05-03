@@ -1,0 +1,78 @@
+﻿<Window 
+    x:Class="SMART.Gui.View.MainView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Extensions="clr-namespace:System.Windows.Extensions"
+    Title="{Binding Name}"         
+    WindowStartupLocation="CenterScreen"
+    Height="799" 
+    Width="1138"
+    Background="{StaticResource windowBackground}"
+    x:Name="MainWindow">
+    <Extensions:WindowChrome.WindowChrome>
+        <Extensions:WindowChrome 
+            RoundCorners="True"  
+            RoundCornersRadius="8"              
+            UseGlassFrame="False"/>
+    </Extensions:WindowChrome.WindowChrome>
+
+    <!--<Window.Background>
+        <LinearGradientBrush StartPoint="0,0.5" EndPoint="1,0.5">
+            <LinearGradientBrush.RelativeTransform>
+                <TransformGroup>
+                    <TranslateTransform X="-0.5" Y="-0.5"/>
+                    <ScaleTransform ScaleX="1" ScaleY="1"/>
+                    <SkewTransform AngleX="0" AngleY="0"/>
+                    <RotateTransform Angle="90.495202139271512" CenterX="0" CenterY="0"/>
+                    <TranslateTransform X="0.5" Y="0.5"/>
+                    <TranslateTransform X="5.5511151231257827E-17" Y="5.5511151231257827E-17"/>
+                </TransformGroup>
+            </LinearGradientBrush.RelativeTransform>
+            <LinearGradientBrush.GradientStops>
+                <GradientStopCollection>
+                    <GradientStop Color="#FFF1D4" Offset="0"/>
+                    <GradientStop Color="#F79730" Offset="0.9"/>
+                </GradientStopCollection>
+            </LinearGradientBrush.GradientStops>
+        </LinearGradientBrush>
+    </Window.Background>-->
+
+    <Border BorderThickness="1" BorderBrush="Gray" CornerRadius="8"  Margin="0,0,1,1" >
+
+        <Grid >
+            
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <DockPanel x:Name="_NavigationRoot"
+                   Margin="{Binding 
+                            RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, 
+                            Path=(Extensions:WindowChrome.WindowChrome).ResizeBorder}"
+                    >
+
+                <Grid DockPanel.Dock="Top">
+                    <Grid.RowDefinitions>
+
+                        <RowDefinition Height="{Binding 
+                        RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, 
+                        Path=(Extensions:WindowChrome.WindowChrome).CaptionHeight}"/>
+                        <RowDefinition Height="*" />
+
+                    </Grid.RowDefinitions>
+
+                    <ContentPresenter Content="{Binding TitleBar}" Grid.Row="0" />
+                    <ContentPresenter Content="{Binding MenuBar}" Grid.Row="1"  />
+
+                </Grid>
+
+                <ContentPresenter Content="{Binding MainContent}" />
+
+            </DockPanel>
+        </Grid>
+
+    </Border>
+</Window>

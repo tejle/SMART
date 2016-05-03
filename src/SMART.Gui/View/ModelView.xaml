@@ -1,0 +1,268 @@
+﻿<View:ViewBase
+    x:Class="SMART.Gui.View.ModelView"    
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Control="clr-namespace:SMART.Gui.Controls.DiagramControl.View"
+    xmlns:View="clr-namespace:SMART.Gui.View"
+    xmlns:Commands="clr-namespace:SMART.Gui.Commands"
+    xmlns:GrayscaleEffect="clr-namespace:GrayscaleEffect;assembly=GrayscaleEffect"
+    HorizontalAlignment="Stretch"
+    VerticalAlignment="Stretch"
+    BorderThickness="0"        
+    >
+    
+    <View:ViewBase.Resources>
+        
+        <Storyboard x:Key="FadeInHud" Storyboard.TargetProperty="(UIElement.Opacity)" >
+            <DoubleAnimation To="1.0" Duration="0:0:0.5" />
+        </Storyboard>
+
+        <Storyboard x:Key="FadeOutHud" Storyboard.TargetProperty="(UIElement.Opacity)" >
+            <DoubleAnimation To="0.3" Duration="0:0:0.5" />
+        </Storyboard>
+        
+        <Style x:Key="UpButton" TargetType="{x:Type Button}">
+            <Setter Property="Template" >
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Image Source="{StaticResource Horizon_Image_Up1}" />
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>        
+        
+        <Style x:Key="LeftButton" TargetType="{x:Type Button}">
+            <Setter Property="Template" >
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Image Source="{StaticResource Horizon_Image_Left1}" />
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>        
+        
+        <Style x:Key="RightButton" TargetType="{x:Type Button}">
+            <Setter Property="Template" >
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Image Source="{StaticResource Horizon_Image_Right1}" />
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>        
+        
+        <Style x:Key="DownButton" TargetType="{x:Type Button}">
+            <Setter Property="Template" >
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Image Source="{StaticResource Horizon_Image_Down1}" />
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="ZoomAllButton" TargetType="{x:Type Button}">
+            <Setter Property="Template" >
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Rectangle Margin="5" Fill="{StaticResource headerBarBG}" />                        
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>        
+        
+        <Style x:Key="ZoomOutButton" TargetType="{x:Type Button}">
+            <Setter Property="Template" >
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                       <Image Source="{StaticResource Horizon_Image_Zoom_out}" />                       
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>        
+        
+        <Style x:Key="ZoomInButton" TargetType="{x:Type Button}">
+            <Setter Property="Template" >
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Image Source="{StaticResource Horizon_Image_Zoom_in}" />                        
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>        
+        
+        <Style x:Key="ZoomRectButton" TargetType="{x:Type Button}">
+            <Setter Property="Template" >
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Rectangle Margin="5" Fill="{StaticResource headerBarBG}" />
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
+        <Style x:Key="PandAndZoomOption" TargetType="{x:Type RadioButton}">
+            <Setter Property="Template" >
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type RadioButton}">
+                        <Grid>
+                            <Border x:Name="border" Background="{StaticResource headerBarBG}" Padding="5" Visibility="Collapsed" />
+                            <Image Source="{StaticResource Horizon_Image_Right}" />                        
+                            </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter TargetName="border" Property="Visibility" Value="Visible" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="CreateOption" TargetType="{x:Type RadioButton}">
+            <Setter Property="Template" >
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type RadioButton}">
+                        <Grid>
+                            <Border x:Name="border" Background="{StaticResource headerBarBG}" Padding="5" Visibility="Collapsed" />
+                            <Image Source="{StaticResource Horizon_Image_Add}" />
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter TargetName="border" Property="Visibility" Value="Visible" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="NeighbourOption" TargetType="{x:Type RadioButton}">
+            <Setter Property="Template" >
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type RadioButton}">
+                        <Grid>
+                            <Border x:Name="border" Background="{StaticResource headerBarBG}" Padding="5" Visibility="Collapsed" />
+                            <Image Source="{StaticResource Horizon_Image_Find}" />
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter TargetName="border" Property="Visibility" Value="Visible" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
+        <Style x:Key="DiagramHud" TargetType="Control">
+            <Setter Property="Opacity" Value="0.3" /> 
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Border HorizontalAlignment="Left" 
+                                VerticalAlignment="Top"
+                                Width="100" 
+                                Height="200" 
+                                CornerRadius="4" 
+                                BorderThickness="1"  
+                                BorderBrush="DimGray" 
+                                Background="#33000000">
+                            <Grid HorizontalAlignment="Center">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="32" />
+                                    <RowDefinition Height="32" />
+                                    <RowDefinition Height="32" />
+                                    <RowDefinition Height="32" />
+                                    <RowDefinition Height="32" />
+                                    <RowDefinition Height="32" />
+                                    <RowDefinition Height="32" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="32" />
+                                    <ColumnDefinition Width="32" />
+                                    <ColumnDefinition Width="32" />
+                                </Grid.ColumnDefinitions>
+                                <Button Grid.Row="0" Grid.Column="1" Style="{StaticResource UpButton}" ToolTip="Pan up" 
+                                        Command="Commands:SmartCommands.Pan" CommandParameter="Up"/>
+                                <Button Grid.Row="1" Grid.Column="0" Style="{StaticResource LeftButton}" ToolTip="Pan left" 
+                                        Command="Commands:SmartCommands.Pan" CommandParameter="Left"/>
+                                <Button Grid.Row="1" Grid.Column="2" Style="{StaticResource RightButton}" ToolTip="Pan right" 
+                                        Command="Commands:SmartCommands.Pan" CommandParameter="Right"/>
+                                <Button Grid.Row="2" Grid.Column="1" Style="{StaticResource DownButton}" ToolTip="Pan down" 
+                                        Command="Commands:SmartCommands.Pan" CommandParameter="Down"/>
+                                <Button Grid.Row="1" Grid.Column="1" Style="{StaticResource ZoomAllButton}" ToolTip="Zoom all" 
+                                        Command="Commands:SmartCommands.ZoomAll" />
+                                
+                                <Button Grid.Row="3" Grid.Column="0" Style="{StaticResource ZoomOutButton}" ToolTip="Zoom out" 
+                                        Command="Commands:SmartCommands.ZoomOut" />
+                                <Button Grid.Row="3" Grid.Column="1" Style="{StaticResource ZoomRectButton}" ToolTip="Zoom rect" 
+                                        Command="Commands:SmartCommands.ZoomRect" />
+                                <Button Grid.Row="3" Grid.Column="2" Style="{StaticResource ZoomInButton}" ToolTip="Zoom in" 
+                                        Command="Commands:SmartCommands.ZoomIn" />
+
+                                <RadioButton 
+                                        Grid.Row="5" Grid.Column="0"
+                                        Style="{StaticResource PandAndZoomOption}"     
+                                        ToolTip="Pan and Zoom"  
+                                        IsChecked="True"
+                                        Command="Commands:SmartCommands.PanAndZoom" 
+                                        IsEnabled="true" />
+                                <RadioButton 
+                                        Grid.Row="5" Grid.Column="1"
+                                        Style="{StaticResource CreateOption}"     
+                                        ToolTip="Create nodes and transitions"                        
+                                        Command="Commands:SmartCommands.CreateNodes" 
+                                        IsEnabled="true" />
+                                <RadioButton 
+                                        Grid.Row="5" Grid.Column="2"
+                                        Style="{StaticResource NeighbourOption}"     
+                                        ToolTip="Show nearest neighbours"                        
+                                        Command="Commands:SmartCommands.NearestNeighbour" 
+                                        IsEnabled="true" />
+
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Trigger.EnterActions>
+                                    <BeginStoryboard Storyboard="{StaticResource FadeInHud}" />    
+                                </Trigger.EnterActions>
+                                <Trigger.ExitActions>
+                                    <BeginStoryboard Storyboard="{StaticResource FadeOutHud}" />
+                                </Trigger.ExitActions>                                
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>                 
+        
+        <Style x:Key="dwStyle" TargetType="{x:Type Control:DiagramViewer}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Control:DiagramViewer}" >
+                        <ContentPresenter x:Name="content" Content="{TemplateBinding Content}" />
+                        <ControlTemplate.Triggers>
+                            <DataTrigger Binding="{Binding IsGrayed}" Value="True">
+                                <Setter Property="UIElement.Effect">
+                                    <Setter.Value>
+                                        <GrayscaleEffect:GrayscaleEffect />
+                                    </Setter.Value>
+                                </Setter>
+                            </DataTrigger> 
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </View:ViewBase.Resources>
+    
+    <Grid Margin="0">
+
+        <Control:DiagramViewer x:Name="diagramViewer" Background="#00FFFFFF" Style="{StaticResource dwStyle}" />
+        
+    </Grid>
+    
+
+</View:ViewBase>

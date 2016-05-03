@@ -1,0 +1,273 @@
+﻿<View:ViewBase
+    x:Class="SMART.Gui.View.ModelDesignerView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:View="clr-namespace:SMART.Gui.View"
+    xmlns:lib="clr-namespace:Microsoft.Samples.KMoore.WPFSamples.Zap;assembly=J832.Wpf.BagOTricksLib"
+    xmlns:Controls="clr-namespace:SMART.Gui.Controls"
+    xmlns:ViewModel="clr-namespace:SMART.Gui.ViewModel"
+    >
+    <ContentControl.Resources>
+
+        <Style TargetType="{x:Type ButtonBase}" x:Key="buttonBaseTemplate">
+            <Setter Property="Template" >
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ButtonBase}" >
+                        <ContentPresenter Name="cp" Opacity="0.8" Width="64" Height="48">
+                            <ContentPresenter.RenderTransform>
+                                <ScaleTransform ScaleX=".67" ScaleY=".67" CenterX="32" CenterY="24"/>
+                            </ContentPresenter.RenderTransform>
+                        </ContentPresenter>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Trigger.EnterActions>
+                                    <BeginStoryboard >
+                                        <BeginStoryboard.Storyboard>
+                                            <Storyboard>
+                                                <DoubleAnimation Duration="0:0:0.2" To=".9" Storyboard.TargetName="cp" Storyboard.TargetProperty="Opacity" />
+                                                <DoubleAnimation Duration="0:0:0.2" To=".8" Storyboard.TargetName="cp" Storyboard.TargetProperty="RenderTransform.ScaleX" />
+                                                <DoubleAnimation Duration="0:0:0.2" To=".8" Storyboard.TargetName="cp" Storyboard.TargetProperty="RenderTransform.ScaleY" />
+                                            </Storyboard>
+                                        </BeginStoryboard.Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.EnterActions>
+                                <Trigger.ExitActions>
+                                    <BeginStoryboard >
+                                        <BeginStoryboard.Storyboard>
+                                            <Storyboard TargetName="cp" TargetProperty="Opacity">
+                                                <DoubleAnimation Duration="0:0:0.3" Storyboard.TargetName="cp" Storyboard.TargetProperty="Opacity" />
+                                                <DoubleAnimation Duration="0:0:0.3" Storyboard.TargetName="cp" Storyboard.TargetProperty="RenderTransform.ScaleX" />
+                                                <DoubleAnimation Duration="0:0:0.3" Storyboard.TargetName="cp" Storyboard.TargetProperty="RenderTransform.ScaleY" />
+                                            </Storyboard>
+                                        </BeginStoryboard.Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.ExitActions>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Trigger.EnterActions>
+                                    <BeginStoryboard >
+                                        <BeginStoryboard.Storyboard>
+                                            <Storyboard>
+                                                <DoubleAnimation Duration="0:0:0.2" To="1" Storyboard.TargetName="cp" Storyboard.TargetProperty="Opacity" />
+                                                <DoubleAnimation Duration="0:0:0.2" To="1" Storyboard.TargetName="cp" Storyboard.TargetProperty="RenderTransform.ScaleX" />
+                                                <DoubleAnimation Duration="0:0:0.2" To="1" Storyboard.TargetName="cp" Storyboard.TargetProperty="RenderTransform.ScaleY" />
+                                            </Storyboard>
+                                        </BeginStoryboard.Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.EnterActions>
+                                <Trigger.ExitActions>
+                                    <BeginStoryboard >
+                                        <BeginStoryboard.Storyboard>
+                                            <Storyboard TargetName="cp" TargetProperty="Opacity">
+                                                <DoubleAnimation Duration="0:0:0.3" Storyboard.TargetName="cp" Storyboard.TargetProperty="Opacity" />
+                                                <DoubleAnimation Duration="0:0:0.3" Storyboard.TargetName="cp" Storyboard.TargetProperty="RenderTransform.ScaleX" />
+                                                <DoubleAnimation Duration="0:0:0.3" Storyboard.TargetName="cp" Storyboard.TargetProperty="RenderTransform.ScaleY" />
+                                            </Storyboard>
+                                        </BeginStoryboard.Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.ExitActions>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+
+        <Style TargetType="{x:Type RepeatButton}" BasedOn="{StaticResource {x:Type RepeatButton}}" x:Key="pageRepeatLeftButtonStyle">
+            <Setter Property="Width" Value="48" />
+            <Setter Property="Height" Value="24" />
+            <Setter Property="Interval" Value="250" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Image x:Name="image" Source="{StaticResource Horizon_Image_Left}" ToolTip="Previous page" />
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsEnabled" Value="False" >
+                                <Setter TargetName="image" Property="Visibility" Value="Collapsed" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style TargetType="{x:Type RepeatButton}" BasedOn="{StaticResource {x:Type RepeatButton}}" x:Key="pageRepeatRightButtonStyle">
+            <Setter Property="Width" Value="48" />
+            <Setter Property="Height" Value="24" />
+            <Setter Property="Interval" Value="250" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Image x:Name="image" Source="{StaticResource Horizon_Image_Left}" ToolTip="Next page" RenderTransformOrigin="0.5,0.5" >
+                            <Image.RenderTransform>
+                                <RotateTransform Angle="180" />
+                            </Image.RenderTransform>
+                        </Image>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsEnabled" Value="False" >
+                                <Setter TargetName="image" Property="Visibility" Value="Collapsed" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style TargetType="{x:Type Button}" BasedOn="{StaticResource buttonBaseTemplate}" x:Key="pageButtonStyle">
+            <Setter Property="Width" Value="64" />
+            <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+            <Setter Property="Height" Value="48" />
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="ContentTemplate">
+                <Setter.Value>
+                    <DataTemplate>
+                        <Border ToolTip="{Binding Name}" 
+                                    DockPanel.Dock="Top"                              
+                                    SnapsToDevicePixels="True"
+                                    x:Name="border"                                     
+                                    CornerRadius="4"
+                                    BorderBrush="#55000000" 
+                                    Background="#AAFFFFFF" 
+                                    BorderThickness="1" >
+                            <ContentPresenter Content="{Binding Thumbnail}"  />
+                        </Border>
+                        <DataTemplate.Triggers>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="border" Property="Background" Value="#FFFFFFFF" />
+                            </Trigger>
+                        </DataTemplate.Triggers>
+                    </DataTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style TargetType="{x:Type ItemsControl}" x:Key="ZapScrollerCommandItemsControlStyle">
+            <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ItemsControl}">
+                        <StackPanel Orientation="Horizontal" IsItemsHost="True" />
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="ItemTemplate">
+                <Setter.Value>
+                    <DataTemplate>
+                        <DockPanel Width="64" Margin="5" >
+                            <Button DockPanel.Dock="Top" Command="{Binding}" Style="{StaticResource pageButtonStyle}" Content="{Binding}"/>
+                            <TextBlock 
+                                Text="{Binding Name}" 
+                                Foreground="Gray" 
+                                FontSize="9pt" 
+                                TextTrimming="CharacterEllipsis" 
+                                HorizontalAlignment="Center"
+                                DockPanel.Dock="Bottom" />
+                        </DockPanel>
+                    </DataTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="itemStyle" BasedOn="{StaticResource {x:Type ListBoxItem}}" TargetType="{x:Type ListBoxItem}">
+            <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+            <EventSetter Event="PreviewMouseLeftButtonDown" Handler="ContentPresenter_MouseLeftButtonDown" />
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding IsSelected}" Value="True" >
+                    <Setter Property="IsSelected" Value="True" /> 
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+
+    </ContentControl.Resources>
+
+    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0">
+            <Controls:RoundedBox />
+            <Border CornerRadius="4" Background="WhiteSmoke" />
+            <ContentPresenter Content="{Binding CurrentModel}" FocusVisualStyle="{x:Null}" />
+        </Grid>
+
+        <Grid Grid.Row="1" Margin="0,10,0,0">
+            <Controls:RoundedBox />
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center"  Grid.Row="1" Margin="10" >
+                <RepeatButton Content="Left"
+                              Command="{Binding PreviousCommand}"
+                              Style="{StaticResource pageRepeatLeftButtonStyle}"/>
+
+                <ListBox  
+                 x:Name="models"
+                 ItemsSource="{Binding Models}"                     
+                 ItemContainerStyle="{StaticResource itemStyle}"
+                 BorderThickness="0"
+                 Background="Transparent"
+                 Style="{StaticResource ZapScrollerCommandItemsControlStyle}"
+                 >
+                </ListBox>
+
+                <RepeatButton Content="Right" Command="{Binding NextCommand}"
+                              Style="{StaticResource pageRepeatRightButtonStyle}"/>
+
+            </StackPanel>
+
+        </Grid>
+
+
+        <!--<lib:ZapScroller x:Name="zapScroller"
+                         ItemsSource="{Binding IsAsync=False, Path=Models}" 
+                         KeyboardNavigation.ControlTabNavigation="Contained"
+                         FocusVisualStyle="{x:Null}"
+                         CurrentItemChanged="ZapScroller_CurrentItemChanged">
+            <lib:ZapScroller.Template>
+                <ControlTemplate TargetType="{x:Type lib:ZapScroller}">
+                    <Grid >
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <Grid Grid.Row="1" Margin="0,10,0,0">
+                            <Controls:RoundedBox />
+                            <StackPanel Orientation="Horizontal" Margin="10" VerticalAlignment="Center" HorizontalAlignment="Center" >
+                                <RepeatButton Content="Left"
+                              Command="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=PreviousCommand}"
+                              Style="{StaticResource pageRepeatLeftButtonStyle}"/>
+                                <ItemsControl ItemsSource="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Commands}"
+                              Style="{StaticResource ZapScrollerCommandItemsControlStyle}" MouseLeftButtonDown="ItemsControl_MouseLeftButtonDown"/>
+                                <RepeatButton Content="Right" Command="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=NextCommand}"
+                              Style="{StaticResource pageRepeatRightButtonStyle}"/>
+                            </StackPanel>
+                        </Grid>
+                        <Grid Grid.Row="0">
+                            <Controls:RoundedBox />
+                            <Border CornerRadius="4" Background="WhiteSmoke" />
+                            <lib:ZapDecorator Name="PART_ZapDecorator" ClipToBounds="True" >
+                                <lib:ZapPanel IsItemsHost="true" Margin="0" ClipToBounds="True" />
+                            </lib:ZapDecorator>
+                        </Grid>
+
+                    </Grid>
+                </ControlTemplate>
+            </lib:ZapScroller.Template>
+            <lib:ZapScroller.ItemTemplate>
+                <DataTemplate>
+                    <ContentPresenter Content="{Binding}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0" ClipToBounds="True"/>
+                </DataTemplate>
+            </lib:ZapScroller.ItemTemplate>
+        </lib:ZapScroller>-->
+
+
+        <Control Style="{StaticResource DiagramHud}" />
+        <Control Style="{StaticResource DiagramItemsHud}" />
+
+    </Grid>
+</View:ViewBase>

@@ -1,0 +1,206 @@
+﻿<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{B11B0A91-0455-4CB9-A710-2B0DD25C6D8F}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SMART.Test</RootNamespace>
+    <AssemblyName>SMART.Test</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Publish|AnyCPU' ">
+    <OutputPath>bin\Publish\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Publish|x86' ">
+    <OutputPath>bin\x86\Publish\</OutputPath>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.Practices.ObjectBuilder2, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\Unity\Microsoft.Practices.ObjectBuilder2.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity, Version=1.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\Unity\Microsoft.Practices.Unity.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity.Configuration, Version=1.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\Unity\Microsoft.Practices.Unity.Configuration.dll</HintPath>
+    </Reference>
+    <Reference Include="Moq, Version=3.0.308.2, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\Moq\Moq.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.framework, Version=2.5.0.9015, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\NUnit 2.5\bin\net-2.0\framework\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="PresentationFramework">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="PresentationFramework.Luna">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="Rhino.Mocks, Version=3.5.0.1337, Culture=neutral, PublicKeyToken=0b3305902db7183f, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\Rhino-Mocks-net-3.5-v3.5\Rhino.Mocks.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition, Version=2008.11.24.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\MEF\System.ComponentModel.Composition.dll</HintPath>
+    </Reference>
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Technology.BDD, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\System.Technology.BDD\System.Technology.BDD.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="UIAutomationProvider">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WPFToolkit, Version=3.5.31016.1, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\WPF Toolkit\WPFToolkit.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Base\StopCriterias\AndStopCriteriaTest.cs" />
+    <Compile Include="Base\Algorithms\BreadthFirstAlgorithmTests.cs" />
+    <Compile Include="ConsoleRunnerTests.cs" />
+    <Compile Include="Core\ConsoleAdapterTests.cs" />
+    <Compile Include="Core\Generate_code_from_model_to_be_executed.cs" />
+    <Compile Include="Core\ModelMerge\ModelCompiler_merge_three_models.cs" />
+    <Compile Include="Core\ModelMerge\ModelCompiler_merge_two_models.cs" />
+    <Compile Include="Core\ModelCreation.cs" />
+    <Compile Include="Core\ModelMerge\ModelCompiler_merge_two_models_where_one_has_two_references.cs" />
+    <Compile Include="Core\Testcase_executing_a_sequence.cs" />
+    <Compile Include="Core\Testcase_execution_of_one_step.cs" />
+    <Compile Include="Core\TransitionTests.cs" />
+    <Compile Include="Core\ExecutableModelTests.cs" />
+    <Compile Include="Core\ModelBuilderTests.cs" />
+    <Compile Include="Core\GraphMerge\ModelMergeTests.cs" />
+    <Compile Include="Core\GraphMerge\when_merging_two_models_with_one_reference.cs" />
+    <Compile Include="Core\ModelTests.cs" />
+    <Compile Include="Core\ProjectUnitTests.cs" />
+    <Compile Include="Core\ResolveTests.cs" />
+    <Compile Include="Core\TestcaseUnitTests.cs" />
+    <Compile Include="Core\TestExecutorTests.cs" />
+    <Compile Include="Core\ThreadingTests.cs" />
+    <Compile Include="Core\StateTests.cs" />
+    <Compile Include="Core\WorkingWithModel.cs" />
+    <Compile Include="DotFormatTest.cs" />
+    <Compile Include="Gui\BootStrapper.cs" />
+    <Compile Include="Gui\ModelFolderViewModelTests.cs" />
+    <Compile Include="Gui\FolderViewModelTests.cs" />
+    <Compile Include="Gui\GraphViewModelTests.cs" />
+    <Compile Include="Gui\ProjectExplorerViewModelTests.cs" />
+    <Compile Include="Gui\ProjectFolderViewModelTests.cs" />
+    <Compile Include="Gui\RootModelFolderViewModelTests.cs" />
+    <Compile Include="Gui\RootTestcaseFolderViewModelTests.cs" />
+    <Compile Include="Gui\RoutedActionCommandTests.cs" />
+    <Compile Include="Gui\TestcaseFolderViewModelTests.cs" />
+    <Compile Include="Gui\ViewModelBaseTests.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Base\StopCriterias\StatisticalStopCriteriaTests.cs" />
+    <Compile Include="Base\StopCriterias\TimeBasedStopCriteriaTest.cs" />
+    <Compile Include="Services\Repository_get_all_descriptions.cs" />
+    <Compile Include="UnitTest1.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\src\SMART.Base\SMART.Base.csproj">
+      <Project>{5D1DDB9B-7EFF-418C-8157-C0C7225AA7BE}</Project>
+      <Name>SMART.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\src\Smart.Console\SMART.Console.csproj">
+      <Project>{FCDC8E98-4E63-485B-AB2D-CE547CE2E4B5}</Project>
+      <Name>SMART.Console</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\src\SMART.Core.Services\SMART.Core.Services.csproj">
+      <Project>{BCE2DAE0-3857-4DFE-9578-9763199273F9}</Project>
+      <Name>SMART.Core.Services</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\src\SMART.Core\SMART.Core.csproj">
+      <Project>{1EA7DECA-587D-4289-998A-0A58988F9E58}</Project>
+      <Name>SMART.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\src\SMART.Gui\Smart.Gui.csproj">
+      <Project>{D50D4D26-D309-4746-889B-5791CEED8082}</Project>
+      <Name>Smart.Gui</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\src\SMART.IOC\SMART.IOC.csproj">
+      <Project>{B1F62904-5760-49E0-8B51-6FADA7E004F9}</Project>
+      <Name>SMART.IOC</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,35 @@
+﻿<ContentControl x:Class="SMART.Gui.View.TestcaseCommonCommandsView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    >
+    <StackPanel Orientation="Horizontal">
+        <RadioButton Name="configButton" 
+                      Content="Configure"
+                      IsThreeState="False"
+                      Template="{StaticResource MenuToggleButtonTemplate}" 
+                      VerticalAlignment="Center" 
+                      Cursor="Hand" 
+                      Margin="0,0,10,0"
+                      ToolTip="Configure" 
+                      Command="{Binding ConfigScenario}" />
+        <RadioButton Name="codeButton" 
+                      Content="Generate code" 
+                      IsThreeState="False"
+                      Template="{StaticResource MenuToggleButtonTemplate}" 
+                      VerticalAlignment="Center" 
+                      Cursor="Hand" 
+                      Margin="0,0,10,0"
+                      ToolTip="Generate code" 
+                      Command="{Binding GenerateCode}" />
+        <RadioButton Name="executeButton" 
+                      Content="Execute" 
+                      IsThreeState="False"
+                      Template="{StaticResource MenuToggleButtonTemplate}" 
+                      VerticalAlignment="Center" 
+                      Cursor="Hand" 
+                      ToolTip="Execute" 
+                      Command="{Binding ExecuteScenario}" />        
+        <Button VerticalAlignment="Center" Template="{StaticResource RemoveXButtonTemplate}" Cursor="Hand" ToolTip="Close" Command="{Binding CloseWindow}" />
+    </StackPanel>
+            
+</ContentControl>

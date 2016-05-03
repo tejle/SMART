@@ -1,0 +1,119 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+	<DrawingImage x:Key="Sun_Black">
+		<DrawingImage.Drawing>
+			<DrawingGroup>
+				<DrawingGroup.Children>
+					<GeometryDrawing Geometry="F1 M 17.4267,21.4733C 14.9494,21.4733 12.9413,19.4653 12.9413,16.9892C 12.9413,14.5118 14.9494,12.5039 17.4267,12.5039C 19.904,12.5039 21.912,14.5118 21.912,16.9892C 21.912,19.4653 19.904,21.4733 17.4267,21.4733 Z M 17.4267,9.14793C 13.096,9.14793 9.58533,12.6585 9.58533,16.9892C 9.58533,21.3186 13.096,24.8292 17.4267,24.8292C 21.7574,24.8292 25.268,21.3186 25.268,16.9892C 25.268,12.6585 21.7574,9.14793 17.4267,9.14793 Z ">
+						<GeometryDrawing.Brush>
+							<LinearGradientBrush StartPoint="0.499978,1.60164" EndPoint="0.499978,-0.614144">
+								<LinearGradientBrush.GradientStops>
+									<GradientStop Color="#FF626366" Offset="0"/>
+									<GradientStop Color="#FF454547" Offset="0.5"/>
+									<GradientStop Color="#FF5D5D60" Offset="0.5"/>
+									<GradientStop Color="#FF525355" Offset="1"/>
+								</LinearGradientBrush.GradientStops>
+							</LinearGradientBrush>
+						</GeometryDrawing.Brush>
+					</GeometryDrawing>
+					<GeometryDrawing Geometry="F1 M 18.7333,-1.52588e-005L 16.12,-1.52588e-005L 16.12,6.416L 18.7333,6.416L 18.7333,-1.52588e-005 Z ">
+						<GeometryDrawing.Brush>
+							<LinearGradientBrush StartPoint="0.49986,5.34043" EndPoint="0.49986,-0.0750951">
+								<LinearGradientBrush.GradientStops>
+									<GradientStop Color="#FF626366" Offset="0"/>
+									<GradientStop Color="#FF454547" Offset="0.5"/>
+									<GradientStop Color="#FF5D5D60" Offset="0.5"/>
+									<GradientStop Color="#FF525355" Offset="1"/>
+								</LinearGradientBrush.GradientStops>
+							</LinearGradientBrush>
+						</GeometryDrawing.Brush>
+					</GeometryDrawing>
+					<GeometryDrawing Geometry="F1 M 30.388,5.83849L 28.54,3.99052L 24.004,8.52647L 25.852,10.3746L 30.388,5.83849 Z ">
+						<GeometryDrawing.Brush>
+							<LinearGradientBrush StartPoint="0.500081,4.74206" EndPoint="0.500081,-0.700794">
+								<LinearGradientBrush.GradientStops>
+									<GradientStop Color="#FF626366" Offset="0"/>
+									<GradientStop Color="#FF454547" Offset="0.5"/>
+									<GradientStop Color="#FF5D5D60" Offset="0.5"/>
+									<GradientStop Color="#FF525355" Offset="1"/>
+								</LinearGradientBrush.GradientStops>
+							</LinearGradientBrush>
+						</GeometryDrawing.Brush>
+					</GeometryDrawing>
+					<GeometryDrawing Geometry="F1 M 34.5507,15.7146L 28.1347,15.7146L 28.1347,18.3279L 34.5507,18.3279L 34.5507,15.7146 Z ">
+						<GeometryDrawing.Brush>
+							<LinearGradientBrush StartPoint="0.500048,7.09697" EndPoint="0.500048,-6.19705">
+								<LinearGradientBrush.GradientStops>
+									<GradientStop Color="#FF626366" Offset="0"/>
+									<GradientStop Color="#FF454547" Offset="0.5"/>
+									<GradientStop Color="#FF5D5D60" Offset="0.5"/>
+									<GradientStop Color="#FF525355" Offset="1"/>
+								</LinearGradientBrush.GradientStops>
+							</LinearGradientBrush>
+						</GeometryDrawing.Brush>
+					</GeometryDrawing>
+					<GeometryDrawing Geometry="F1 M 28.6626,30.1012L 30.5107,28.2532L 25.9746,23.7173L 24.1267,25.5652L 28.6626,30.1012 Z ">
+						<GeometryDrawing.Brush>
+							<LinearGradientBrush StartPoint="0.500033,1.65192" EndPoint="0.500033,-3.79053">
+								<LinearGradientBrush.GradientStops>
+									<GradientStop Color="#FF626366" Offset="0"/>
+									<GradientStop Color="#FF454547" Offset="0.5"/>
+									<GradientStop Color="#FF5D5D60" Offset="0.5"/>
+									<GradientStop Color="#FF525355" Offset="1"/>
+								</LinearGradientBrush.GradientStops>
+							</LinearGradientBrush>
+						</GeometryDrawing.Brush>
+					</GeometryDrawing>
+					<GeometryDrawing Geometry="F1 M 16.1734,34.264L 18.7867,34.264L 18.7867,27.8479L 16.1734,27.8479L 16.1734,34.264 Z ">
+						<GeometryDrawing.Brush>
+							<LinearGradientBrush StartPoint="0.500374,0.999952" EndPoint="0.500374,-4.41557">
+								<LinearGradientBrush.GradientStops>
+									<GradientStop Color="#FF626366" Offset="0"/>
+									<GradientStop Color="#FF454547" Offset="0.5"/>
+									<GradientStop Color="#FF5D5D60" Offset="0.5"/>
+									<GradientStop Color="#FF525355" Offset="1"/>
+								</LinearGradientBrush.GradientStops>
+							</LinearGradientBrush>
+						</GeometryDrawing.Brush>
+					</GeometryDrawing>
+					<GeometryDrawing Geometry="F1 M 4.28134,28.4253L 6.12933,30.2732L 10.6653,25.7373L 8.81735,23.8893L 4.28134,28.4253 Z ">
+						<GeometryDrawing.Brush>
+							<LinearGradientBrush StartPoint="0.500079,1.62507" EndPoint="0.500079,-3.81733">
+								<LinearGradientBrush.GradientStops>
+									<GradientStop Color="#FF626366" Offset="0"/>
+									<GradientStop Color="#FF454547" Offset="0.5"/>
+									<GradientStop Color="#FF5D5D60" Offset="0.5"/>
+									<GradientStop Color="#FF525355" Offset="1"/>
+								</LinearGradientBrush.GradientStops>
+							</LinearGradientBrush>
+						</GeometryDrawing.Brush>
+					</GeometryDrawing>
+					<GeometryDrawing Geometry="F1 M 0,18.5013L 6.41599,18.5013L 6.41599,15.8865L 0,15.8865L 0,18.5013 Z ">
+						<GeometryDrawing.Brush>
+							<LinearGradientBrush StartPoint="0.500036,7.02951" EndPoint="0.500036,-6.26155">
+								<LinearGradientBrush.GradientStops>
+									<GradientStop Color="#FF626366" Offset="0"/>
+									<GradientStop Color="#FF454547" Offset="0.5"/>
+									<GradientStop Color="#FF5D5D60" Offset="0.5"/>
+									<GradientStop Color="#FF525355" Offset="1"/>
+								</LinearGradientBrush.GradientStops>
+							</LinearGradientBrush>
+						</GeometryDrawing.Brush>
+					</GeometryDrawing>
+					<GeometryDrawing Geometry="F1 M 5.83868,3.99461L 3.992,5.84258L 8.52667,10.3799L 10.376,8.53056L 5.83868,3.99461 Z ">
+						<GeometryDrawing.Brush>
+							<LinearGradientBrush StartPoint="0.499919,4.74077" EndPoint="0.499919,-0.701107">
+								<LinearGradientBrush.GradientStops>
+									<GradientStop Color="#FF626366" Offset="0"/>
+									<GradientStop Color="#FF454547" Offset="0.5"/>
+									<GradientStop Color="#FF5D5D60" Offset="0.5"/>
+									<GradientStop Color="#FF525355" Offset="1"/>
+								</LinearGradientBrush.GradientStops>
+							</LinearGradientBrush>
+						</GeometryDrawing.Brush>
+					</GeometryDrawing>
+				</DrawingGroup.Children>
+			</DrawingGroup>
+		</DrawingImage.Drawing>
+	</DrawingImage>
+</ResourceDictionary>

@@ -1,0 +1,384 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Storyboard x:Key="FadeInHud" Storyboard.TargetProperty="(UIElement.Opacity)" >
+        <DoubleAnimation To="1.0" Duration="0:0:0.5" />
+    </Storyboard>
+
+    <Storyboard x:Key="FadeOutHud" Storyboard.TargetProperty="(UIElement.Opacity)" >
+        <DoubleAnimation To="0.3" Duration="0:0:0.5" />
+    </Storyboard>
+
+    <Style x:Key="UpButton" TargetType="{x:Type RepeatButton}">
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Template" >
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type RepeatButton}">
+                    <Image Source="{StaticResource Up_Black}" RenderTransformOrigin="0.5,0.5" >
+                        <Image.RenderTransform>
+                            <RotateTransform Angle="0" />
+                        </Image.RenderTransform>
+                    </Image>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="LeftButton" TargetType="{x:Type RepeatButton}">
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Template" >
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type RepeatButton}">
+                    <Image Source="{StaticResource Up_Black}" RenderTransformOrigin="0.5,0.5">
+                        <Image.RenderTransform>
+                            <RotateTransform Angle="270" />
+                        </Image.RenderTransform>
+                    </Image>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="RightButton" TargetType="{x:Type RepeatButton}">
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Template" >
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type RepeatButton}">
+                    <Image Source="{StaticResource Up_Black}" RenderTransformOrigin="0.5,0.5" >
+                        <Image.RenderTransform>
+                            <RotateTransform Angle="90" />
+                        </Image.RenderTransform>
+                    </Image>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="DownButton" TargetType="{x:Type RepeatButton}">
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Template" >
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type RepeatButton}">
+                    <Image Source="{StaticResource Up_Black}" RenderTransformOrigin="0.5,0.5" >
+                        <Image.RenderTransform>
+                            <RotateTransform Angle="180" />
+                        </Image.RenderTransform>
+                    </Image>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="ZoomAllButton" TargetType="{x:Type Button}">
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Template" >
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Image Source="{StaticResource Zoom_All_Black}" />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="ZoomOutButton" TargetType="{x:Type Button}">
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Template" >
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Image Source="{StaticResource Zoom_Out_Black}" />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="ZoomInButton" TargetType="{x:Type Button}">
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Template" >
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Image Source="{StaticResource Zoom_In_Black}" />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="ZoomRectButton" TargetType="{x:Type Button}">
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Template" >
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Image Source="{StaticResource Zoom_Rect_Black}" />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="PandAndZoomOption" TargetType="{x:Type RadioButton}">
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Template" >
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type RadioButton}">
+                    <Grid>
+                        <Border x:Name="border" Background="{StaticResource windowBackground}" Padding="5" Visibility="Collapsed" />
+                        <Image Source="{StaticResource Pan_Zoom_Black}" />
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter TargetName="border" Property="Visibility" Value="Visible" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="CreateOption" TargetType="{x:Type RadioButton}">
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Template" >
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type RadioButton}">
+                    <Grid>
+                        <Border x:Name="border" Background="{StaticResource windowBackground}" Padding="5" Visibility="Collapsed" />
+                        <Image Source="{StaticResource Add_Black}" />
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter TargetName="border" Property="Visibility" Value="Visible" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="NeighbourOption" TargetType="{x:Type RadioButton}">
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Template" >
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type RadioButton}">
+                    <Grid>
+                        <Border x:Name="border" Background="{StaticResource windowBackground}" Padding="5" Visibility="Collapsed" />
+                        <Image Source="{StaticResource Sun_Black}" />
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter TargetName="border" Property="Visibility" Value="Visible" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="DiagramHud" TargetType="Control">
+        <Setter Property="Opacity" Value="0.3" />
+        <Setter Property="Margin" Value="15" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Border 
+                            x:Name="border"
+                            HorizontalAlignment="Left" 
+                            VerticalAlignment="Top"
+                            Width="100" 
+                            Height="Auto" 
+                            CornerRadius="4" 
+                            BorderThickness="1"  
+                            BorderBrush="#00000000" 
+                            >
+                        <Border.Background>
+                            <LinearGradientBrush>
+                                <GradientStop Color="#66000000" Offset="0" />
+                                <GradientStop Color="#22000000" Offset="0.5" />
+                            </LinearGradientBrush>
+                        </Border.Background>
+                        <Grid HorizontalAlignment="Center">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="32" />
+                                <RowDefinition Height="32" />
+                                <RowDefinition Height="32" />
+                                <RowDefinition Height="32" />
+                                <RowDefinition Height="16" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="32" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="32" />
+                                <ColumnDefinition Width="32" />
+                                <ColumnDefinition Width="32" />
+                            </Grid.ColumnDefinitions>
+                            <RepeatButton Grid.Row="0" Grid.Column="1" Style="{StaticResource UpButton}" ToolTip="Pan up" Width="24" Height="24" 
+                                        Command="{Binding CurrentModel.Pan}" CommandParameter="Up"/>
+                            <RepeatButton Grid.Row="1" Grid.Column="0" Style="{StaticResource LeftButton}" ToolTip="Pan left"  Width="24" Height="24" 
+                                        Command="{Binding CurrentModel.Pan}" CommandParameter="Left"/>
+                            <RepeatButton Grid.Row="1" Grid.Column="2" Style="{StaticResource RightButton}" ToolTip="Pan right"  Width="24" Height="24" 
+                                        Command="{Binding CurrentModel.Pan}" CommandParameter="Right"/>
+                            <RepeatButton Grid.Row="2" Grid.Column="1" Style="{StaticResource DownButton}" ToolTip="Pan down"  Width="24" Height="24" 
+                                        Command="{Binding CurrentModel.Pan}" CommandParameter="Down"/>
+                            <Button Grid.Row="1" Grid.Column="1" Style="{StaticResource ZoomAllButton}" ToolTip="Zoom everything"  Width="24" Height="24" 
+                                        Command="{Binding CurrentModel.Zoom}" CommandParameter="All" />
+
+                            <Button Grid.Row="3" Grid.Column="0" Style="{StaticResource ZoomOutButton}" ToolTip="Zoom out"  Width="24" Height="24" 
+                                        Command="{Binding CurrentModel.Zoom}" CommandParameter="Out" />
+                            <Button Grid.Row="3" Grid.Column="1" Style="{StaticResource ZoomRectButton}" ToolTip="Zoom rect"  Width="24" Height="24" 
+                                        Command="{Binding CurrentModel.Zoom}" CommandParameter="Rect" />
+                            <Button Grid.Row="3" Grid.Column="2" Style="{StaticResource ZoomInButton}" ToolTip="Zoom in"  Width="24" Height="24" 
+                                        Command="{Binding CurrentModel.Zoom}" CommandParameter="In" />
+
+                            <!--<TextBlock Text="Layout" Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="3" Margin="5,0,0,0" />-->
+
+                            <ComboBox x:Name="layouts" 
+                                      Grid.Row="5" 
+                                      Grid.Column="0"
+                                      Height="20"                                      
+                                      Margin="5"
+                                      HorizontalAlignment="Stretch"
+                                      Grid.ColumnSpan="3" 
+                                      SelectedItem="{Binding CurrentModel.CurrentLayout}"
+                                      IsSynchronizedWithCurrentItem="True"
+                                      ItemsSource="{Binding CurrentModel.Layouts}" 
+                                      SelectedValuePath="Id"
+                                      DisplayMemberPath="Name" />
+                            <Button Grid.Row="6" 
+                                    Grid.ColumnSpan="3" 
+                                    Margin="5"
+                                    Height="20"
+                                    Content="Apply layout" 
+                                    CommandParameter="{Binding ElementName=layouts, Path=SelectedValue}" 
+                                    Command="{Binding CurrentModel.Layout}" />
+
+                            <RadioButton 
+                                        x:Name="panzoomButton"
+                                        Grid.Row="7" Grid.Column="0"
+                                        Width="24" Height="24"
+                                        Style="{StaticResource PandAndZoomOption}"     
+                                        ToolTip="Pan and Zoom"                                          
+                                        Command="{Binding CurrentModel.EditMode}" 
+                                        CommandParameter="PanAndZoom"
+                                        IsEnabled="true" />
+                            <RadioButton
+                                        x:Name="createButton"
+                                        Grid.Row="7" Grid.Column="1"
+                                        Width="24" Height="24"
+                                        Style="{StaticResource CreateOption}"     
+                                        ToolTip="Create states and transitions"                        
+                                        Command="{Binding CurrentModel.EditMode}" 
+                                        CommandParameter="CreateNodes"
+                                        IsEnabled="true" 
+                                        IsChecked="True"/>
+                            <RadioButton 
+                                        x:Name="neighbourButton"
+                                        Grid.Row="7" Grid.Column="2"
+                                        Width="24" Height="24"
+                                        Style="{StaticResource NeighbourOption}"     
+                                        ToolTip="Show nearest neighbours"                        
+                                        Command="{Binding CurrentModel.EditMode}" 
+                                        CommandParameter="Nearest"
+                                        IsEnabled="true" />
+
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Trigger.EnterActions>
+                                <BeginStoryboard Storyboard="{StaticResource FadeInHud}" />
+                            </Trigger.EnterActions>
+                            <Trigger.ExitActions>
+                                <BeginStoryboard Storyboard="{StaticResource FadeOutHud}" />
+                            </Trigger.ExitActions>
+                        </Trigger>
+                        <DataTrigger Binding="{Binding CanEdit}" Value="False">
+                            <Setter TargetName="border" Property="Height" Value="210" />
+                            <Setter TargetName="panzoomButton" Property="Visibility" Value="Collapsed" />
+                            <Setter TargetName="createButton" Property="Visibility" Value="Collapsed" />
+                            <Setter TargetName="neighbourButton" Property="Visibility" Value="Collapsed" />
+                        </DataTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="DiagramItemsHud" TargetType="Control">
+        <Setter Property="Opacity" Value="0.3" />
+        <Setter Property="Margin" Value="15" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Border 
+                            x:Name="border"
+                            HorizontalAlignment="Right" 
+                            VerticalAlignment="Top"
+                            Width="Auto" 
+                            Height="Auto" 
+                            CornerRadius="4" 
+                            BorderThickness="1"  
+                            BorderBrush="#00000000" 
+                            >
+                        <Border.Background>
+                            <LinearGradientBrush>
+                                <GradientStop Color="#66000000" Offset="0" />
+                                <GradientStop Color="#22000000" Offset="0.5" />
+                            </LinearGradientBrush>
+                        </Border.Background>
+                        <Expander Header="Transitions" IsExpanded="True" >
+                            <Grid HorizontalAlignment="Center" Margin="5">
+                                <ListBox ItemsSource="{Binding CurrentModel.Transitions}" 
+                                     IsSynchronizedWithCurrentItem="True"
+                                     SelectedItem="{Binding CurrentModel.CurrentItem}"
+                                     HorizontalAlignment="Stretch" 
+                                     BorderThickness="0"
+                                         Height="400"
+                                     Background="Transparent">
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Orientation="Vertical" Margin="0,0,0,5">
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="100" />
+                                                        <ColumnDefinition Width="100" />
+                                                    </Grid.ColumnDefinitions>
+                                                    <TextBox Grid.Column="0" Text="{Binding Name}" ToolTip="{Binding Name}" Width="Auto" />
+                                                    <TextBox Grid.Column="1" Text="{Binding ParametersFormatted}" Width="Auto" ToolTip="{Binding ParametersFormatted}" />
+                                                </Grid>
+                                                <Grid Margin="20,0,0,0">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="80" />
+                                                        <ColumnDefinition Width="100" />
+                                                    </Grid.ColumnDefinitions>
+                                                    <TextBlock Grid.Column="0" Text="Source:" />
+                                                    <TextBlock Grid.Column="1" Text="{Binding Source.Name}" ToolTip="{Binding Source.Name}" />
+                                                </Grid>
+                                                <Grid Margin="20,0,0,0">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="80" />
+                                                        <ColumnDefinition Width="100" />
+                                                    </Grid.ColumnDefinitions>
+                                                    <TextBlock Grid.Column="0" Text="Target:" />
+                                                    <TextBlock Grid.Column="1" Text="{Binding Target.Name}" ToolTip="{Binding Target.Name}" />
+                                                </Grid>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                </ListBox>
+                            </Grid>
+                        </Expander>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Trigger.EnterActions>
+                                <BeginStoryboard Storyboard="{StaticResource FadeInHud}" />
+                            </Trigger.EnterActions>
+                            <Trigger.ExitActions>
+                                <BeginStoryboard Storyboard="{StaticResource FadeOutHud}" />
+                            </Trigger.ExitActions>
+                        </Trigger>
+
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+</ResourceDictionary>

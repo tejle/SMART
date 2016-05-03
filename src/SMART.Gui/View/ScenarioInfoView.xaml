@@ -1,0 +1,61 @@
+﻿<View:ViewBase 
+    x:Class="SMART.Gui.View.ScenarioInfoView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:View="clr-namespace:SMART.Gui.View"
+    xmlns:Converters="clr-namespace:SMART.Gui.Converters"
+    >
+    <View:ViewBase.Resources>
+        <Converters:BoolToVisibilityConverter x:Key="visibleConverter" />
+    </View:ViewBase.Resources>
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="20" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        
+        <TextBlock Grid.Row="0" Text="Scenario name" FontWeight="Medium" />
+        <TextBlock Grid.Row="1" Text="{Binding Name}" Margin="0,0,0,5" />
+
+        <TextBlock Grid.Row="2" Text="Created" FontWeight="Medium" />
+        <TextBlock Grid.Row="3" Text="{Binding Created}" Margin="0,0,0,5" />
+
+        <TextBlock Grid.Row="4" Text="Modified" FontWeight="Medium" />
+        <TextBlock Grid.Row="5" Text="{Binding Modified}" Margin="0,0,0,5" />
+
+        <TextBlock Grid.Row="6" Text="Models" FontWeight="Medium" />
+        <TextBlock Grid.Row="7" Text="{Binding ModelCount}" Margin="0,0,0,5" />
+
+        <TextBlock Grid.Row="8" Text="Latest execution" FontWeight="Medium" />
+        <StackPanel Grid.Row="9" Orientation="Horizontal" VerticalAlignment="Center"
+                   Visibility="{Binding NeverExecuted, Converter={StaticResource visibleConverter}, ConverterParameter=True}" >
+            <TextBlock Text="{Binding LatestExecution}" Margin="0,0,10,0" VerticalAlignment="Center" />
+            <Image VerticalAlignment="Center"
+                Width="16" Height="16" 
+                Source="{DynamicResource Horizon_Image_Error}"
+                Visibility="{Binding LatestExecutionStatus, Converter={StaticResource visibleConverter}, ConverterParameter=True}"/>
+            <Image VerticalAlignment="Center"
+                Width="16" Height="16" 
+                Source="{DynamicResource Horizon_Image_Check}"
+                Visibility="{Binding LatestExecutionStatus, Converter={StaticResource visibleConverter}}"/>
+        </StackPanel>
+        <TextBlock Grid.Row="9" Text="Never" Margin="0,0,0,5" 
+                   Visibility="{Binding NeverExecuted, Converter={StaticResource visibleConverter}}"/>
+
+
+        <TextBlock Grid.Row="10" Text="Executions" FontWeight="Medium" />
+        <TextBlock Grid.Row="11" Text="{Binding ExecutionCount}" />
+
+    </Grid>
+</View:ViewBase>

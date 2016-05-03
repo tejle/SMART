@@ -1,0 +1,58 @@
+=============================================================================================
+Scenario (1.0): Two models => OK
+=============================================================================================
+
+Given two models A and B
+	and A is the start model
+	and A contains one (R)state that match the name of B
+
+When merging these models
+
+Then R should be swapped out for B
+	and all transitions in to R should get their Destination swapped for the Starts' Destination in B
+	and all transitions out from R should get their Source swapped for the Ends' Source in B
+	
+	
+	
+=============================================================================================
+Scenario (1.1): Three models, one model with two references => OK
+=============================================================================================
+
+Given three models C, D, and E
+	and C is the start model
+	and C contains one reference (R1) to D
+	and C contains one reference (R2) to E
+	
+When merging these models
+
+Then R1 should be swapped out for D
+	and R2 should be swapped out for E
+	and Scenario (1.0) should be satisified for both R1 and R2
+
+
+
+=============================================================================================
+Scenario (1.2): Two models, one model with two references => NOK
+=============================================================================================
+Given two models A and B
+	and A is the start model
+	and A contains to references (R1 and R2) to B
+	
+When merging these models
+
+Then R1 should be swapped out for B
+	and R2 should be swapped out for B
+	
+=============================================================================================
+Scenario (1.3): Three models (A,B, and C), A has a msr (ModelStateReference) to B and B has a msr to C
+=============================================================================================
+Given three models A, B, and C
+	and A has a msr (R1) to B
+	and B has a msr (R2) to C
+	
+When merging these models
+
+Then R1 should be swapped for B
+	and R2 should be swapped for C
+
+=============================================================================================

@@ -1,0 +1,19 @@
+﻿<ContentControl x:Class="SMART.Gui.View.TestcaseView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:sfcontrols="clr-namespace:Syncfusion.Windows.Tools.Controls;assembly=SyncFusion.Tools.WPF"
+    xmlns:sfshared="clr-namespace:Syncfusion.Windows.Shared;assembly=SyncFusion.Shared.WPF"
+    sfcontrols:DockingManager.Header="{Binding Name}"
+    sfcontrols:DockingManager.State="Document"
+    >
+    <sfcontrols:DockingManager.Icon>
+        <ImageBrush ImageSource="{Binding Icon}" />
+    </sfcontrols:DockingManager.Icon>
+
+    <sfcontrols:DockingManager 
+        x:Name="testcaseDock" 
+        sfshared:SkinStorage.VisualStyle="Office2007Blue" 
+        ContainerMode="MDI">
+        
+    </sfcontrols:DockingManager>
+</ContentControl>

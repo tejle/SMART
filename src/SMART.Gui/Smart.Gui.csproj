@@ -1,0 +1,2155 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{D50D4D26-D309-4746-889B-5791CEED8082}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SMART.Gui</RootNamespace>
+    <AssemblyName>SMART</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <ApplicationIcon>Resources\Images\system_verification_symbol_rgb.ico</ApplicationIcon>
+    <StartupObject>SMART.Gui.App</StartupObject>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <ManifestCertificateThumbprint>992ACBD39178F90164BA19D05F788D95CBAFA387</ManifestCertificateThumbprint>
+    <ManifestKeyFile>Smart.Gui_1_TemporaryKey.pfx</ManifestKeyFile>
+    <GenerateManifests>true</GenerateManifests>
+    <SignManifests>false</SignManifests>
+    <SignAssembly>false</SignAssembly>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
+    <PublishUrl>Z:\Delivery\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Unc</InstallFrom>
+    <UpdateEnabled>true</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <InstallUrl>\\semasrv01\gemensam\SMART\Delivery\</InstallUrl>
+    <SupportUrl>http://www.systemverification.se/support</SupportUrl>
+    <ProductName>SMART</ProductName>
+    <PublisherName>System Verification Sweden AB</PublisherName>
+    <OpenBrowserOnPublish>false</OpenBrowserOnPublish>
+    <ApplicationRevision>17</ApplicationRevision>
+    <ApplicationVersion>0.1.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Publish|AnyCPU' ">
+    <OutputPath>bin\Publish\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>..\..\bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <OutputPath>..\..\bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Publish|x86' ">
+    <OutputPath>bin\x86\Publish\</OutputPath>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="GrayscaleEffect, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\GrayscaleEffect.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.ObjectBuilder2, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\Unity\Microsoft.Practices.ObjectBuilder2.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity, Version=1.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\Unity\Microsoft.Practices.Unity.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity.Configuration, Version=1.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\Unity\Microsoft.Practices.Unity.Configuration.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationFramework.Aero">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="ReachFramework">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition, Version=2008.11.24.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\MEF\System.ComponentModel.Composition.dll</HintPath>
+    </Reference>
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Printing">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.ServiceModel">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Windows.Controls.DataVisualization.Toolkit, Version=2.0.5.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\WPF Toolkit\System.Windows.Controls.DataVisualization.Toolkit.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="UIAutomationProvider">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="PresentationCore">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="PresentationFramework">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="PresentationUI" />
+    <EmbeddedResource Include="licenses.licx" />
+    <Reference Include="WPFToolkit, Version=3.5.31016.1, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\WPF Toolkit\WPFToolkit.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Page Include="Controls\AnimatedTabControl\AnimatedTabControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\AnimatedTabControl\TabItemResource.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\Chrome\ChromelessWindowTemplate.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\CodeBox\CodeBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\DiagramControl\Shapes\StateShape.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\DiagramControl\Shapes\TransitionShape.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\DiagramControl\View\DiagramViewer.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\FluidKit\Controls\ElementFlow\Viewport.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\FluidKit\Controls\Transition\Cube.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\FluidKit\Controls\Transition\Genie\Genie.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\FluidKit\Controls\Transition\TransitionStoryboards.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\FluidKit\Themes\Generic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\FluidKit\Themes\GlassWindow.generic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\FluidKit\Themes\ImageButton.generic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\FluidKit\Themes\MacOSXWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\FluidKit\Themes\Thumb.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\FluidKit\Themes\TransitionPresenter.generic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\FluidKit\Themes\VistaBackground.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\InfoPopup\InfoPopup.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\RoundedBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\SlidingListBox\SlildingListBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Reports\BasicExecutionReport.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Reports\BasicExecutionReportDetails.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Reports\BasicExecutionReportFlows.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Resources\Styles\Background.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Resources\Styles\Brushes.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Resources\Styles\Config.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\Styles\DiagramHud.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Resources\Styles\generic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\Styles\ProjectExplorerViewResources.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Resources\Styles\Statistics.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\Themes\BubbleCreme.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\Themes\BureauBlack.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\Themes\BureauBlue.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\Themes\ExpressionDark.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\Themes\ExpressionLight.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\Themes\ShinyBlue.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\Themes\ShinyRed.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\Themes\SunnyOrange.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\Themes\TwilightBlue.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\Themes\WhistlerBlue.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\XAMLIcons\Add.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\XAMLIcons\Add_Black.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\XAMLIcons\Back.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\XAMLIcons\Block.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\XAMLIcons\Check.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\XAMLIcons\Configurator.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\XAMLIcons\Pan_Zoom_Black.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\XAMLIcons\Reference.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\XAMLIcons\Delete.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\XAMLIcons\Down.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\XAMLIcons\Down1.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\XAMLIcons\Edit.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\XAMLIcons\Error.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\XAMLIcons\Exit.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\XAMLIcons\File.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\XAMLIcons\Find.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\XAMLIcons\Find_Next.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\XAMLIcons\Forward.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\XAMLIcons\Help.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\XAMLIcons\Left.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\XAMLIcons\Left1.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\XAMLIcons\Lock.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\XAMLIcons\Open.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\XAMLIcons\Padlock.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\XAMLIcons\Printer.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\XAMLIcons\Redo.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\XAMLIcons\Refresh.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\XAMLIcons\Right.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\XAMLIcons\Right1.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\XAMLIcons\Save.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\XAMLIcons\Save_As.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\XAMLIcons\Search.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\XAMLIcons\Sun_Black.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\XAMLIcons\Undo.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\XAMLIcons\Up.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\XAMLIcons\Up1.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\XAMLIcons\Up_Black.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\XAMLIcons\Warning.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\XAMLIcons\Zoom_All_Black.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\XAMLIcons\Zoom_in.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\XAMLIcons\Zoom_In_Black.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\XAMLIcons\Zoom_out.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\XAMLIcons\Zoom_Out_Black.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\XAMLIcons\Zoom_Rect.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\ScenarioInfoView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\ProjectInfoView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\MainView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\MenuBarView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\ModelDesignerView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\ModelInfoView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\ProjectView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\ReportPreviewView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\ReportsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\StartView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\TestcaseCodeGeneration\TestcaseCodeGenerationView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\TestcaseCommonCommandsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\TestcaseConfiguration\AdapterCollectionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\TestcaseConfiguration\AlgorithmCollectionView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\TestcaseConfiguration\ExecutionStopCriteriaCollectionView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\TestcaseConfiguration\TestcaseConfigurationView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\TestcaseConfiguration\TestcaseConfigurationCollectionView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\TestcaseConfiguration\GenerationStopCriteriaCollectionView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\ModelView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\ProjectExplorer\ProjectExplorerView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\TestcaseConfiguration\TestcaseConfigurationCompositeView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\TestcaseExecution\ExecutionModelView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\TestcaseExecution\TestcaseExecutionCompositeView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\TitleBarView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Compile Include="App.xaml.cs">
+      <SubType>Code</SubType>
+      <DependentUpon>App.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Commands\DeleteModelCommand.cs" />
+    <Compile Include="Commands\MaximizeCommand.cs" />
+    <Compile Include="Commands\MinimizeCommand.cs" />
+    <Compile Include="Controls\AutoScrollListBox.cs" />
+    <Compile Include="Controls\Chrome\Standard\DpiHelper.cs" />
+    <Compile Include="Controls\Chrome\Standard\NativeMethods.cs" />
+    <Compile Include="Controls\Chrome\Standard\Utilities.cs" />
+    <Compile Include="Controls\Chrome\WindowChrome.cs" />
+    <Compile Include="Controls\CodeBox\CodeBox.cs" />
+    <Compile Include="Controls\CodeBox\CodeBoxApplicationSettings.cs" />
+    <Compile Include="Controls\CodeBox\CodeBoxRenderInfo.cs" />
+    <Compile Include="Controls\CodeBox\CodeBoxSettings.cs" />
+    <Compile Include="Controls\CodeBox\Decorations\Decoration.cs" />
+    <Compile Include="Controls\CodeBox\Decorations\DecorationScheme.cs" />
+    <Compile Include="Controls\CodeBox\Decorations\DecorationSchemes.cs" />
+    <Compile Include="Controls\CodeBox\Decorations\EDecorationType.cs" />
+    <Compile Include="Controls\CodeBox\Decorations\ExplicitDecoration.cs" />
+    <Compile Include="Controls\CodeBox\Decorations\MultiExplicitDecoration.cs" />
+    <Compile Include="Controls\CodeBox\Decorations\MultiRegexDecoration.cs" />
+    <Compile Include="Controls\CodeBox\Decorations\MultiRegexWordDecoration.cs" />
+    <Compile Include="Controls\CodeBox\Decorations\MultiStringDecoration.cs" />
+    <Compile Include="Controls\CodeBox\Decorations\RegexDecoration.cs" />
+    <Compile Include="Controls\CodeBox\Decorations\RegexWordDecoration.cs" />
+    <Compile Include="Controls\CodeBox\Decorations\StringDecoration.cs" />
+    <Compile Include="Controls\CodeBox\Pair.cs" />
+    <Compile Include="Controls\CodeBox\PointCollectionHelper.cs" />
+    <Compile Include="Controls\CodeBox\StackedRectangleGeometryHelper.cs" />
+    <Compile Include="Controls\CustomWindowCommands.cs" />
+    <Compile Include="Controls\DiagramControl\Shapes\StateShape.xaml.cs">
+      <DependentUpon>StateShape.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\DiagramControl\Shapes\TransitionShape.xaml.cs">
+      <DependentUpon>TransitionShape.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\DiagramControl\View\PanAndZoomExtension.cs" />
+    <Compile Include="Controls\FluidKit\Controls\BalloonDecorator.cs" />
+    <Compile Include="Controls\FluidKit\Controls\ElementFlow\ElementFlow.cs" />
+    <Compile Include="Controls\FluidKit\Controls\ElementFlow\ElementFlow.Internal.cs" />
+    <Compile Include="Controls\FluidKit\Controls\ElementFlow\ViewStates\Carousel.cs" />
+    <Compile Include="Controls\FluidKit\Controls\ElementFlow\ViewStates\CoverFlow.cs" />
+    <Compile Include="Controls\FluidKit\Controls\ElementFlow\ViewStates\Motion.cs" />
+    <Compile Include="Controls\FluidKit\Controls\ElementFlow\ViewStates\RollerCoaster.cs" />
+    <Compile Include="Controls\FluidKit\Controls\ElementFlow\ViewStates\Rolodex.cs" />
+    <Compile Include="Controls\FluidKit\Controls\ElementFlow\ViewStates\ThreeLane.cs" />
+    <Compile Include="Controls\FluidKit\Controls\ElementFlow\ViewStates\TimeMachine.cs" />
+    <Compile Include="Controls\FluidKit\Controls\ElementFlow\ViewStates\TimeMachine2.cs" />
+    <Compile Include="Controls\FluidKit\Controls\ElementFlow\ViewStates\VForm.cs" />
+    <Compile Include="Controls\FluidKit\Controls\ElementFlow\ViewStates\ViewStateBase.cs" />
+    <Compile Include="Controls\FluidKit\Controls\GlassWindow.cs" />
+    <Compile Include="Controls\FluidKit\Controls\ImageButton.cs" />
+    <Compile Include="Controls\FluidKit\Controls\ItemSkimmingPanel.cs" />
+    <Compile Include="Controls\FluidKit\Controls\SkimmingContextAdorner.cs" />
+    <Compile Include="Controls\FluidKit\Controls\Transition\CubeTransition.cs" />
+    <Compile Include="Controls\FluidKit\Controls\Transition\FlipTransition.cs" />
+    <Compile Include="Controls\FluidKit\Controls\Transition\Genie\GenieAnimation.cs" />
+    <Compile Include="Controls\FluidKit\Controls\Transition\Genie\GenieTransition.cs" />
+    <Compile Include="Controls\FluidKit\Controls\Transition\Genie\Point3DCollectionAnimationBase.cs" />
+    <Compile Include="Controls\FluidKit\Controls\Transition\SlideTransition.cs" />
+    <Compile Include="Controls\FluidKit\Controls\Transition\Transition.cs" />
+    <Compile Include="Controls\FluidKit\Controls\Transition\TransitionPresenter.cs" />
+    <Compile Include="Controls\FluidKit\Helpers\BezierEvaluator.cs" />
+    <Compile Include="Controls\FluidKit\Helpers\BezierMeshFiller.cs" />
+    <Compile Include="Controls\FluidKit\Helpers\DragDrop\DragDropManager.cs" />
+    <Compile Include="Controls\FluidKit\Helpers\DragDrop\DropPreviewAdorner.cs" />
+    <Compile Include="Controls\FluidKit\Helpers\DragDrop\IDragSourceAdvisor.cs" />
+    <Compile Include="Controls\FluidKit\Helpers\DragDrop\IDropTargetAdvisor.cs" />
+    <Compile Include="Controls\FluidKit\Helpers\LineEvaluator.cs" />
+    <Compile Include="Controls\FluidKit\Helpers\MeshCreator.cs" />
+    <Compile Include="Controls\FluidKit\Helpers\PennerAnimation\PennerDoubleAnimation.cs" />
+    <Compile Include="Controls\FluidKit\Helpers\PennerAnimation\PennerInterpolator.cs" />
+    <Compile Include="Controls\FluidKit\Helpers\RectangularMeshFiller.cs" />
+    <Compile Include="Controls\FluidKit\Shaders\DynamicShaderEffect.cs" />
+    <Compile Include="Controls\FluidKit\Shaders\WarpEffect.cs" />
+    <Compile Include="Controls\FluidKit\Shapes\CogwheelShape.cs" />
+    <Compile Include="Controls\FluidKit\Shapes\PolygonShape.cs" />
+    <Compile Include="Controls\InfoPopup\Info.cs" />
+    <Compile Include="Controls\InfoPopup\InfoPopup.xaml.cs">
+      <DependentUpon>InfoPopup.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\RadialPanel.cs" />
+    <Compile Include="Controls\XSButton.cs" />
+    <Compile Include="Controls\XSButtonConverters.cs" />
+    <Compile Include="Converters\BoolToVisibilityConverter.cs" />
+    <Compile Include="Converters\ConfigValueTemplateSelector.cs" />
+    <Compile Include="Converters\GridViewColumnWidthCalculator.cs" />
+    <Compile Include="Converters\PathConverter.cs" />
+    <Compile Include="Converters\RadioButtonConverter.cs" />
+    <Compile Include="Converters\VisibilityToStarHeightConverter.cs" />
+    <Compile Include="DragModelSourceAdvisor.cs" />
+    <Compile Include="DuplicateKeyDictionary.cs" />
+    <Compile Include="Interfaces\IDiagramViewModel.cs" />
+    <Compile Include="InvokeOC.cs" />
+    <Compile Include="Reports\BasicExecutionReport.xaml.cs">
+      <DependentUpon>BasicExecutionReport.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\BasicExecutionReportDetails.xaml.cs">
+      <DependentUpon>BasicExecutionReportDetails.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\BasicExecutionReportFlows.xaml.cs">
+      <DependentUpon>BasicExecutionReportFlows.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\BasicExecutionReportGenerator.cs" />
+    <Compile Include="ThreadSafeObservableCollection.cs" />
+    <Compile Include="ViewModel\IDiagramItemViewModel.cs" />
+    <Compile Include="ViewModel\MenuBarViewModel.cs" />
+    <Compile Include="ViewModel\ModelDesignerViewModel.cs" />
+    <Compile Include="ViewModel\ModelInfoViewModel.cs" />
+    <Compile Include="ViewModel\ProjectInfoViewModel.cs" />
+    <Compile Include="ViewModel\ProjectModelViewModel.cs" />
+    <Compile Include="ViewModel\ProjectProjectViewModel.cs" />
+    <Compile Include="ViewModel\ProjectScenarioViewModel.cs" />
+    <Compile Include="ViewModel\ProjectViewModel.cs" />
+    <Compile Include="ViewModel\ReportsViewModel.cs" />
+    <Compile Include="ViewModel\ReportViewModel.cs" />
+    <Compile Include="ViewModel\ScenarioInfoViewModel.cs" />
+    <Compile Include="ViewModel\ShapeBaseViewModel.cs" />
+    <Compile Include="ViewModel\StartViewModel.cs" />
+    <Compile Include="ViewModel\TestcaseCodeGeneration\TestcaseCodeGenerationViewModel.cs" />
+    <Compile Include="ViewModel\TestcaseCommonCommandsViewModel.cs" />
+    <Compile Include="ViewModel\TestcaseExecution\ExecutionLogItemViewModel.cs" />
+    <Compile Include="ViewModel\TestcaseExecution\ExecutionModelViewModel.cs" />
+    <Compile Include="ViewModel\TestcaseExecution\TestcaseExecutionCompositeViewModel.cs" />
+    <Compile Include="ViewModel\TestcaseConfiguration\AdapterViewModel.cs" />
+    <Compile Include="BootStrapper.cs" />
+    <Compile Include="Commands\UndoCommand.cs" />
+    <Compile Include="Constants.cs" />
+    <Compile Include="Controls\AnimatedTabControl\AnimatedTabControl.cs" />
+    <Compile Include="Controls\DataResource.cs" />
+    <Compile Include="Controls\DiagramControl\Adorners\ConnectionAdorner.cs" />
+    <Compile Include="Controls\DiagramControl\Adorners\ResizeThumb.cs" />
+    <Compile Include="Controls\DiagramControl\Adorners\RubberbandAdorner.cs" />
+    <Compile Include="Controls\DiagramControl\Converters\DefaultAngleCenterBinding.cs" />
+    <Compile Include="Controls\DiagramControl\Helpers\BindingHelper.cs" />
+    <Compile Include="Controls\DiagramControl\Helpers\InterSectionHelper.cs" />
+    <Compile Include="Controls\DiagramControl\Helpers\VisualTreeHelperEx.cs" />
+    <Compile Include="Controls\DiagramControl\Interfaces.cs" />
+    <Compile Include="Controls\DiagramControl\Services\Commands\AddStateCommand.cs" />
+    <Compile Include="Controls\DiagramControl\Services\Commands\AddTransitionCommand.cs" />
+    <Compile Include="Controls\DiagramControl\Services\Commands\ChangeSizeCommand.cs" />
+    <Compile Include="Controls\DiagramControl\Services\Commands\ChangeTransitionSourceCommand.cs" />
+    <Compile Include="Controls\DiagramControl\Services\Commands\ChangeTransitionDestinationCommand.cs" />
+    <Compile Include="Controls\DiagramControl\Services\Commands\PasteTransitionCommand.cs" />
+    <Compile Include="Controls\DiagramControl\Services\Commands\PasteStateCommand.cs" />
+    <Compile Include="Controls\DiagramControl\Services\Commands\DiagramCommandGroup.cs" />
+    <Compile Include="Controls\DiagramControl\Services\Commands\EditLabelCommand.cs" />
+    <Compile Include="Controls\DiagramControl\Services\Commands\RemoveElementCommand.cs" />
+    <Compile Include="Controls\DiagramControl\Services\Commands\IDiagramCommand.cs" />
+    <Compile Include="Controls\DiagramControl\Services\SelectionService.cs" />
+    <Compile Include="Controls\DiagramControl\Services\UndoService.cs" />
+    <Compile Include="Controls\DiagramControl\View\ConnectionExtension.cs" />
+    <Compile Include="Controls\DiagramControl\View\DiagramCanvas.cs" />
+    <Compile Include="Controls\DiagramControl\View\DiagramView.cs" />
+    <Compile Include="Controls\DiagramControl\View\DiagramViewer.xaml.cs">
+      <DependentUpon>DiagramViewer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\DiagramControl\View\DragSelectionExtension.cs" />
+    <Compile Include="Controls\DiagramControl\View\KeyboardInputExtension.cs" />
+    <Compile Include="Controls\DiagramControl\View\KeyboardStrategies\DeleteStrategy.cs" />
+    <Compile Include="Controls\DiagramControl\View\KeyboardStrategies\RenameStrategy.cs" />
+    <Compile Include="Controls\DiagramControl\Services\Commands\MoveStateCommand.cs" />
+    <Compile Include="Controls\DiagramControl\View\NearestNeighbourExtension.cs" />
+    <Compile Include="Controls\DiagramControl\View\NodeCreatorExtension.cs" />
+    <Compile Include="Controls\DiagramControl\View\RubberbandSelectionExtension.cs" />
+    <Compile Include="Controls\DiagramControl\View\SingleSelectionExtension.cs" />
+    <Compile Include="Controls\DiagramControl\View\SnapToGridRenderer.cs" />
+    <Compile Include="Controls\ISmartDiagramElement.cs" />
+    <Compile Include="Controls\RoundedBox.xaml.cs">
+      <DependentUpon>RoundedBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\SelectableTextBox.cs" />
+    <Compile Include="Controls\SlidingListBox\SlidingListBox.cs" />
+    <Compile Include="Converters\IStatisticToExportConverter.cs" />
+    <Compile Include="Converters\IStatisticToNameConverter.cs" />
+    <Compile Include="Commands\SmartCommands.cs" />
+    <Compile Include="Commands\LayoutCommand.cs" />
+    <Compile Include="Events\SmartUIEvent.cs" />
+    <Compile Include="Events\SmartUIEventBase.cs" />
+    <Compile Include="Commands\ToggleGridLinesCommand.cs" />
+    <Compile Include="RecentFileList.cs" />
+    <Compile Include="ViewModel\TestcaseConfiguration\AlgorithmCollectionViewModel.cs" />
+    <Compile Include="ViewModel\TestcaseConfiguration\AlgorithmViewModel.cs" />
+    <Compile Include="ViewModel\TestcaseConfiguration\AlgorithmTypeViewModel.cs" />
+    <Compile Include="ViewModel\TestcaseConfiguration\AdapterTypeViewModel.cs" />
+    <Compile Include="ViewModel\TestcaseConfiguration\ExecutionStopCriteriaTypeViewModel.cs" />
+    <Compile Include="ViewModel\TestcaseConfiguration\GenerationStopCriteriaTypeViewModel.cs" />
+    <Compile Include="ViewModel\TestcaseConfiguration\ExecutionStopCriteriaViewModel.cs" />
+    <Compile Include="ViewModel\TestcaseConfiguration\ExecutionStopCriteriaCollectionViewModel.cs" />
+    <Compile Include="ViewModel\TestcaseConfiguration\TestcaseConfigurationViewModel.cs" />
+    <Compile Include="ViewModel\TestcaseConfiguration\TestcaseConfigurationCollectionViewModel.cs" />
+    <Compile Include="ViewModel\TestcaseConfiguration\GenerationStopCriteriaViewModel.cs" />
+    <Compile Include="ViewModel\TestcaseConfiguration\GenerationStopCriteriaCollectionViewModel.cs" />
+    <Compile Include="ViewModel\IViewModel.cs" />
+    <Compile Include="ViewModel\TestcaseConfiguration\TestcaseConfigurationCompositeViewModel.cs" />
+    <Compile Include="ViewModel\TestcaseConfiguration\AdapterCollectionViewModel.cs" />
+    <Compile Include="ViewModel\TitleBarViewModel.cs" />
+    <Compile Include="ViewModel\TransitionViewModel.cs" />
+    <Compile Include="ViewModel\ProjectExplorer\TestcaseModelFolderViewModel.cs" />
+    <Compile Include="ViewModel\ProjectExplorer\ModelFolderViewModel.cs" />
+    <Compile Include="ViewModel\ProjectExplorer\IFolderViewModel.cs" />
+    <Compile Include="ViewModel\ProjectExplorer\ProjectExplorerViewModel.cs" />
+    <Compile Include="ViewModel\ProjectExplorer\ProjectFolderViewModel.cs" />
+    <Compile Include="ViewModel\ProjectExplorer\ResourceFolderViewModel.cs" />
+    <Compile Include="ViewModel\ProjectExplorer\RootModelFolderViewModel.cs" />
+    <Compile Include="ViewModel\ProjectExplorer\RootResourceFolderViewModel.cs" />
+    <Compile Include="ViewModel\ProjectExplorer\RootTestcaseFolderViewModel.cs" />
+    <Compile Include="ViewModel\ProjectExplorer\TestcaseFolderViewModel.cs" />
+    <Compile Include="ViewModel\StateViewModel.cs" />
+    <Compile Include="ViewModel\ViewModelFactory.cs" />
+    <Compile Include="View\ScenarioInfoView.xaml.cs">
+      <DependentUpon>ScenarioInfoView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ProjectInfoView.xaml.cs">
+      <DependentUpon>ProjectInfoView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\MainView.xaml.cs">
+      <DependentUpon>MainView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\MenuBarView.xaml.cs">
+      <DependentUpon>MenuBarView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ModelDesignerView.xaml.cs">
+      <DependentUpon>ModelDesignerView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ModelInfoView.xaml.cs">
+      <DependentUpon>ModelInfoView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ProjectView.xaml.cs">
+      <DependentUpon>ProjectView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ReportPreviewView.xaml.cs">
+      <DependentUpon>ReportPreviewView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ReportsView.xaml.cs">
+      <DependentUpon>ReportsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\StartView.xaml.cs">
+      <DependentUpon>StartView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\TestcaseCodeGeneration\TestcaseCodeGenerationView.xaml.cs">
+      <DependentUpon>TestcaseCodeGenerationView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\TestcaseCommonCommandsView.xaml.cs">
+      <DependentUpon>TestcaseCommonCommandsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\TestcaseConfiguration\AdapterCollectionView.xaml.cs">
+      <DependentUpon>AdapterCollectionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\TestcaseConfiguration\AlgorithmCollectionView.xaml.cs">
+      <DependentUpon>AlgorithmCollectionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\TestcaseConfiguration\ExecutionStopCriteriaCollectionView.xaml.cs">
+      <DependentUpon>ExecutionStopCriteriaCollectionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\TestcaseConfiguration\TestcaseConfigurationView.xaml.cs">
+      <DependentUpon>TestcaseConfigurationView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\TestcaseConfiguration\TestcaseConfigurationCollectionView.xaml.cs">
+      <DependentUpon>TestcaseConfigurationCollectionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\TestcaseConfiguration\GenerationStopCriteriaCollectionView.xaml.cs">
+      <DependentUpon>GenerationStopCriteriaCollectionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ModelView.xaml.cs">
+      <DependentUpon>ModelView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ProjectExplorer\ProjectExplorerView.xaml.cs">
+      <DependentUpon>ProjectExplorerView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Converters\DebugBindingExtension.cs" />
+    <Compile Include="Converters\DebugConvertor.cs" />
+    <Compile Include="ViewModel\ApplicationViewModel.cs" />
+    <Compile Include="Commands\RoutedActionCommad.cs" />
+    <Compile Include="ViewModel\ViewModelBase.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModel\ModelViewModel.cs" />
+    <Compile Include="View\TestcaseConfiguration\TestcaseConfigurationCompositeView.xaml.cs">
+      <DependentUpon>TestcaseConfigurationCompositeView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModel\ConfigSettingViewModel.cs" />
+    <Compile Include="View\TestcaseExecution\ExecutionModelView.xaml.cs">
+      <DependentUpon>ExecutionModelView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\TestcaseExecution\TestcaseExecutionCompositeView.xaml.cs">
+      <DependentUpon>TestcaseExecutionCompositeView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\TitleBarView.xaml.cs">
+      <DependentUpon>TitleBarView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ViewBase.cs" />
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <None Include="app.config" />
+    <None Include="Controls\FluidKit\Shaders\DynamicShader.fx" />
+    <None Include="Controls\FluidKit\Shaders\DynamicShader.ps" />
+    <None Include="Controls\FluidKit\Shaders\Warp.fx" />
+    <None Include="Controls\FluidKit\Shaders\Warp.ps" />
+    <None Include="Controls\FluidKit\Themes\images\Vista_Background.design" />
+    <None Include="Documentation\EULA.rtf" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\Clipboard.png" />
+    <Resource Include="Resources\Images\Copy.png" />
+    <Resource Include="Resources\Images\Cut.png" />
+    <Resource Include="Resources\Images\FolderOpen32.png" />
+    <Resource Include="Resources\Images\Logo_64.png" />
+    <Resource Include="Resources\Images\NewDocument.png" />
+    <Resource Include="Resources\Images\Paste16.png" />
+    <Resource Include="Resources\Images\Paste32.png" />
+    <Resource Include="Resources\Images\Pause.png" />
+    <Resource Include="Resources\Images\Redo.png" />
+    <Resource Include="Resources\Images\Restart.png" />
+    <Resource Include="Resources\Images\Run.png" />
+    <Resource Include="Resources\Images\Save32.png" />
+    <Resource Include="Resources\Images\SaveAs32.png" />
+    <Resource Include="Resources\Images\Stop.png" />
+    <Resource Include="Resources\Images\Undo.png" />
+    <Resource Include="Resources\Images\Undo_Redo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <SplashScreen Include="Resources\Images\NewLogo_SV_Yellow_01_228x101.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\layouts\hierarchical_classic.png" />
+    <Resource Include="Resources\Images\layouts\hierarchical_classic_48.png" />
+    <Resource Include="Resources\Images\layouts\hierarchical_interactive.png" />
+    <Resource Include="Resources\Images\layouts\organic_classic.png" />
+    <Resource Include="Resources\Images\layouts\organic_smart.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\layouts\hierarchical_interactive_48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\layouts\organic_classic_48.png" />
+    <Resource Include="Resources\Images\layouts\organic_smart_48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\layouts\circular.png" />
+    <Resource Include="Resources\Images\layouts\circular_48.png" />
+    <Resource Include="Resources\Images\layouts\tree.png" />
+    <Resource Include="Resources\Images\layouts\tree_48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\J832.Wpf.BagOTricksLibrary\J832.Wpf.BagOTricksLib.csproj">
+      <Project>{E4BBC94F-B837-4668-A127-E36E6DE012F5}</Project>
+      <Name>J832.Wpf.BagOTricksLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SMART.Base\SMART.Base.csproj">
+      <Project>{5D1DDB9B-7EFF-418C-8157-C0C7225AA7BE}</Project>
+      <Name>SMART.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SMART.Core.Services\SMART.Core.Services.csproj">
+      <Project>{BCE2DAE0-3857-4DFE-9578-9763199273F9}</Project>
+      <Name>SMART.Core.Services</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SMART.Core\SMART.Core.csproj">
+      <Project>{1EA7DECA-587D-4289-998A-0A58988F9E58}</Project>
+      <Name>SMART.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SMART.IOC\SMART.IOC.csproj">
+      <Project>{B1F62904-5760-49E0-8B51-6FADA7E004F9}</Project>
+      <Name>SMART.IOC</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\Project.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\OpenFolder.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\Project.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\Properties.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\Model.png" />
+    <Resource Include="Resources\Images\Model_Add.png" />
+    <Resource Include="Resources\Images\Model_Remove.png" />
+    <Resource Include="Resources\Images\TestCase_Add.png" />
+    <Resource Include="Resources\Images\TestCase_Remove.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\TestCase.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\system_verification_symbol_rgb.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 2.0 %28x86%29</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.0 %28x86%29</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons\accept.png" />
+    <Resource Include="Resources\Icons\add.png" />
+    <Resource Include="Resources\Icons\anchor.png" />
+    <Resource Include="Resources\Icons\application.png" />
+    <Resource Include="Resources\Icons\application_add.png" />
+    <Resource Include="Resources\Icons\application_cascade.png" />
+    <Resource Include="Resources\Icons\application_delete.png" />
+    <Resource Include="Resources\Icons\application_double.png" />
+    <Resource Include="Resources\Icons\application_edit.png" />
+    <Resource Include="Resources\Icons\application_error.png" />
+    <Resource Include="Resources\Icons\application_form.png" />
+    <Resource Include="Resources\Icons\application_form_add.png" />
+    <Resource Include="Resources\Icons\application_form_delete.png" />
+    <Resource Include="Resources\Icons\application_form_edit.png" />
+    <Resource Include="Resources\Icons\application_form_magnify.png" />
+    <Resource Include="Resources\Icons\application_get.png" />
+    <Resource Include="Resources\Icons\application_go.png" />
+    <Resource Include="Resources\Icons\application_home.png" />
+    <Resource Include="Resources\Icons\application_key.png" />
+    <Resource Include="Resources\Icons\application_lightning.png" />
+    <Resource Include="Resources\Icons\application_link.png" />
+    <Resource Include="Resources\Icons\application_osx.png" />
+    <Resource Include="Resources\Icons\application_osx_terminal.png" />
+    <Resource Include="Resources\Icons\application_put.png" />
+    <Resource Include="Resources\Icons\application_side_boxes.png" />
+    <Resource Include="Resources\Icons\application_side_contract.png" />
+    <Resource Include="Resources\Icons\application_side_expand.png" />
+    <Resource Include="Resources\Icons\application_side_list.png" />
+    <Resource Include="Resources\Icons\application_side_tree.png" />
+    <Resource Include="Resources\Icons\application_split.png" />
+    <Resource Include="Resources\Icons\application_tile_horizontal.png" />
+    <Resource Include="Resources\Icons\application_tile_vertical.png" />
+    <Resource Include="Resources\Icons\application_view_columns.png" />
+    <Resource Include="Resources\Icons\application_view_detail.png" />
+    <Resource Include="Resources\Icons\application_view_gallery.png" />
+    <Resource Include="Resources\Icons\application_view_icons.png" />
+    <Resource Include="Resources\Icons\application_view_list.png" />
+    <Resource Include="Resources\Icons\application_view_tile.png" />
+    <Resource Include="Resources\Icons\application_xp.png" />
+    <Resource Include="Resources\Icons\application_xp_terminal.png" />
+    <Resource Include="Resources\Icons\arrow_branch.png" />
+    <Resource Include="Resources\Icons\arrow_divide.png" />
+    <Resource Include="Resources\Icons\arrow_down.png" />
+    <Resource Include="Resources\Icons\arrow_in.png" />
+    <Resource Include="Resources\Icons\arrow_inout.png" />
+    <Resource Include="Resources\Icons\arrow_join.png" />
+    <Resource Include="Resources\Icons\arrow_left.png" />
+    <Resource Include="Resources\Icons\arrow_merge.png" />
+    <Resource Include="Resources\Icons\arrow_out.png" />
+    <Resource Include="Resources\Icons\arrow_redo.png" />
+    <Resource Include="Resources\Icons\arrow_refresh.png" />
+    <Resource Include="Resources\Icons\arrow_refresh_small.png" />
+    <Resource Include="Resources\Icons\arrow_right.png" />
+    <Resource Include="Resources\Icons\arrow_rotate_anticlockwise.png" />
+    <Resource Include="Resources\Icons\arrow_rotate_clockwise.png" />
+    <Resource Include="Resources\Icons\arrow_switch.png" />
+    <Resource Include="Resources\Icons\arrow_turn_left.png" />
+    <Resource Include="Resources\Icons\arrow_turn_right.png" />
+    <Resource Include="Resources\Icons\arrow_undo.png" />
+    <Resource Include="Resources\Icons\arrow_up.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons\asterisk_orange.png" />
+    <Resource Include="Resources\Icons\asterisk_yellow.png" />
+    <Resource Include="Resources\Icons\attach.png" />
+    <Resource Include="Resources\Icons\award_star_add.png" />
+    <Resource Include="Resources\Icons\award_star_bronze_1.png" />
+    <Resource Include="Resources\Icons\award_star_bronze_2.png" />
+    <Resource Include="Resources\Icons\award_star_bronze_3.png" />
+    <Resource Include="Resources\Icons\award_star_delete.png" />
+    <Resource Include="Resources\Icons\award_star_gold_1.png" />
+    <Resource Include="Resources\Icons\award_star_gold_2.png" />
+    <Resource Include="Resources\Icons\award_star_gold_3.png" />
+    <Resource Include="Resources\Icons\award_star_silver_1.png" />
+    <Resource Include="Resources\Icons\award_star_silver_2.png" />
+    <Resource Include="Resources\Icons\award_star_silver_3.png" />
+    <Resource Include="Resources\Icons\basket.png" />
+    <Resource Include="Resources\Icons\basket_add.png" />
+    <Resource Include="Resources\Icons\basket_delete.png" />
+    <Resource Include="Resources\Icons\basket_edit.png" />
+    <Resource Include="Resources\Icons\basket_error.png" />
+    <Resource Include="Resources\Icons\basket_go.png" />
+    <Resource Include="Resources\Icons\basket_put.png" />
+    <Resource Include="Resources\Icons\basket_remove.png" />
+    <Resource Include="Resources\Icons\bell.png" />
+    <Resource Include="Resources\Icons\bell_add.png" />
+    <Resource Include="Resources\Icons\bell_delete.png" />
+    <Resource Include="Resources\Icons\bell_error.png" />
+    <Resource Include="Resources\Icons\bell_go.png" />
+    <Resource Include="Resources\Icons\bell_link.png" />
+    <Resource Include="Resources\Icons\bin.png" />
+    <Resource Include="Resources\Icons\bin_closed.png" />
+    <Resource Include="Resources\Icons\bin_empty.png" />
+    <Resource Include="Resources\Icons\bomb.png" />
+    <Resource Include="Resources\Icons\book.png" />
+    <Resource Include="Resources\Icons\book_add.png" />
+    <Resource Include="Resources\Icons\book_addresses.png" />
+    <Resource Include="Resources\Icons\book_delete.png" />
+    <Resource Include="Resources\Icons\book_edit.png" />
+    <Resource Include="Resources\Icons\book_error.png" />
+    <Resource Include="Resources\Icons\book_go.png" />
+    <Resource Include="Resources\Icons\book_key.png" />
+    <Resource Include="Resources\Icons\book_link.png" />
+    <Resource Include="Resources\Icons\book_next.png" />
+    <Resource Include="Resources\Icons\book_open.png" />
+    <Resource Include="Resources\Icons\book_previous.png" />
+    <Resource Include="Resources\Icons\box.png" />
+    <Resource Include="Resources\Icons\brick.png" />
+    <Resource Include="Resources\Icons\bricks.png" />
+    <Resource Include="Resources\Icons\brick_add.png" />
+    <Resource Include="Resources\Icons\brick_delete.png" />
+    <Resource Include="Resources\Icons\brick_edit.png" />
+    <Resource Include="Resources\Icons\brick_error.png" />
+    <Resource Include="Resources\Icons\brick_go.png" />
+    <Resource Include="Resources\Icons\brick_link.png" />
+    <Resource Include="Resources\Icons\briefcase.png" />
+    <Resource Include="Resources\Icons\bug.png" />
+    <Resource Include="Resources\Icons\bug_add.png" />
+    <Resource Include="Resources\Icons\bug_delete.png" />
+    <Resource Include="Resources\Icons\bug_edit.png" />
+    <Resource Include="Resources\Icons\bug_error.png" />
+    <Resource Include="Resources\Icons\bug_go.png" />
+    <Resource Include="Resources\Icons\bug_link.png" />
+    <Resource Include="Resources\Icons\building.png" />
+    <Resource Include="Resources\Icons\building_add.png" />
+    <Resource Include="Resources\Icons\building_delete.png" />
+    <Resource Include="Resources\Icons\building_edit.png" />
+    <Resource Include="Resources\Icons\building_error.png" />
+    <Resource Include="Resources\Icons\building_go.png" />
+    <Resource Include="Resources\Icons\building_key.png" />
+    <Resource Include="Resources\Icons\building_link.png" />
+    <Resource Include="Resources\Icons\bullet_add.png" />
+    <Resource Include="Resources\Icons\bullet_arrow_bottom.png" />
+    <Resource Include="Resources\Icons\bullet_arrow_down.png" />
+    <Resource Include="Resources\Icons\bullet_arrow_top.png" />
+    <Resource Include="Resources\Icons\bullet_arrow_up.png" />
+    <Resource Include="Resources\Icons\bullet_black.png" />
+    <Resource Include="Resources\Icons\bullet_blue.png" />
+    <Resource Include="Resources\Icons\bullet_delete.png" />
+    <Resource Include="Resources\Icons\bullet_disk.png" />
+    <Resource Include="Resources\Icons\bullet_error.png" />
+    <Resource Include="Resources\Icons\bullet_feed.png" />
+    <Resource Include="Resources\Icons\bullet_go.png" />
+    <Resource Include="Resources\Icons\bullet_green.png" />
+    <Resource Include="Resources\Icons\bullet_key.png" />
+    <Resource Include="Resources\Icons\bullet_orange.png" />
+    <Resource Include="Resources\Icons\bullet_picture.png" />
+    <Resource Include="Resources\Icons\bullet_pink.png" />
+    <Resource Include="Resources\Icons\bullet_purple.png" />
+    <Resource Include="Resources\Icons\bullet_red.png" />
+    <Resource Include="Resources\Icons\bullet_star.png" />
+    <Resource Include="Resources\Icons\bullet_toggle_minus.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons\bullet_toggle_plus.png" />
+    <Resource Include="Resources\Icons\bullet_white.png" />
+    <Resource Include="Resources\Icons\bullet_wrench.png" />
+    <Resource Include="Resources\Icons\bullet_yellow.png" />
+    <Resource Include="Resources\Icons\cake.png" />
+    <Resource Include="Resources\Icons\calculator.png" />
+    <Resource Include="Resources\Icons\calculator_add.png" />
+    <Resource Include="Resources\Icons\calculator_delete.png" />
+    <Resource Include="Resources\Icons\calculator_edit.png" />
+    <Resource Include="Resources\Icons\calculator_error.png" />
+    <Resource Include="Resources\Icons\calculator_link.png" />
+    <Resource Include="Resources\Icons\calendar.png" />
+    <Resource Include="Resources\Icons\calendar_add.png" />
+    <Resource Include="Resources\Icons\calendar_delete.png" />
+    <Resource Include="Resources\Icons\calendar_edit.png" />
+    <Resource Include="Resources\Icons\calendar_link.png" />
+    <Resource Include="Resources\Icons\calendar_view_day.png" />
+    <Resource Include="Resources\Icons\calendar_view_month.png" />
+    <Resource Include="Resources\Icons\calendar_view_week.png" />
+    <Resource Include="Resources\Icons\camera.png" />
+    <Resource Include="Resources\Icons\camera_add.png" />
+    <Resource Include="Resources\Icons\camera_delete.png" />
+    <Resource Include="Resources\Icons\camera_edit.png" />
+    <Resource Include="Resources\Icons\camera_error.png" />
+    <Resource Include="Resources\Icons\camera_go.png" />
+    <Resource Include="Resources\Icons\camera_link.png" />
+    <Resource Include="Resources\Icons\camera_small.png" />
+    <Resource Include="Resources\Icons\cancel.png" />
+    <Resource Include="Resources\Icons\car.png" />
+    <Resource Include="Resources\Icons\cart.png" />
+    <Resource Include="Resources\Icons\cart_add.png" />
+    <Resource Include="Resources\Icons\cart_delete.png" />
+    <Resource Include="Resources\Icons\cart_edit.png" />
+    <Resource Include="Resources\Icons\cart_error.png" />
+    <Resource Include="Resources\Icons\cart_go.png" />
+    <Resource Include="Resources\Icons\cart_put.png" />
+    <Resource Include="Resources\Icons\cart_remove.png" />
+    <Resource Include="Resources\Icons\car_add.png" />
+    <Resource Include="Resources\Icons\car_delete.png" />
+    <Resource Include="Resources\Icons\cd.png" />
+    <Resource Include="Resources\Icons\cd_add.png" />
+    <Resource Include="Resources\Icons\cd_burn.png" />
+    <Resource Include="Resources\Icons\cd_delete.png" />
+    <Resource Include="Resources\Icons\cd_edit.png" />
+    <Resource Include="Resources\Icons\cd_eject.png" />
+    <Resource Include="Resources\Icons\cd_go.png" />
+    <Resource Include="Resources\Icons\chart_bar.png" />
+    <Resource Include="Resources\Icons\chart_bar_add.png" />
+    <Resource Include="Resources\Icons\chart_bar_delete.png" />
+    <Resource Include="Resources\Icons\chart_bar_edit.png" />
+    <Resource Include="Resources\Icons\chart_bar_error.png" />
+    <Resource Include="Resources\Icons\chart_bar_link.png" />
+    <Resource Include="Resources\Icons\chart_curve.png" />
+    <Resource Include="Resources\Icons\chart_curve_add.png" />
+    <Resource Include="Resources\Icons\chart_curve_delete.png" />
+    <Resource Include="Resources\Icons\chart_curve_edit.png" />
+    <Resource Include="Resources\Icons\chart_curve_error.png" />
+    <Resource Include="Resources\Icons\chart_curve_go.png" />
+    <Resource Include="Resources\Icons\chart_curve_link.png" />
+    <Resource Include="Resources\Icons\chart_line.png" />
+    <Resource Include="Resources\Icons\chart_line_add.png" />
+    <Resource Include="Resources\Icons\chart_line_delete.png" />
+    <Resource Include="Resources\Icons\chart_line_edit.png" />
+    <Resource Include="Resources\Icons\chart_line_error.png" />
+    <Resource Include="Resources\Icons\chart_line_link.png" />
+    <Resource Include="Resources\Icons\chart_organisation.png" />
+    <Resource Include="Resources\Icons\chart_organisation_add.png" />
+    <Resource Include="Resources\Icons\chart_organisation_delete.png" />
+    <Resource Include="Resources\Icons\chart_pie.png" />
+    <Resource Include="Resources\Icons\chart_pie_add.png" />
+    <Resource Include="Resources\Icons\chart_pie_delete.png" />
+    <Resource Include="Resources\Icons\chart_pie_edit.png" />
+    <Resource Include="Resources\Icons\chart_pie_error.png" />
+    <Resource Include="Resources\Icons\chart_pie_link.png" />
+    <Resource Include="Resources\Icons\clock.png" />
+    <Resource Include="Resources\Icons\clock_add.png" />
+    <Resource Include="Resources\Icons\clock_delete.png" />
+    <Resource Include="Resources\Icons\clock_edit.png" />
+    <Resource Include="Resources\Icons\clock_error.png" />
+    <Resource Include="Resources\Icons\clock_go.png" />
+    <Resource Include="Resources\Icons\clock_link.png" />
+    <Resource Include="Resources\Icons\clock_pause.png" />
+    <Resource Include="Resources\Icons\clock_play.png" />
+    <Resource Include="Resources\Icons\clock_red.png" />
+    <Resource Include="Resources\Icons\clock_stop.png" />
+    <Resource Include="Resources\Icons\cog.png" />
+    <Resource Include="Resources\Icons\cog_add.png" />
+    <Resource Include="Resources\Icons\cog_delete.png" />
+    <Resource Include="Resources\Icons\cog_edit.png" />
+    <Resource Include="Resources\Icons\cog_error.png" />
+    <Resource Include="Resources\Icons\cog_go.png" />
+    <Resource Include="Resources\Icons\coins.png" />
+    <Resource Include="Resources\Icons\coins_add.png" />
+    <Resource Include="Resources\Icons\coins_delete.png" />
+    <Resource Include="Resources\Icons\color_swatch.png" />
+    <Resource Include="Resources\Icons\color_wheel.png" />
+    <Resource Include="Resources\Icons\comment.png" />
+    <Resource Include="Resources\Icons\comments.png" />
+    <Resource Include="Resources\Icons\comments_add.png" />
+    <Resource Include="Resources\Icons\comments_delete.png" />
+    <Resource Include="Resources\Icons\comment_add.png" />
+    <Resource Include="Resources\Icons\comment_delete.png" />
+    <Resource Include="Resources\Icons\comment_edit.png" />
+    <Resource Include="Resources\Icons\compress.png" />
+    <Resource Include="Resources\Icons\computer.png" />
+    <Resource Include="Resources\Icons\computer_add.png" />
+    <Resource Include="Resources\Icons\computer_delete.png" />
+    <Resource Include="Resources\Icons\computer_edit.png" />
+    <Resource Include="Resources\Icons\computer_error.png" />
+    <Resource Include="Resources\Icons\computer_go.png" />
+    <Resource Include="Resources\Icons\computer_key.png" />
+    <Resource Include="Resources\Icons\computer_link.png" />
+    <Resource Include="Resources\Icons\connect.png" />
+    <Resource Include="Resources\Icons\contrast.png" />
+    <Resource Include="Resources\Icons\contrast_decrease.png" />
+    <Resource Include="Resources\Icons\contrast_high.png" />
+    <Resource Include="Resources\Icons\contrast_increase.png" />
+    <Resource Include="Resources\Icons\contrast_low.png" />
+    <Resource Include="Resources\Icons\controller.png" />
+    <Resource Include="Resources\Icons\controller_add.png" />
+    <Resource Include="Resources\Icons\controller_delete.png" />
+    <Resource Include="Resources\Icons\controller_error.png" />
+    <Resource Include="Resources\Icons\control_eject.png" />
+    <Resource Include="Resources\Icons\control_eject_blue.png" />
+    <Resource Include="Resources\Icons\control_end.png" />
+    <Resource Include="Resources\Icons\control_end_blue.png" />
+    <Resource Include="Resources\Icons\control_equalizer.png" />
+    <Resource Include="Resources\Icons\control_equalizer_blue.png" />
+    <Resource Include="Resources\Icons\control_fastforward.png" />
+    <Resource Include="Resources\Icons\control_fastforward_blue.png" />
+    <Resource Include="Resources\Icons\control_pause.png" />
+    <Resource Include="Resources\Icons\control_pause_blue.png" />
+    <Resource Include="Resources\Icons\control_play.png" />
+    <Resource Include="Resources\Icons\control_play_blue.png" />
+    <Resource Include="Resources\Icons\control_repeat.png" />
+    <Resource Include="Resources\Icons\control_repeat_blue.png" />
+    <Resource Include="Resources\Icons\control_rewind.png" />
+    <Resource Include="Resources\Icons\control_rewind_blue.png" />
+    <Resource Include="Resources\Icons\control_start.png" />
+    <Resource Include="Resources\Icons\control_start_blue.png" />
+    <Resource Include="Resources\Icons\control_stop.png" />
+    <Resource Include="Resources\Icons\control_stop_blue.png" />
+    <Resource Include="Resources\Icons\creditcards.png" />
+    <Resource Include="Resources\Icons\cross.png" />
+    <Resource Include="Resources\Icons\css.png" />
+    <Resource Include="Resources\Icons\css_add.png" />
+    <Resource Include="Resources\Icons\css_delete.png" />
+    <Resource Include="Resources\Icons\css_go.png" />
+    <Resource Include="Resources\Icons\css_valid.png" />
+    <Resource Include="Resources\Icons\cup.png" />
+    <Resource Include="Resources\Icons\cup_add.png" />
+    <Resource Include="Resources\Icons\cup_delete.png" />
+    <Resource Include="Resources\Icons\cup_edit.png" />
+    <Resource Include="Resources\Icons\cup_error.png" />
+    <Resource Include="Resources\Icons\cup_go.png" />
+    <Resource Include="Resources\Icons\cup_key.png" />
+    <Resource Include="Resources\Icons\cup_link.png" />
+    <Resource Include="Resources\Icons\cursor.png" />
+    <Resource Include="Resources\Icons\cut.png" />
+    <Resource Include="Resources\Icons\cut_red.png" />
+    <Resource Include="Resources\Icons\database.png" />
+    <Resource Include="Resources\Icons\database_add.png" />
+    <Resource Include="Resources\Icons\database_connect.png" />
+    <Resource Include="Resources\Icons\database_delete.png" />
+    <Resource Include="Resources\Icons\database_edit.png" />
+    <Resource Include="Resources\Icons\database_error.png" />
+    <Resource Include="Resources\Icons\database_gear.png" />
+    <Resource Include="Resources\Icons\database_go.png" />
+    <Resource Include="Resources\Icons\database_key.png" />
+    <Resource Include="Resources\Icons\database_lightning.png" />
+    <Resource Include="Resources\Icons\database_link.png" />
+    <Resource Include="Resources\Icons\database_refresh.png" />
+    <Resource Include="Resources\Icons\database_save.png" />
+    <Resource Include="Resources\Icons\database_table.png" />
+    <Resource Include="Resources\Icons\date.png" />
+    <Resource Include="Resources\Icons\date_add.png" />
+    <Resource Include="Resources\Icons\date_delete.png" />
+    <Resource Include="Resources\Icons\date_edit.png" />
+    <Resource Include="Resources\Icons\date_error.png" />
+    <Resource Include="Resources\Icons\date_go.png" />
+    <Resource Include="Resources\Icons\date_link.png" />
+    <Resource Include="Resources\Icons\date_magnify.png" />
+    <Resource Include="Resources\Icons\date_next.png" />
+    <Resource Include="Resources\Icons\date_previous.png" />
+    <Resource Include="Resources\Icons\delete.png" />
+    <Resource Include="Resources\Icons\disconnect.png" />
+    <Resource Include="Resources\Icons\disk.png" />
+    <Resource Include="Resources\Icons\disk_multiple.png" />
+    <Resource Include="Resources\Icons\door.png" />
+    <Resource Include="Resources\Icons\door_in.png" />
+    <Resource Include="Resources\Icons\door_open.png" />
+    <Resource Include="Resources\Icons\door_out.png" />
+    <Resource Include="Resources\Icons\drink.png" />
+    <Resource Include="Resources\Icons\drink_empty.png" />
+    <Resource Include="Resources\Icons\drive.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons\drive_add.png" />
+    <Resource Include="Resources\Icons\drive_burn.png" />
+    <Resource Include="Resources\Icons\drive_cd.png" />
+    <Resource Include="Resources\Icons\drive_cd_empty.png" />
+    <Resource Include="Resources\Icons\drive_delete.png" />
+    <Resource Include="Resources\Icons\drive_disk.png" />
+    <Resource Include="Resources\Icons\drive_edit.png" />
+    <Resource Include="Resources\Icons\drive_error.png" />
+    <Resource Include="Resources\Icons\drive_go.png" />
+    <Resource Include="Resources\Icons\drive_key.png" />
+    <Resource Include="Resources\Icons\drive_link.png" />
+    <Resource Include="Resources\Icons\drive_magnify.png" />
+    <Resource Include="Resources\Icons\drive_network.png" />
+    <Resource Include="Resources\Icons\drive_rename.png" />
+    <Resource Include="Resources\Icons\drive_user.png" />
+    <Resource Include="Resources\Icons\drive_web.png" />
+    <Resource Include="Resources\Icons\dvd.png" />
+    <Resource Include="Resources\Icons\dvd_add.png" />
+    <Resource Include="Resources\Icons\dvd_delete.png" />
+    <Resource Include="Resources\Icons\dvd_edit.png" />
+    <Resource Include="Resources\Icons\dvd_error.png" />
+    <Resource Include="Resources\Icons\dvd_go.png" />
+    <Resource Include="Resources\Icons\dvd_key.png" />
+    <Resource Include="Resources\Icons\dvd_link.png" />
+    <Resource Include="Resources\Icons\email.png" />
+    <Resource Include="Resources\Icons\email_add.png" />
+    <Resource Include="Resources\Icons\email_attach.png" />
+    <Resource Include="Resources\Icons\email_delete.png" />
+    <Resource Include="Resources\Icons\email_edit.png" />
+    <Resource Include="Resources\Icons\email_error.png" />
+    <Resource Include="Resources\Icons\email_go.png" />
+    <Resource Include="Resources\Icons\email_link.png" />
+    <Resource Include="Resources\Icons\email_open.png" />
+    <Resource Include="Resources\Icons\email_open_image.png" />
+    <Resource Include="Resources\Icons\emoticon_evilgrin.png" />
+    <Resource Include="Resources\Icons\emoticon_grin.png" />
+    <Resource Include="Resources\Icons\emoticon_happy.png" />
+    <Resource Include="Resources\Icons\emoticon_smile.png" />
+    <Resource Include="Resources\Icons\emoticon_surprised.png" />
+    <Resource Include="Resources\Icons\emoticon_tongue.png" />
+    <Resource Include="Resources\Icons\emoticon_unhappy.png" />
+    <Resource Include="Resources\Icons\emoticon_waii.png" />
+    <Resource Include="Resources\Icons\emoticon_wink.png" />
+    <Resource Include="Resources\Icons\error.png" />
+    <Resource Include="Resources\Icons\error_add.png" />
+    <Resource Include="Resources\Icons\error_delete.png" />
+    <Resource Include="Resources\Icons\error_go.png" />
+    <Resource Include="Resources\Icons\exclamation.png" />
+    <Resource Include="Resources\Icons\eye.png" />
+    <Resource Include="Resources\Icons\feed.png" />
+    <Resource Include="Resources\Icons\feed_add.png" />
+    <Resource Include="Resources\Icons\feed_delete.png" />
+    <Resource Include="Resources\Icons\feed_disk.png" />
+    <Resource Include="Resources\Icons\feed_edit.png" />
+    <Resource Include="Resources\Icons\feed_error.png" />
+    <Resource Include="Resources\Icons\feed_go.png" />
+    <Resource Include="Resources\Icons\feed_key.png" />
+    <Resource Include="Resources\Icons\feed_link.png" />
+    <Resource Include="Resources\Icons\feed_magnify.png" />
+    <Resource Include="Resources\Icons\female.png" />
+    <Resource Include="Resources\Icons\film.png" />
+    <Resource Include="Resources\Icons\film_add.png" />
+    <Resource Include="Resources\Icons\film_delete.png" />
+    <Resource Include="Resources\Icons\film_edit.png" />
+    <Resource Include="Resources\Icons\film_error.png" />
+    <Resource Include="Resources\Icons\film_go.png" />
+    <Resource Include="Resources\Icons\film_key.png" />
+    <Resource Include="Resources\Icons\film_link.png" />
+    <Resource Include="Resources\Icons\film_save.png" />
+    <Resource Include="Resources\Icons\find.png" />
+    <Resource Include="Resources\Icons\flag_blue.png" />
+    <Resource Include="Resources\Icons\flag_green.png" />
+    <Resource Include="Resources\Icons\flag_orange.png" />
+    <Resource Include="Resources\Icons\flag_pink.png" />
+    <Resource Include="Resources\Icons\flag_purple.png" />
+    <Resource Include="Resources\Icons\flag_red.png" />
+    <Resource Include="Resources\Icons\flag_yellow.png" />
+    <Resource Include="Resources\Icons\folder.png" />
+    <Resource Include="Resources\Icons\folder_add.png" />
+    <Resource Include="Resources\Icons\folder_bell.png" />
+    <Resource Include="Resources\Icons\folder_brick.png" />
+    <Resource Include="Resources\Icons\folder_bug.png" />
+    <Resource Include="Resources\Icons\folder_camera.png" />
+    <Resource Include="Resources\Icons\folder_database.png" />
+    <Resource Include="Resources\Icons\folder_delete.png" />
+    <Resource Include="Resources\Icons\folder_edit.png" />
+    <Resource Include="Resources\Icons\folder_error.png" />
+    <Resource Include="Resources\Icons\folder_explore.png" />
+    <Resource Include="Resources\Icons\folder_feed.png" />
+    <Resource Include="Resources\Icons\folder_find.png" />
+    <Resource Include="Resources\Icons\folder_go.png" />
+    <Resource Include="Resources\Icons\folder_heart.png" />
+    <Resource Include="Resources\Icons\folder_image.png" />
+    <Resource Include="Resources\Icons\folder_key.png" />
+    <Resource Include="Resources\Icons\folder_lightbulb.png" />
+    <Resource Include="Resources\Icons\folder_link.png" />
+    <Resource Include="Resources\Icons\folder_magnify.png" />
+    <Resource Include="Resources\Icons\folder_page.png" />
+    <Resource Include="Resources\Icons\folder_page_white.png" />
+    <Resource Include="Resources\Icons\folder_palette.png" />
+    <Resource Include="Resources\Icons\folder_picture.png" />
+    <Resource Include="Resources\Icons\folder_star.png" />
+    <Resource Include="Resources\Icons\folder_table.png" />
+    <Resource Include="Resources\Icons\folder_user.png" />
+    <Resource Include="Resources\Icons\folder_wrench.png" />
+    <Resource Include="Resources\Icons\font.png" />
+    <Resource Include="Resources\Icons\font_add.png" />
+    <Resource Include="Resources\Icons\font_delete.png" />
+    <Resource Include="Resources\Icons\font_go.png" />
+    <Resource Include="Resources\Icons\group.png" />
+    <Resource Include="Resources\Icons\group_add.png" />
+    <Resource Include="Resources\Icons\group_delete.png" />
+    <Resource Include="Resources\Icons\group_edit.png" />
+    <Resource Include="Resources\Icons\group_error.png" />
+    <Resource Include="Resources\Icons\group_gear.png" />
+    <Resource Include="Resources\Icons\group_go.png" />
+    <Resource Include="Resources\Icons\group_key.png" />
+    <Resource Include="Resources\Icons\group_link.png" />
+    <Resource Include="Resources\Icons\heart.png" />
+    <Resource Include="Resources\Icons\heart_add.png" />
+    <Resource Include="Resources\Icons\heart_delete.png" />
+    <Resource Include="Resources\Icons\help.png" />
+    <Resource Include="Resources\Icons\hourglass.png" />
+    <Resource Include="Resources\Icons\hourglass_add.png" />
+    <Resource Include="Resources\Icons\hourglass_delete.png" />
+    <Resource Include="Resources\Icons\hourglass_go.png" />
+    <Resource Include="Resources\Icons\hourglass_link.png" />
+    <Resource Include="Resources\Icons\house.png" />
+    <Resource Include="Resources\Icons\house_go.png" />
+    <Resource Include="Resources\Icons\house_link.png" />
+    <Resource Include="Resources\Icons\html.png" />
+    <Resource Include="Resources\Icons\html_add.png" />
+    <Resource Include="Resources\Icons\html_delete.png" />
+    <Resource Include="Resources\Icons\html_go.png" />
+    <Resource Include="Resources\Icons\html_valid.png" />
+    <Resource Include="Resources\Icons\image.png" />
+    <Resource Include="Resources\Icons\images.png" />
+    <Resource Include="Resources\Icons\image_add.png" />
+    <Resource Include="Resources\Icons\image_delete.png" />
+    <Resource Include="Resources\Icons\image_edit.png" />
+    <Resource Include="Resources\Icons\image_link.png" />
+    <Resource Include="Resources\Icons\information.png" />
+    <Resource Include="Resources\Icons\ipod.png" />
+    <Resource Include="Resources\Icons\ipod_cast.png" />
+    <Resource Include="Resources\Icons\ipod_cast_add.png" />
+    <Resource Include="Resources\Icons\ipod_cast_delete.png" />
+    <Resource Include="Resources\Icons\ipod_sound.png" />
+    <Resource Include="Resources\Icons\joystick.png" />
+    <Resource Include="Resources\Icons\joystick_add.png" />
+    <Resource Include="Resources\Icons\joystick_delete.png" />
+    <Resource Include="Resources\Icons\joystick_error.png" />
+    <Resource Include="Resources\Icons\key.png" />
+    <Resource Include="Resources\Icons\keyboard.png" />
+    <Resource Include="Resources\Icons\keyboard_add.png" />
+    <Resource Include="Resources\Icons\keyboard_delete.png" />
+    <Resource Include="Resources\Icons\keyboard_magnify.png" />
+    <Resource Include="Resources\Icons\key_add.png" />
+    <Resource Include="Resources\Icons\key_delete.png" />
+    <Resource Include="Resources\Icons\key_go.png" />
+    <Resource Include="Resources\Icons\layers.png" />
+    <Resource Include="Resources\Icons\layout.png" />
+    <Resource Include="Resources\Icons\layout_add.png" />
+    <Resource Include="Resources\Icons\layout_content.png" />
+    <Resource Include="Resources\Icons\layout_delete.png" />
+    <Resource Include="Resources\Icons\layout_edit.png" />
+    <Resource Include="Resources\Icons\layout_error.png" />
+    <Resource Include="Resources\Icons\layout_header.png" />
+    <Resource Include="Resources\Icons\layout_link.png" />
+    <Resource Include="Resources\Icons\layout_sidebar.png" />
+    <Resource Include="Resources\Icons\lightbulb.png" />
+    <Resource Include="Resources\Icons\lightbulb_add.png" />
+    <Resource Include="Resources\Icons\lightbulb_delete.png" />
+    <Resource Include="Resources\Icons\lightbulb_off.png" />
+    <Resource Include="Resources\Icons\lightning.png" />
+    <Resource Include="Resources\Icons\lightning_add.png" />
+    <Resource Include="Resources\Icons\lightning_delete.png" />
+    <Resource Include="Resources\Icons\lightning_go.png" />
+    <Resource Include="Resources\Icons\link.png" />
+    <Resource Include="Resources\Icons\link_add.png" />
+    <Resource Include="Resources\Icons\link_break.png" />
+    <Resource Include="Resources\Icons\link_delete.png" />
+    <Resource Include="Resources\Icons\link_edit.png" />
+    <Resource Include="Resources\Icons\link_error.png" />
+    <Resource Include="Resources\Icons\link_go.png" />
+    <Resource Include="Resources\Icons\lock.png" />
+    <Resource Include="Resources\Icons\lock_add.png" />
+    <Resource Include="Resources\Icons\lock_break.png" />
+    <Resource Include="Resources\Icons\lock_delete.png" />
+    <Resource Include="Resources\Icons\lock_edit.png" />
+    <Resource Include="Resources\Icons\lock_go.png" />
+    <Resource Include="Resources\Icons\lock_open.png" />
+    <Resource Include="Resources\Icons\lorry.png" />
+    <Resource Include="Resources\Icons\lorry_add.png" />
+    <Resource Include="Resources\Icons\lorry_delete.png" />
+    <Resource Include="Resources\Icons\lorry_error.png" />
+    <Resource Include="Resources\Icons\lorry_flatbed.png" />
+    <Resource Include="Resources\Icons\lorry_go.png" />
+    <Resource Include="Resources\Icons\lorry_link.png" />
+    <Resource Include="Resources\Icons\magifier_zoom_out.png" />
+    <Resource Include="Resources\Icons\magnifier.png" />
+    <Resource Include="Resources\Icons\magnifier_zoom_in.png" />
+    <Resource Include="Resources\Icons\male.png" />
+    <Resource Include="Resources\Icons\map.png" />
+    <Resource Include="Resources\Icons\map_add.png" />
+    <Resource Include="Resources\Icons\map_delete.png" />
+    <Resource Include="Resources\Icons\map_edit.png" />
+    <Resource Include="Resources\Icons\map_go.png" />
+    <Resource Include="Resources\Icons\map_magnify.png" />
+    <Resource Include="Resources\Icons\medal_bronze_1.png" />
+    <Resource Include="Resources\Icons\medal_bronze_2.png" />
+    <Resource Include="Resources\Icons\medal_bronze_3.png" />
+    <Resource Include="Resources\Icons\medal_bronze_add.png" />
+    <Resource Include="Resources\Icons\medal_bronze_delete.png" />
+    <Resource Include="Resources\Icons\medal_gold_1.png" />
+    <Resource Include="Resources\Icons\medal_gold_2.png" />
+    <Resource Include="Resources\Icons\medal_gold_3.png" />
+    <Resource Include="Resources\Icons\medal_gold_add.png" />
+    <Resource Include="Resources\Icons\medal_gold_delete.png" />
+    <Resource Include="Resources\Icons\medal_silver_1.png" />
+    <Resource Include="Resources\Icons\medal_silver_2.png" />
+    <Resource Include="Resources\Icons\medal_silver_3.png" />
+    <Resource Include="Resources\Icons\medal_silver_add.png" />
+    <Resource Include="Resources\Icons\medal_silver_delete.png" />
+    <Resource Include="Resources\Icons\money.png" />
+    <Resource Include="Resources\Icons\money_add.png" />
+    <Resource Include="Resources\Icons\money_delete.png" />
+    <Resource Include="Resources\Icons\money_dollar.png" />
+    <Resource Include="Resources\Icons\money_euro.png" />
+    <Resource Include="Resources\Icons\money_pound.png" />
+    <Resource Include="Resources\Icons\money_yen.png" />
+    <Resource Include="Resources\Icons\monitor.png" />
+    <Resource Include="Resources\Icons\monitor_add.png" />
+    <Resource Include="Resources\Icons\monitor_delete.png" />
+    <Resource Include="Resources\Icons\monitor_edit.png" />
+    <Resource Include="Resources\Icons\monitor_error.png" />
+    <Resource Include="Resources\Icons\monitor_go.png" />
+    <Resource Include="Resources\Icons\monitor_lightning.png" />
+    <Resource Include="Resources\Icons\monitor_link.png" />
+    <Resource Include="Resources\Icons\mouse.png" />
+    <Resource Include="Resources\Icons\mouse_add.png" />
+    <Resource Include="Resources\Icons\mouse_delete.png" />
+    <Resource Include="Resources\Icons\mouse_error.png" />
+    <Resource Include="Resources\Icons\music.png" />
+    <Resource Include="Resources\Icons\new.png" />
+    <Resource Include="Resources\Icons\newspaper.png" />
+    <Resource Include="Resources\Icons\newspaper_add.png" />
+    <Resource Include="Resources\Icons\newspaper_delete.png" />
+    <Resource Include="Resources\Icons\newspaper_go.png" />
+    <Resource Include="Resources\Icons\newspaper_link.png" />
+    <Resource Include="Resources\Icons\note.png" />
+    <Resource Include="Resources\Icons\note_add.png" />
+    <Resource Include="Resources\Icons\note_delete.png" />
+    <Resource Include="Resources\Icons\note_edit.png" />
+    <Resource Include="Resources\Icons\note_error.png" />
+    <Resource Include="Resources\Icons\note_go.png" />
+    <Resource Include="Resources\Icons\overlays.png" />
+    <Resource Include="Resources\Icons\package.png" />
+    <Resource Include="Resources\Icons\package_add.png" />
+    <Resource Include="Resources\Icons\package_delete.png" />
+    <Resource Include="Resources\Icons\package_go.png" />
+    <Resource Include="Resources\Icons\package_green.png" />
+    <Resource Include="Resources\Icons\package_link.png" />
+    <Resource Include="Resources\Icons\page.png" />
+    <Resource Include="Resources\Icons\page_add.png" />
+    <Resource Include="Resources\Icons\page_attach.png" />
+    <Resource Include="Resources\Icons\page_code.png" />
+    <Resource Include="Resources\Icons\page_copy.png" />
+    <Resource Include="Resources\Icons\page_delete.png" />
+    <Resource Include="Resources\Icons\page_edit.png" />
+    <Resource Include="Resources\Icons\page_error.png" />
+    <Resource Include="Resources\Icons\page_excel.png" />
+    <Resource Include="Resources\Icons\page_find.png" />
+    <Resource Include="Resources\Icons\page_gear.png" />
+    <Resource Include="Resources\Icons\page_go.png" />
+    <Resource Include="Resources\Icons\page_green.png" />
+    <Resource Include="Resources\Icons\page_key.png" />
+    <Resource Include="Resources\Icons\page_lightning.png" />
+    <Resource Include="Resources\Icons\page_link.png" />
+    <Resource Include="Resources\Icons\page_paintbrush.png" />
+    <Resource Include="Resources\Icons\page_paste.png" />
+    <Resource Include="Resources\Icons\page_red.png" />
+    <Resource Include="Resources\Icons\page_refresh.png" />
+    <Resource Include="Resources\Icons\page_save.png" />
+    <Resource Include="Resources\Icons\page_white.png" />
+    <Resource Include="Resources\Icons\page_white_acrobat.png" />
+    <Resource Include="Resources\Icons\page_white_actionscript.png" />
+    <Resource Include="Resources\Icons\page_white_add.png" />
+    <Resource Include="Resources\Icons\page_white_c.png" />
+    <Resource Include="Resources\Icons\page_white_camera.png" />
+    <Resource Include="Resources\Icons\page_white_cd.png" />
+    <Resource Include="Resources\Icons\page_white_code.png" />
+    <Resource Include="Resources\Icons\page_white_code_red.png" />
+    <Resource Include="Resources\Icons\page_white_coldfusion.png" />
+    <Resource Include="Resources\Icons\page_white_compressed.png" />
+    <Resource Include="Resources\Icons\page_white_copy.png" />
+    <Resource Include="Resources\Icons\page_white_cplusplus.png" />
+    <Resource Include="Resources\Icons\page_white_csharp.png" />
+    <Resource Include="Resources\Icons\page_white_cup.png" />
+    <Resource Include="Resources\Icons\page_white_database.png" />
+    <Resource Include="Resources\Icons\page_white_delete.png" />
+    <Resource Include="Resources\Icons\page_white_dvd.png" />
+    <Resource Include="Resources\Icons\page_white_edit.png" />
+    <Resource Include="Resources\Icons\page_white_error.png" />
+    <Resource Include="Resources\Icons\page_white_excel.png" />
+    <Resource Include="Resources\Icons\page_white_find.png" />
+    <Resource Include="Resources\Icons\page_white_flash.png" />
+    <Resource Include="Resources\Icons\page_white_freehand.png" />
+    <Resource Include="Resources\Icons\page_white_gear.png" />
+    <Resource Include="Resources\Icons\page_white_get.png" />
+    <Resource Include="Resources\Icons\page_white_go.png" />
+    <Resource Include="Resources\Icons\page_white_h.png" />
+    <Resource Include="Resources\Icons\page_white_horizontal.png" />
+    <Resource Include="Resources\Icons\page_white_key.png" />
+    <Resource Include="Resources\Icons\page_white_lightning.png" />
+    <Resource Include="Resources\Icons\page_white_link.png" />
+    <Resource Include="Resources\Icons\page_white_magnify.png" />
+    <Resource Include="Resources\Icons\page_white_medal.png" />
+    <Resource Include="Resources\Icons\page_white_office.png" />
+    <Resource Include="Resources\Icons\page_white_paint.png" />
+    <Resource Include="Resources\Icons\page_white_paintbrush.png" />
+    <Resource Include="Resources\Icons\page_white_paste.png" />
+    <Resource Include="Resources\Icons\page_white_php.png" />
+    <Resource Include="Resources\Icons\page_white_picture.png" />
+    <Resource Include="Resources\Icons\page_white_powerpoint.png" />
+    <Resource Include="Resources\Icons\page_white_put.png" />
+    <Resource Include="Resources\Icons\page_white_ruby.png" />
+    <Resource Include="Resources\Icons\page_white_stack.png" />
+    <Resource Include="Resources\Icons\page_white_star.png" />
+    <Resource Include="Resources\Icons\page_white_swoosh.png" />
+    <Resource Include="Resources\Icons\page_white_text.png" />
+    <Resource Include="Resources\Icons\page_white_text_width.png" />
+    <Resource Include="Resources\Icons\page_white_tux.png" />
+    <Resource Include="Resources\Icons\page_white_vector.png" />
+    <Resource Include="Resources\Icons\page_white_visualstudio.png" />
+    <Resource Include="Resources\Icons\page_white_width.png" />
+    <Resource Include="Resources\Icons\page_white_word.png" />
+    <Resource Include="Resources\Icons\page_white_world.png" />
+    <Resource Include="Resources\Icons\page_white_wrench.png" />
+    <Resource Include="Resources\Icons\page_white_zip.png" />
+    <Resource Include="Resources\Icons\page_word.png" />
+    <Resource Include="Resources\Icons\page_world.png" />
+    <Resource Include="Resources\Icons\paintbrush.png" />
+    <Resource Include="Resources\Icons\paintcan.png" />
+    <Resource Include="Resources\Icons\palette.png" />
+    <Resource Include="Resources\Icons\paste_plain.png" />
+    <Resource Include="Resources\Icons\paste_word.png" />
+    <Resource Include="Resources\Icons\pencil.png" />
+    <Resource Include="Resources\Icons\pencil_add.png" />
+    <Resource Include="Resources\Icons\pencil_delete.png" />
+    <Resource Include="Resources\Icons\pencil_go.png" />
+    <Resource Include="Resources\Icons\phone.png" />
+    <Resource Include="Resources\Icons\phone_add.png" />
+    <Resource Include="Resources\Icons\phone_delete.png" />
+    <Resource Include="Resources\Icons\phone_sound.png" />
+    <Resource Include="Resources\Icons\photo.png" />
+    <Resource Include="Resources\Icons\photos.png" />
+    <Resource Include="Resources\Icons\photo_add.png" />
+    <Resource Include="Resources\Icons\photo_delete.png" />
+    <Resource Include="Resources\Icons\photo_link.png" />
+    <Resource Include="Resources\Icons\picture.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons\pictures.png" />
+    <Resource Include="Resources\Icons\picture_add.png" />
+    <Resource Include="Resources\Icons\picture_delete.png" />
+    <Resource Include="Resources\Icons\picture_edit.png" />
+    <Resource Include="Resources\Icons\picture_empty.png" />
+    <Resource Include="Resources\Icons\picture_error.png" />
+    <Resource Include="Resources\Icons\picture_go.png" />
+    <Resource Include="Resources\Icons\picture_key.png" />
+    <Resource Include="Resources\Icons\picture_link.png" />
+    <Resource Include="Resources\Icons\picture_save.png" />
+    <Resource Include="Resources\Icons\pilcrow.png" />
+    <Resource Include="Resources\Icons\pill.png" />
+    <Resource Include="Resources\Icons\pill_add.png" />
+    <Resource Include="Resources\Icons\pill_delete.png" />
+    <Resource Include="Resources\Icons\pill_go.png" />
+    <Resource Include="Resources\Icons\plugin.png" />
+    <Resource Include="Resources\Icons\plugin_add.png" />
+    <Resource Include="Resources\Icons\plugin_delete.png" />
+    <Resource Include="Resources\Icons\plugin_disabled.png" />
+    <Resource Include="Resources\Icons\plugin_edit.png" />
+    <Resource Include="Resources\Icons\plugin_error.png" />
+    <Resource Include="Resources\Icons\plugin_go.png" />
+    <Resource Include="Resources\Icons\plugin_link.png" />
+    <Resource Include="Resources\Icons\printer.png" />
+    <Resource Include="Resources\Icons\printer_add.png" />
+    <Resource Include="Resources\Icons\printer_delete.png" />
+    <Resource Include="Resources\Icons\printer_empty.png" />
+    <Resource Include="Resources\Icons\printer_error.png" />
+    <Resource Include="Resources\Icons\rainbow.png" />
+    <Resource Include="Resources\Icons\report.png" />
+    <Resource Include="Resources\Icons\report_add.png" />
+    <Resource Include="Resources\Icons\report_delete.png" />
+    <Resource Include="Resources\Icons\report_disk.png" />
+    <Resource Include="Resources\Icons\report_edit.png" />
+    <Resource Include="Resources\Icons\report_go.png" />
+    <Resource Include="Resources\Icons\report_key.png" />
+    <Resource Include="Resources\Icons\report_link.png" />
+    <Resource Include="Resources\Icons\report_magnify.png" />
+    <Resource Include="Resources\Icons\report_picture.png" />
+    <Resource Include="Resources\Icons\report_user.png" />
+    <Resource Include="Resources\Icons\report_word.png" />
+    <Resource Include="Resources\Icons\resultset_first.png" />
+    <Resource Include="Resources\Icons\resultset_last.png" />
+    <Resource Include="Resources\Icons\resultset_next.png" />
+    <Resource Include="Resources\Icons\resultset_previous.png" />
+    <Resource Include="Resources\Icons\rosette.png" />
+    <Resource Include="Resources\Icons\rss.png" />
+    <Resource Include="Resources\Icons\rss_add.png" />
+    <Resource Include="Resources\Icons\rss_delete.png" />
+    <Resource Include="Resources\Icons\rss_go.png" />
+    <Resource Include="Resources\Icons\rss_valid.png" />
+    <Resource Include="Resources\Icons\ruby.png" />
+    <Resource Include="Resources\Icons\ruby_add.png" />
+    <Resource Include="Resources\Icons\ruby_delete.png" />
+    <Resource Include="Resources\Icons\ruby_gear.png" />
+    <Resource Include="Resources\Icons\ruby_get.png" />
+    <Resource Include="Resources\Icons\ruby_go.png" />
+    <Resource Include="Resources\Icons\ruby_key.png" />
+    <Resource Include="Resources\Icons\ruby_link.png" />
+    <Resource Include="Resources\Icons\ruby_put.png" />
+    <Resource Include="Resources\Icons\script.png" />
+    <Resource Include="Resources\Icons\script_add.png" />
+    <Resource Include="Resources\Icons\script_code.png" />
+    <Resource Include="Resources\Icons\script_code_red.png" />
+    <Resource Include="Resources\Icons\script_delete.png" />
+    <Resource Include="Resources\Icons\script_edit.png" />
+    <Resource Include="Resources\Icons\script_error.png" />
+    <Resource Include="Resources\Icons\script_gear.png" />
+    <Resource Include="Resources\Icons\script_go.png" />
+    <Resource Include="Resources\Icons\script_key.png" />
+    <Resource Include="Resources\Icons\script_lightning.png" />
+    <Resource Include="Resources\Icons\script_link.png" />
+    <Resource Include="Resources\Icons\script_palette.png" />
+    <Resource Include="Resources\Icons\script_save.png" />
+    <Resource Include="Resources\Icons\server.png" />
+    <Resource Include="Resources\Icons\server_add.png" />
+    <Resource Include="Resources\Icons\server_chart.png" />
+    <Resource Include="Resources\Icons\server_compressed.png" />
+    <Resource Include="Resources\Icons\server_connect.png" />
+    <Resource Include="Resources\Icons\server_database.png" />
+    <Resource Include="Resources\Icons\server_delete.png" />
+    <Resource Include="Resources\Icons\server_edit.png" />
+    <Resource Include="Resources\Icons\server_error.png" />
+    <Resource Include="Resources\Icons\server_go.png" />
+    <Resource Include="Resources\Icons\server_key.png" />
+    <Resource Include="Resources\Icons\server_lightning.png" />
+    <Resource Include="Resources\Icons\server_link.png" />
+    <Resource Include="Resources\Icons\server_uncompressed.png" />
+    <Resource Include="Resources\Icons\shading.png" />
+    <Resource Include="Resources\Icons\shape_align_bottom.png" />
+    <Resource Include="Resources\Icons\shape_align_center.png" />
+    <Resource Include="Resources\Icons\shape_align_left.png" />
+    <Resource Include="Resources\Icons\shape_align_middle.png" />
+    <Resource Include="Resources\Icons\shape_align_right.png" />
+    <Resource Include="Resources\Icons\shape_align_top.png" />
+    <Resource Include="Resources\Icons\shape_flip_horizontal.png" />
+    <Resource Include="Resources\Icons\shape_flip_vertical.png" />
+    <Resource Include="Resources\Icons\shape_group.png" />
+    <Resource Include="Resources\Icons\shape_handles.png" />
+    <Resource Include="Resources\Icons\shape_move_back.png" />
+    <Resource Include="Resources\Icons\shape_move_backwards.png" />
+    <Resource Include="Resources\Icons\shape_move_forwards.png" />
+    <Resource Include="Resources\Icons\shape_move_front.png" />
+    <Resource Include="Resources\Icons\shape_rotate_anticlockwise.png" />
+    <Resource Include="Resources\Icons\shape_rotate_clockwise.png" />
+    <Resource Include="Resources\Icons\shape_square.png" />
+    <Resource Include="Resources\Icons\shape_square_add.png" />
+    <Resource Include="Resources\Icons\shape_square_delete.png" />
+    <Resource Include="Resources\Icons\shape_square_edit.png" />
+    <Resource Include="Resources\Icons\shape_square_error.png" />
+    <Resource Include="Resources\Icons\shape_square_go.png" />
+    <Resource Include="Resources\Icons\shape_square_key.png" />
+    <Resource Include="Resources\Icons\shape_square_link.png" />
+    <Resource Include="Resources\Icons\shape_ungroup.png" />
+    <Resource Include="Resources\Icons\shield.png" />
+    <Resource Include="Resources\Icons\shield_add.png" />
+    <Resource Include="Resources\Icons\shield_delete.png" />
+    <Resource Include="Resources\Icons\shield_go.png" />
+    <Resource Include="Resources\Icons\sitemap.png" />
+    <Resource Include="Resources\Icons\sitemap_color.png" />
+    <Resource Include="Resources\Icons\sound.png" />
+    <Resource Include="Resources\Icons\sound_add.png" />
+    <Resource Include="Resources\Icons\sound_delete.png" />
+    <Resource Include="Resources\Icons\sound_low.png" />
+    <Resource Include="Resources\Icons\sound_mute.png" />
+    <Resource Include="Resources\Icons\sound_none.png" />
+    <Resource Include="Resources\Icons\spellcheck.png" />
+    <Resource Include="Resources\Icons\sport_8ball.png" />
+    <Resource Include="Resources\Icons\sport_basketball.png" />
+    <Resource Include="Resources\Icons\sport_football.png" />
+    <Resource Include="Resources\Icons\sport_golf.png" />
+    <Resource Include="Resources\Icons\sport_raquet.png" />
+    <Resource Include="Resources\Icons\sport_shuttlecock.png" />
+    <Resource Include="Resources\Icons\sport_soccer.png" />
+    <Resource Include="Resources\Icons\sport_tennis.png" />
+    <Resource Include="Resources\Icons\star.png" />
+    <Resource Include="Resources\Icons\status_away.png" />
+    <Resource Include="Resources\Icons\status_busy.png" />
+    <Resource Include="Resources\Icons\status_offline.png" />
+    <Resource Include="Resources\Icons\status_online.png" />
+    <Resource Include="Resources\Icons\stop.png" />
+    <Resource Include="Resources\Icons\style.png" />
+    <Resource Include="Resources\Icons\style_add.png" />
+    <Resource Include="Resources\Icons\style_delete.png" />
+    <Resource Include="Resources\Icons\style_edit.png" />
+    <Resource Include="Resources\Icons\style_go.png" />
+    <Resource Include="Resources\Icons\sum.png" />
+    <Resource Include="Resources\Icons\tab.png" />
+    <Resource Include="Resources\Icons\table.png" />
+    <Resource Include="Resources\Icons\table_add.png" />
+    <Resource Include="Resources\Icons\table_delete.png" />
+    <Resource Include="Resources\Icons\table_edit.png" />
+    <Resource Include="Resources\Icons\table_error.png" />
+    <Resource Include="Resources\Icons\table_gear.png" />
+    <Resource Include="Resources\Icons\table_go.png" />
+    <Resource Include="Resources\Icons\table_key.png" />
+    <Resource Include="Resources\Icons\table_lightning.png" />
+    <Resource Include="Resources\Icons\table_link.png" />
+    <Resource Include="Resources\Icons\table_multiple.png" />
+    <Resource Include="Resources\Icons\table_refresh.png" />
+    <Resource Include="Resources\Icons\table_relationship.png" />
+    <Resource Include="Resources\Icons\table_row_delete.png" />
+    <Resource Include="Resources\Icons\table_row_insert.png" />
+    <Resource Include="Resources\Icons\table_save.png" />
+    <Resource Include="Resources\Icons\table_sort.png" />
+    <Resource Include="Resources\Icons\tab_add.png" />
+    <Resource Include="Resources\Icons\tab_delete.png" />
+    <Resource Include="Resources\Icons\tab_edit.png" />
+    <Resource Include="Resources\Icons\tab_go.png" />
+    <Resource Include="Resources\Icons\tag.png" />
+    <Resource Include="Resources\Icons\tag_blue.png" />
+    <Resource Include="Resources\Icons\tag_blue_add.png" />
+    <Resource Include="Resources\Icons\tag_blue_delete.png" />
+    <Resource Include="Resources\Icons\tag_blue_edit.png" />
+    <Resource Include="Resources\Icons\tag_green.png" />
+    <Resource Include="Resources\Icons\tag_orange.png" />
+    <Resource Include="Resources\Icons\tag_pink.png" />
+    <Resource Include="Resources\Icons\tag_purple.png" />
+    <Resource Include="Resources\Icons\tag_red.png" />
+    <Resource Include="Resources\Icons\tag_yellow.png" />
+    <Resource Include="Resources\Icons\telephone.png" />
+    <Resource Include="Resources\Icons\telephone_add.png" />
+    <Resource Include="Resources\Icons\telephone_delete.png" />
+    <Resource Include="Resources\Icons\telephone_edit.png" />
+    <Resource Include="Resources\Icons\telephone_error.png" />
+    <Resource Include="Resources\Icons\telephone_go.png" />
+    <Resource Include="Resources\Icons\telephone_key.png" />
+    <Resource Include="Resources\Icons\telephone_link.png" />
+    <Resource Include="Resources\Icons\television.png" />
+    <Resource Include="Resources\Icons\television_add.png" />
+    <Resource Include="Resources\Icons\television_delete.png" />
+    <Resource Include="Resources\Icons\textfield.png" />
+    <Resource Include="Resources\Icons\textfield_add.png" />
+    <Resource Include="Resources\Icons\textfield_delete.png" />
+    <Resource Include="Resources\Icons\textfield_key.png" />
+    <Resource Include="Resources\Icons\textfield_rename.png" />
+    <Resource Include="Resources\Icons\text_align_center.png" />
+    <Resource Include="Resources\Icons\text_align_justify.png" />
+    <Resource Include="Resources\Icons\text_align_left.png" />
+    <Resource Include="Resources\Icons\text_align_right.png" />
+    <Resource Include="Resources\Icons\text_allcaps.png" />
+    <Resource Include="Resources\Icons\text_bold.png" />
+    <Resource Include="Resources\Icons\text_columns.png" />
+    <Resource Include="Resources\Icons\text_dropcaps.png" />
+    <Resource Include="Resources\Icons\text_heading_1.png" />
+    <Resource Include="Resources\Icons\text_heading_2.png" />
+    <Resource Include="Resources\Icons\text_heading_3.png" />
+    <Resource Include="Resources\Icons\text_heading_4.png" />
+    <Resource Include="Resources\Icons\text_heading_5.png" />
+    <Resource Include="Resources\Icons\text_heading_6.png" />
+    <Resource Include="Resources\Icons\text_horizontalrule.png" />
+    <Resource Include="Resources\Icons\text_indent.png" />
+    <Resource Include="Resources\Icons\text_indent_remove.png" />
+    <Resource Include="Resources\Icons\text_italic.png" />
+    <Resource Include="Resources\Icons\text_kerning.png" />
+    <Resource Include="Resources\Icons\text_letterspacing.png" />
+    <Resource Include="Resources\Icons\text_letter_omega.png" />
+    <Resource Include="Resources\Icons\text_linespacing.png" />
+    <Resource Include="Resources\Icons\text_list_bullets.png" />
+    <Resource Include="Resources\Icons\text_list_numbers.png" />
+    <Resource Include="Resources\Icons\text_lowercase.png" />
+    <Resource Include="Resources\Icons\text_padding_bottom.png" />
+    <Resource Include="Resources\Icons\text_padding_left.png" />
+    <Resource Include="Resources\Icons\text_padding_right.png" />
+    <Resource Include="Resources\Icons\text_padding_top.png" />
+    <Resource Include="Resources\Icons\text_replace.png" />
+    <Resource Include="Resources\Icons\text_signature.png" />
+    <Resource Include="Resources\Icons\text_smallcaps.png" />
+    <Resource Include="Resources\Icons\text_strikethrough.png" />
+    <Resource Include="Resources\Icons\text_subscript.png" />
+    <Resource Include="Resources\Icons\text_superscript.png" />
+    <Resource Include="Resources\Icons\text_underline.png" />
+    <Resource Include="Resources\Icons\text_uppercase.png" />
+    <Resource Include="Resources\Icons\thumb_down.png" />
+    <Resource Include="Resources\Icons\thumb_up.png" />
+    <Resource Include="Resources\Icons\tick.png" />
+    <Resource Include="Resources\Icons\time.png" />
+    <Resource Include="Resources\Icons\timeline_marker.png" />
+    <Resource Include="Resources\Icons\time_add.png" />
+    <Resource Include="Resources\Icons\time_delete.png" />
+    <Resource Include="Resources\Icons\time_go.png" />
+    <Resource Include="Resources\Icons\transmit.png" />
+    <Resource Include="Resources\Icons\transmit_add.png" />
+    <Resource Include="Resources\Icons\transmit_blue.png" />
+    <Resource Include="Resources\Icons\transmit_delete.png" />
+    <Resource Include="Resources\Icons\transmit_edit.png" />
+    <Resource Include="Resources\Icons\transmit_error.png" />
+    <Resource Include="Resources\Icons\transmit_go.png" />
+    <Resource Include="Resources\Icons\tux.png" />
+    <Resource Include="Resources\Icons\user.png" />
+    <Resource Include="Resources\Icons\user_add.png" />
+    <Resource Include="Resources\Icons\user_comment.png" />
+    <Resource Include="Resources\Icons\user_delete.png" />
+    <Resource Include="Resources\Icons\user_edit.png" />
+    <Resource Include="Resources\Icons\user_female.png" />
+    <Resource Include="Resources\Icons\user_go.png" />
+    <Resource Include="Resources\Icons\user_gray.png" />
+    <Resource Include="Resources\Icons\user_green.png" />
+    <Resource Include="Resources\Icons\user_orange.png" />
+    <Resource Include="Resources\Icons\user_red.png" />
+    <Resource Include="Resources\Icons\user_suit.png" />
+    <Resource Include="Resources\Icons\vcard.png" />
+    <Resource Include="Resources\Icons\vcard_add.png" />
+    <Resource Include="Resources\Icons\vcard_delete.png" />
+    <Resource Include="Resources\Icons\vcard_edit.png" />
+    <Resource Include="Resources\Icons\vector.png" />
+    <Resource Include="Resources\Icons\vector_add.png" />
+    <Resource Include="Resources\Icons\vector_delete.png" />
+    <Resource Include="Resources\Icons\wand.png" />
+    <Resource Include="Resources\Icons\weather_clouds.png" />
+    <Resource Include="Resources\Icons\weather_cloudy.png" />
+    <Resource Include="Resources\Icons\weather_lightning.png" />
+    <Resource Include="Resources\Icons\weather_rain.png" />
+    <Resource Include="Resources\Icons\weather_snow.png" />
+    <Resource Include="Resources\Icons\weather_sun.png" />
+    <Resource Include="Resources\Icons\webcam.png" />
+    <Resource Include="Resources\Icons\webcam_add.png" />
+    <Resource Include="Resources\Icons\webcam_delete.png" />
+    <Resource Include="Resources\Icons\webcam_error.png" />
+    <Resource Include="Resources\Icons\world.png" />
+    <Resource Include="Resources\Icons\world_add.png" />
+    <Resource Include="Resources\Icons\world_delete.png" />
+    <Resource Include="Resources\Icons\world_edit.png" />
+    <Resource Include="Resources\Icons\world_go.png" />
+    <Resource Include="Resources\Icons\world_link.png" />
+    <Resource Include="Resources\Icons\wrench.png" />
+    <Resource Include="Resources\Icons\wrench_orange.png" />
+    <Resource Include="Resources\Icons\xhtml.png" />
+    <Resource Include="Resources\Icons\xhtml_add.png" />
+    <Resource Include="Resources\Icons\xhtml_delete.png" />
+    <Resource Include="Resources\Icons\xhtml_go.png" />
+    <Resource Include="Resources\Icons\xhtml_valid.png" />
+    <Resource Include="Resources\Icons\zoom.png" />
+    <Resource Include="Resources\Icons\zoom_in.png" />
+    <Resource Include="Resources\Icons\zoom_out.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\Project.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\wrench.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\works-on-my-machine-starburst.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\Rename.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\WarningHS.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\New32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\delete.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\Exit.png" />
+    <Resource Include="Resources\Images\Options.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\EditInformationHS.png" />
+    <Resource Include="Resources\Images\shadow_b.png" />
+    <Resource Include="Resources\Images\shadow_bl.png" />
+    <Resource Include="Resources\Images\shadow_br.png" />
+    <Resource Include="Resources\Images\shadow_l.png" />
+    <Resource Include="Resources\Images\shadow_r.png" />
+    <Resource Include="Resources\Images\shadow_t.png" />
+    <Resource Include="Resources\Images\shadow_tl.png" />
+    <Resource Include="Resources\Images\shadow_tr.png" />
+    <Resource Include="Resources\Images\EditCodeHS.png" />
+    <Resource Include="Resources\Images\TextboxHS.png" />
+    <Resource Include="Resources\Images\ShowGridlines.png" />
+    <Resource Include="Resources\Images\ZoomRect.png" />
+    <Resource Include="Resources\Images\error.png" />
+    <Resource Include="Resources\Images\info.png" />
+    <Resource Include="Resources\Images\Warning.png" />
+    <Resource Include="Resources\Images\Reference.png" />
+    <Resource Include="Resources\Images\Zoom.png" />
+    <Resource Include="Resources\Images\zoomcontent.png" />
+    <Resource Include="Resources\Images\ZoomIn.png" />
+    <Resource Include="Resources\Images\ZoomOut.png" />
+    <Resource Include="Controls\FluidKit\Themes\images\metal.jpg" />
+    <Resource Include="Controls\FluidKit\Themes\images\osx_close.png" />
+    <Resource Include="Controls\FluidKit\Themes\images\osx_close_hovered.png" />
+    <Resource Include="Controls\FluidKit\Themes\images\osx_close_pressed.png" />
+    <Resource Include="Controls\FluidKit\Themes\images\osx_max.png" />
+    <Resource Include="Controls\FluidKit\Themes\images\osx_max_hovered.png" />
+    <Resource Include="Controls\FluidKit\Themes\images\osx_max_pressed.png" />
+    <Resource Include="Controls\FluidKit\Themes\images\osx_min.png" />
+    <Resource Include="Controls\FluidKit\Themes\images\osx_min_hovered.png" />
+    <Resource Include="Controls\FluidKit\Themes\images\osx_min_pressed.png" />
+    <Resource Include="Controls\FluidKit\Themes\images\vista_buttons_glow.png" />
+    <Resource Include="Controls\FluidKit\Themes\images\vista_close.png" />
+    <Resource Include="Controls\FluidKit\Themes\images\vista_close_disabled.png" />
+    <Resource Include="Controls\FluidKit\Themes\images\vista_close_glow.png" />
+    <Resource Include="Controls\FluidKit\Themes\images\vista_close_hovered.png" />
+    <Resource Include="Controls\FluidKit\Themes\images\vista_close_only.png" />
+    <Resource Include="Controls\FluidKit\Themes\images\vista_close_only_hovered.png" />
+    <Resource Include="Controls\FluidKit\Themes\images\vista_close_only_pressed.png" />
+    <Resource Include="Controls\FluidKit\Themes\images\vista_close_pressed.png" />
+    <Resource Include="Controls\FluidKit\Themes\images\vista_max.png" />
+    <Resource Include="Controls\FluidKit\Themes\images\vista_max_disabled.png" />
+    <Resource Include="Controls\FluidKit\Themes\images\vista_max_hovered.png" />
+    <Resource Include="Controls\FluidKit\Themes\images\vista_max_pressed.png" />
+    <Resource Include="Controls\FluidKit\Themes\images\vista_min.png" />
+    <Resource Include="Controls\FluidKit\Themes\images\vista_min_disabled.png" />
+    <Resource Include="Controls\FluidKit\Themes\images\vista_min_hovered.png" />
+    <Resource Include="Controls\FluidKit\Themes\images\vista_min_pressed.png" />
+    <Resource Include="Controls\FluidKit\Themes\images\vista_restore.png" />
+    <Resource Include="Controls\FluidKit\Themes\images\vista_restore_disabled.png" />
+    <Resource Include="Controls\FluidKit\Themes\images\vista_restore_hovered.png" />
+    <Resource Include="Controls\FluidKit\Themes\images\vista_restore_pressed.png" />
+    <Resource Include="Resources\Images\system_verification_symbol_rgb.jpg" />
+    <Resource Include="Resources\Images\system_verification_symbol_rgb.png" />
+    <Content Include="Resources\Media\Windows XP - fel.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Controls\DiagramControl\Resources\" />
+    <Folder Include="Controls\FluidKit\Experimental\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

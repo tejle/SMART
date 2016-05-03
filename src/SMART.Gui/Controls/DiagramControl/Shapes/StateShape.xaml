@@ -1,0 +1,272 @@
+﻿<View:ViewBase 
+    x:Class="SMART.Gui.Controls.DiagramControl.Shapes.StateShape"
+    x:Name="stateShape"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Adorners="clr-namespace:SMART.Gui.Controls.DiagramControl.Adorners"
+    xmlns:Controls="clr-namespace:SMART.Gui.Controls"
+    xmlns:View="clr-namespace:SMART.Gui.View"
+    xmlns:Shapes="clr-namespace:SMART.Gui.Controls.DiagramControl.Shapes"
+    xmlns:Linq="clr-namespace:System.Data.Linq;assembly=System.Data.Linq"
+    Focusable="True"
+    >
+    <ContentControl.Resources>
+
+        <Storyboard x:Key="FadeInAnimation">
+            <DoubleAnimation Storyboard.TargetProperty="Opacity" To="1.0" Duration="0:0:0.5" />
+            <ColorAnimation Storyboard.TargetProperty="(Background).(SolidColorBrush.Color)" Duration="0:0:0.5" To="Orange" />
+        </Storyboard>
+
+        <Storyboard x:Key="FadeOutAnimation">
+            <DoubleAnimation Storyboard.TargetProperty="Opacity" To="0.5" Duration="0:0:0.5" />
+            <ColorAnimation Storyboard.TargetProperty="(Background).(SolidColorBrush.Color)" Duration="0:0:0.5" To="LightGray" />
+        </Storyboard>
+
+        <Storyboard x:Key="FadeInCurrentAnimation">
+            <ColorAnimation Storyboard.TargetProperty="(Background).(SolidColorBrush.Color)" Duration="0:0:0.05" To="SteelBlue" />
+        </Storyboard>
+
+        <Storyboard x:Key="FadeOutCurrentAnimation">
+            <ColorAnimation Storyboard.TargetProperty="(Background).(SolidColorBrush.Color)" Duration="0:0:1.0" To="Orange" />
+        </Storyboard>
+
+        <!-- Style for the StateShapeAdorner thumbs -->
+        <Style x:Key="StateShapeAdornerThumbStyle" TargetType="{x:Type Adorners:ResizeThumb}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Adorners:ResizeThumb}">
+                        <Rectangle Fill="#AADCDCDC" Stroke="DodgerBlue" StrokeThickness="1" RadiusX="0" RadiusY="0"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <ControlTemplate x:Key="ResizeDecoratorTemplate" TargetType="Control">
+            <Grid>
+                <Adorners:ResizeThumb Style="{StaticResource StateShapeAdornerThumbStyle}" Height="3" Cursor="SizeNS" Margin="0 -4 0 0"
+           VerticalAlignment="Top" HorizontalAlignment="Stretch"/>
+                <Adorners:ResizeThumb Style="{StaticResource StateShapeAdornerThumbStyle}" Width="3" Cursor="SizeWE" Margin="-4 0 0 0"
+           VerticalAlignment="Stretch" HorizontalAlignment="Left"/>
+                <Adorners:ResizeThumb Style="{StaticResource StateShapeAdornerThumbStyle}" Width="3" Cursor="SizeWE" Margin="0 0 -4 0"
+           VerticalAlignment="Stretch" HorizontalAlignment="Right"/>
+                <Adorners:ResizeThumb Style="{StaticResource StateShapeAdornerThumbStyle}" Height="3" Cursor="SizeNS" Margin="0 0 0 -4"
+           VerticalAlignment="Bottom"  HorizontalAlignment="Stretch"/>
+                <Adorners:ResizeThumb Style="{StaticResource StateShapeAdornerThumbStyle}" Width="7" Height="7" Cursor="SizeNWSE" Margin="-6 -6 0 0"
+           VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                <Adorners:ResizeThumb Style="{StaticResource StateShapeAdornerThumbStyle}" Width="7" Height="7" Cursor="SizeNESW" Margin="0 -6 -6 0"
+           VerticalAlignment="Top" HorizontalAlignment="Right"/>
+                <Adorners:ResizeThumb Style="{StaticResource StateShapeAdornerThumbStyle}" Width="7" Height="7" Cursor="SizeNESW" Margin="-6 0 0 -6"
+           VerticalAlignment="Bottom" HorizontalAlignment="Left"/>
+                <Adorners:ResizeThumb Style="{StaticResource StateShapeAdornerThumbStyle}" Width="7" Height="7" Cursor="SizeNWSE" Margin="0 0 -6 -6"
+           VerticalAlignment="Bottom" HorizontalAlignment="Right"/>
+            </Grid>
+        </ControlTemplate>
+
+        <!--<Style x:Key="ShinyContentPresenter" TargetType="{x:Type Control}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Control}">
+                        <Grid>
+                            <Rectangle x:Name="GelBackground" Opacity="1" RadiusX="9" RadiusY="9" Fill="{TemplateBinding Background}" StrokeThickness="0.35">
+                                <Rectangle.Stroke>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                        <GradientBrush.GradientStops>
+                                            <GradientStopCollection>
+                                                <GradientStop Color="white" Offset="0" />
+                                                <GradientStop Color="#666666" Offset="1" />
+                                            </GradientStopCollection>
+                                        </GradientBrush.GradientStops>
+                                    </LinearGradientBrush>
+                                </Rectangle.Stroke>
+                            </Rectangle>
+                            <Rectangle x:Name="GelShine" Margin="2,2,2,0" VerticalAlignment="top" RadiusX="6" RadiusY="6" Opacity="1" Stroke="transparent" Height="15px">
+                                <Rectangle.Fill>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                        <GradientBrush.GradientStops>
+                                            <GradientStopCollection>
+                                                <GradientStop Color="#ccffffff" Offset="0" />
+                                                <GradientStop Color="transparent" Offset="1" />
+                                            </GradientStopCollection>
+                                        </GradientBrush.GradientStops>
+                                    </LinearGradientBrush>
+                                </Rectangle.Fill>
+                            </Rectangle>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>-->
+
+    </ContentControl.Resources>
+
+    <ContentControl.Style>
+        <Style TargetType="{x:Type Shapes:StateShape}">
+            <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+            <Setter Property="Background" Value="White" />
+            <Setter Property="IsHitTestVisible" Value="True" />
+            <Setter Property="Template">
+                <Setter.Value>
+
+                    <ControlTemplate TargetType="{x:Type Shapes:StateShape}">
+                        <Grid 
+                          Height="{Binding Height}" 
+                          Width="{Binding Width}" >
+                            <Grid.ContextMenu>
+                                <ContextMenu >
+                                    <MenuItem Header="{Binding Rename.Text}" Command="{Binding Rename}" CommandParameter="{Binding}" >
+                                        <MenuItem.Icon>
+                                            <Image Source="{Binding Rename.Icon}" MaxHeight="16" MaxWidth="16" />
+                                        </MenuItem.Icon>
+                                    </MenuItem>
+                                    <Separator />
+                                    <MenuItem Header="{Binding MakeRef.Text}" IsCheckable="True" IsChecked="{Binding IsRef}" 
+                                              Command="{Binding MakeRef}" CommandParameter="{Binding}" >
+                                    </MenuItem>
+                                    <Separator />
+                                    <MenuItem Header="{Binding Delete.Text}" Command="{Binding Delete}" CommandParameter="{Binding}" >
+                                        <MenuItem.Icon>
+                                            <Image Source="{Binding Delete.Icon}" MaxHeight="16" MaxWidth="16" />
+                                        </MenuItem.Icon>
+                                    </MenuItem>
+                                </ContextMenu>
+                            </Grid.ContextMenu>
+
+                            <Control x:Name="PART_Resizer" Visibility="Collapsed" Template="{StaticResource ResizeDecoratorTemplate}" />
+
+                            <Border
+                                    BorderBrush="{StaticResource yellowBorder}" 
+                                    CornerRadius="9" 
+                                    BorderThickness="1" 
+                                    Background="{StaticResource yellowBackground}"
+                                    x:Name="PART_Shape" />
+                            <!--<Control 
+                                x:Name="PART_Shape"                                
+                                Style="{StaticResource ShinyContentPresenter}" 
+                                Background="{TemplateBinding Background}" >
+                            </Control>-->
+
+                            <Image x:Name="PART_ReferenceImage"
+                                       HorizontalAlignment="Right" 
+                                       Visibility="Collapsed" 
+                                       Margin="0,5,5,0"
+                                       SnapsToDevicePixels="True"
+                                       MaxHeight="24"
+                                       MaxWidth="24"
+                                       VerticalAlignment="Top" 
+                                       Source="{StaticResource Horizon_Image_Reference}" />
+
+                            <TextBlock x:Name="PART_TextBlock"
+                                   Text="{Binding Name}"
+                                       Margin="5,0,5,0"
+                                   HorizontalAlignment="Center" VerticalAlignment="Center" 
+                                       TextTrimming="CharacterEllipsis"
+                                       ToolTip="{Binding Name}"
+                                   Visibility="Visible"/>
+
+                            <TextBox x:Name="PART_TextBox"
+                                    Text="{Binding Name}" 
+                                    HorizontalAlignment="Center" VerticalAlignment="Center"
+                                    Visibility="Collapsed" Controls:SelectableTextBox.SelectAllOnInput="True" >
+                            </TextBox>
+
+                            <TextBlock x:Name="PART_visitCounter" 
+                                       HorizontalAlignment="Right" 
+                                       VerticalAlignment="Top" 
+                                       Margin="10,0,5,0" 
+                                       Visibility="Collapsed"
+                                       Text="{Binding VisitCount}" />
+                        </Grid>
+
+                        <ControlTemplate.Triggers>
+
+
+                            <DataTrigger Binding="{Binding Selected}" Value="true">
+                                <Setter TargetName="PART_Resizer" Property="Visibility" Value="Visible" />
+                            </DataTrigger>
+
+                            <DataTrigger Binding="{Binding IsRef}" Value="true">
+                                <Setter TargetName="PART_ReferenceImage" Property="Visibility" Value="Visible" />
+                            </DataTrigger>
+
+                            <DataTrigger Binding="{Binding ShowVisitCounter}" Value="true">
+                                <Setter TargetName="PART_visitCounter" Property="Visibility" Value="Visible" />
+                            </DataTrigger>
+
+                            <DataTrigger Binding="{Binding VisitCount}" Value="-1">
+                                <Setter TargetName="PART_visitCounter" Property="Visibility" Value="Collapsed" />
+                                <!--<Setter TargetName="PART_Shape" Property="Background" Value="Orange" />-->
+                            </DataTrigger>
+
+                            <DataTrigger Binding="{Binding VisitCount}" Value="0">
+                                <Setter TargetName="PART_Shape" Property="Background" Value="{StaticResource grayBackground}" />
+                                <Setter TargetName="PART_Shape" Property="BorderBrush" Value="{StaticResource grayBorder}" />
+                            </DataTrigger>
+
+                            <DataTrigger Binding="{Binding IsDimmed}" Value="true">
+                                <Setter TargetName="PART_Shape" Property="Background" Value="{StaticResource grayBackground}" />
+                                <Setter TargetName="PART_Shape" Property="BorderBrush" Value="{StaticResource grayBorder}" />
+                                <Setter TargetName="PART_TextBlock" Property="Opacity" Value="0.5" />
+                                <DataTrigger.EnterActions>
+                                    <BeginStoryboard Storyboard.TargetName="PART_Shape" Storyboard="{StaticResource FadeOutAnimation}" />
+                                </DataTrigger.EnterActions>
+                                <DataTrigger.ExitActions>
+                                    <BeginStoryboard Storyboard.TargetName="PART_Shape" Storyboard="{StaticResource FadeInAnimation}" />
+                                </DataTrigger.ExitActions>
+                            </DataTrigger>
+
+                            <DataTrigger Binding="{Binding IsInEditMode}" Value="true">
+                                <Setter TargetName="PART_TextBlock" Property="Visibility" Value="Collapsed" />
+                                <Setter TargetName="PART_TextBox" Property="Visibility" Value="Visible" />
+                                <Setter TargetName="PART_TextBox" Property="FocusManager.FocusedElement" Value="{Binding ElementName=PART_TextBox}" />
+                            </DataTrigger>
+
+                            <DataTrigger Binding="{Binding IsDragging}" Value="true">
+                                <Setter TargetName="PART_Shape" Property="Opacity" Value="0.75" />
+                            </DataTrigger>
+
+                            <DataTrigger Binding="{Binding IsCurrent}" Value="true">
+                                <!--<DataTrigger.EnterActions>
+                                    <BeginStoryboard Storyboard.TargetName="PART_Shape" Storyboard="{StaticResource FadeInCurrentAnimation}" />
+                                </DataTrigger.EnterActions>
+                                <DataTrigger.ExitActions>
+                                    <BeginStoryboard Storyboard.TargetName="PART_Shape" Storyboard="{StaticResource FadeOutCurrentAnimation}" />
+                                </DataTrigger.ExitActions>-->
+                                <Setter TargetName="PART_Shape" Property="Background" Value="{StaticResource blueBackground}" />
+                                <Setter TargetName="PART_Shape" Property="BorderBrush" Value="{StaticResource blueBorder}" />
+                            </DataTrigger>
+
+                            <DataTrigger Binding="{Binding IsStartStop}" Value="true">
+                                <Setter TargetName="PART_Shape" Property="Background" Value="{StaticResource blackBackground}" />
+                                <Setter TargetName="PART_Shape" Property="BorderBrush" Value="{StaticResource blackBorder}" />
+                                <Setter TargetName="PART_TextBlock" Property="Foreground" Value="White" />
+                            </DataTrigger>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding IsDefect}" Value="true" />
+                                    <Condition Binding="{Binding IsCurrent}" Value="false" />
+                                </MultiDataTrigger.Conditions>
+                                <Setter TargetName="PART_Shape" Property="Background" Value="{StaticResource redBackground}" />
+                                <Setter TargetName="PART_Shape" Property="BorderBrush" Value="{StaticResource redBorder}" />
+                            </MultiDataTrigger>
+
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding IsVisited}" Value="true" />
+                                    <Condition Binding="{Binding IsDefect}" Value="false" />
+                                    <Condition Binding="{Binding IsCurrent}" Value="false" />
+                                </MultiDataTrigger.Conditions>
+                                <Setter TargetName="PART_Shape" Property="Background" Value="{StaticResource greenBackground}" />
+                                <Setter TargetName="PART_Shape" Property="BorderBrush" Value="{StaticResource greenBorder}" />
+                            </MultiDataTrigger>
+                            
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </ContentControl.Style>
+
+</View:ViewBase>
+
+                          

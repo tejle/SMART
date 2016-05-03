@@ -1,0 +1,56 @@
+﻿<UserControl x:Class="SMART.Gui.Reports.BasicExecutionReportDetails"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Converters="clr-namespace:SMART.Gui.Converters"
+     Height="1022" Width="754">
+    
+    <UserControl.Resources>
+        <Converters:BoolToVisibilityConverter x:Key="visibleConverter" />
+
+        <DataTemplate x:Key="defectColumnTemplate">
+            <Grid HorizontalAlignment="Center" >
+                <Canvas Grid.Row="0" Width="16" Height="16" 
+                        Visibility="{Binding IsDefect, Converter={StaticResource visibleConverter}}">
+                    <Canvas.Background>
+                        <ImageBrush ImageSource="{DynamicResource Horizon_Image_Error}"/>
+                    </Canvas.Background>
+                </Canvas>
+                <Canvas Grid.Row="0" Width="16" Height="16" 
+                        Visibility="{Binding IsDefect, Converter={StaticResource visibleConverter}, ConverterParameter=True}">
+                    <Canvas.Background>
+                        <ImageBrush ImageSource="{DynamicResource Horizon_Image_Check}"/>
+                    </Canvas.Background>
+                </Canvas>
+            </Grid>
+        </DataTemplate>
+        
+    </UserControl.Resources>
+    
+    <Grid HorizontalAlignment="Stretch" Margin="0,0,50,0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        
+        <ListView ItemsSource="{Binding States}" Grid.Row="0" ScrollViewer.VerticalScrollBarVisibility="Disabled" >
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="State" Width="300" DisplayMemberBinding="{Binding Name}" />
+                    <GridViewColumn Header="Visit count" Width="100" DisplayMemberBinding="{Binding VisitCount}" />
+                    <GridViewColumn Header="Defect" Width="100" CellTemplate="{DynamicResource defectColumnTemplate}" />
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+        <ListView ItemsSource="{Binding Transitions}" Grid.Row="1" ScrollViewer.VerticalScrollBarVisibility="Disabled" >
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Transition" Width="300" DisplayMemberBinding="{Binding Name}" />
+                    <GridViewColumn Header="Parameters" Width="150" DisplayMemberBinding="{Binding Parameter}" />
+                    <GridViewColumn Header="Visit count" Width="100" DisplayMemberBinding="{Binding VisitCount}" />
+                    <GridViewColumn Header="Defect" Width="100" CellTemplate="{DynamicResource defectColumnTemplate}" />
+                </GridView>
+            </ListView.View>
+        </ListView>
+    </Grid>
+</UserControl>

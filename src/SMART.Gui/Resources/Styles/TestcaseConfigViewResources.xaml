@@ -1,0 +1,85 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Converters="clr-namespace:SMART.Gui.Converters"
+    xmlns:ViewModel="clr-namespace:SMART.Gui.ViewModel">
+
+    <Converters:IStatisticToExportConverter x:Key="IStatisticToExportConverter" />
+
+    <CollectionViewSource Source="{Binding AvailableStatistics}" x:Key="AvailableStatistics" />
+
+    <ControlTemplate x:Key="FileNameEditor">
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Stretch">
+            <TextBlock Text="{Binding Name}" ToolTip="{Binding Path=Description}"/>
+            <TextBlock 
+                        VerticalAlignment="Stretch"
+                        Text="{Binding Mode=OneWay, Path=Value}"
+                        ToolTip="{Binding Path=Description}"/>
+            <Button DataContext="{Binding}"
+                        VerticalAlignment="Stretch"
+                        Content="..." />
+        </StackPanel>
+    </ControlTemplate>
+
+    <DataTemplate x:Key="StatisticObjectTemplate">
+        <TextBlock Text="{Binding}" />
+    </DataTemplate>
+
+    <ControlTemplate x:Key="TextEditor">
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Stretch">
+            <TextBlock Text="{Binding Name}" ToolTip="{Binding Path=Description}"/>
+            <TextBox
+                        Text="{Binding Mode=TwoWay, Path=Value, UpdateSourceTrigger=LostFocus}"
+                        ToolTip="{Binding Path=Description}"/>
+        </StackPanel>
+    </ControlTemplate>
+
+    <ControlTemplate x:Key="StatisticSelector">
+        <StackPanel Orientation="Vertical" VerticalAlignment="Stretch">
+            <TextBlock Text="{Binding Name}" ToolTip="{Binding Path=Description}"/>
+            <ComboBox 
+                        IsEditable="False"
+                        ItemsSource="{Binding Source={StaticResource AvailableStatistics}}" 
+                        DisplayMemberPath="MetadataView.Name"
+                        SelectedItem="{Binding Mode=TwoWay,                         
+                                       Path=Value,
+                                       Converter={StaticResource IStatisticToExportConverter}, 
+                                       ConverterParameter={StaticResource AvailableStatistics},
+                                       UpdateSourceTrigger=PropertyChanged}"
+                        ToolTip="{Binding Path=Description}"
+                        />
+        </StackPanel>
+    </ControlTemplate>
+
+    <ControlTemplate x:Key="ClassEditor">
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Stretch">
+            <TextBlock Text="{Binding Name}" ToolTip="{Binding Path=Description}"/>
+            <TextBox
+                        Text="{Binding Mode=TwoWay, Path=Value, UpdateSourceTrigger=LostFocus}"
+                        ToolTip="{Binding Path=Description}"/>
+        </StackPanel>
+    </ControlTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModel:ConfigSettingViewModel}">
+        <ContentControl x:Name="ConfigSetting" Template="{StaticResource TextEditor}" />
+        <DataTemplate.Triggers>
+            <DataTrigger Binding="{Binding Editor}" Value="Class">
+                <Setter TargetName="ConfigSetting" Property="Template" Value="{StaticResource ClassEditor}" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Editor}" Value="Assembly">
+                <Setter TargetName="ConfigSetting" Property="Template" Value="{StaticResource FileNameEditor}" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Editor}" Value="Statistic">
+                <Setter TargetName="ConfigSetting" Property="Template" Value="{StaticResource StatisticSelector}" />
+            </DataTrigger>
+        </DataTemplate.Triggers>
+    </DataTemplate>
+
+    <HierarchicalDataTemplate DataType="{x:Type ViewModel:AdapterViewModel}" ItemsSource="{Binding ConfigSettings}">
+        <TextBlock Text="{Binding Name}" ToolTip="{Binding Description}"/>
+    </HierarchicalDataTemplate>
+
+    <HierarchicalDataTemplate DataType="{x:Type ViewModel:InstanceConfigViewModel}" ItemsSource="{Binding Configs}">
+        <TextBlock Text="{Binding Header}" />
+    </HierarchicalDataTemplate>
+
+</ResourceDictionary>

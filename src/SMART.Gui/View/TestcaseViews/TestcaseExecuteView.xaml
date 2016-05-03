@@ -1,0 +1,38 @@
+﻿<ContentControl 
+    x:Class="SMART.Gui.View.TestcaseExecuteView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:sfcontrols="clr-namespace:Syncfusion.Windows.Tools.Controls;assembly=SyncFusion.Tools.WPF"
+    sfcontrols:DockingManager.State="Dock" 
+    sfcontrols:DockingManager.Header="Execution" 
+    sfcontrols:DockingManager.SideInDockedMode="Top"
+    sfcontrols:DockingManager.DesiredHeightInDockedMode="50" >
+    
+    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+        <Button Margin="2" VerticalAlignment="Center" Command="{Binding ExecuteTestcase}" Height="22" ToolTip="Execute testcase" >
+            <Button.Content>
+                <Image Source="/Resources/Images/Run.png" Width="16" Height="16" ></Image>
+            </Button.Content>
+        </Button>
+        <Button Margin="2" VerticalAlignment="Center" Command="{Binding PauseTestcase}" Height="22" ToolTip="Pause testcase"  >
+            <Button.Content>
+                <Image Source="/Resources/Images/Pause.png" Width="16" Height="16" ></Image>
+            </Button.Content>
+        </Button>
+        <Button Margin="2" VerticalAlignment="Center" Command="{Binding ResumeTestcase}" Height="22" ToolTip="Resume testcase"  >
+            <Button.Content>
+                <Image Source="/Resources/Images/Restart.png" Width="16" Height="16" ></Image>
+            </Button.Content>
+        </Button>
+        <Button Margin="2" VerticalAlignment="Center" Command="{Binding StopTestcase}" Height="22" ToolTip="Stop testcase"  >
+            <Button.Content>
+                <Image Source="/Resources/Images/Stop.png" Width="16" Height="16" ></Image>
+            </Button.Content>
+        </Button>
+        <TextBlock VerticalAlignment="Center" Text="{Binding RunningTestCase.Runner.ElapsedTime, StringFormat='\{0:HH:mm:ss\}'}"/>
+        <ProgressBar Name="progress" Height="20" HorizontalAlignment="Stretch" VerticalAlignment="Center" HorizontalContentAlignment="Stretch" Value="{Binding RunningTestCase.Runner.PercentDone, Mode=OneWay}" Minimum="0" Maximum="1" >
+        </ProgressBar>
+        <TextBlock Background="Transparent" Name="status" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Path=Value, ElementName=progress, StringFormat='\{0:P\}'}"/>
+    </StackPanel>
+    
+</ContentControl>

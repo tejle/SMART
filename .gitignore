@@ -234,3 +234,12 @@ _Pvt_Extensions
 
 # FAKE - F# Make
 .fake/
+.svn
+Tools
+lib
+src/J832.Common
+src/J832.Wpf.BagOTricksLibrary
+*.Specs/
+_Old/
+Smart.Setup
+Setup

@@ -1,0 +1,94 @@
+<ContentControl 
+    x:Class="SMART.Gui.View.TestcaseConfiguration.TestcaseConfigurationCompositeView"
+    x:Name="testcaseConfigurationCompositeView"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:Controls="clr-namespace:SMART.Gui.Controls"
+	xmlns:AnimatedTabControl="clr-namespace:SMART.Gui.Controls.AnimatedTabControl"    
+    RenderTransformOrigin="0.5,0.5" Margin="25,25,25,25">
+    <ContentControl.Resources>
+
+        <Storyboard x:Key="InTransition">
+            <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="testcaseConfigurationCompositeView" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)">
+                <SplineDoubleKeyFrame KeyTime="00:00:00" Value="0.20833317935466766"/>
+                <SplineDoubleKeyFrame KeyTime="00:00:00.3300000" Value="0.05"/>
+                <SplineDoubleKeyFrame KeySpline="0,0.495999991893768,0.504000008106232,1" KeyTime="00:00:00.66" Value="0.05"/>
+                <SplineDoubleKeyFrame KeySpline="0,0.500999987125397,0.504000008106232,1" KeyTime="00:00:01.0000000" Value="1"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="testcaseConfigurationCompositeView" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)">
+                <SplineDoubleKeyFrame KeyTime="00:00:00" Value="0"/>
+                <SplineDoubleKeyFrame KeyTime="00:00:00.3300000" Value="0"/>
+                <SplineDoubleKeyFrame KeySpline="0,0.495999991893768,0.504000008106232,1" KeyTime="00:00:00.66" Value="1"/>
+                <SplineDoubleKeyFrame KeySpline="0,0.500999987125397,0.504000008106232,1" KeyTime="00:00:01.0000000" Value="1"/>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+
+    </ContentControl.Resources>
+
+    <ContentControl.RenderTransform>
+        <TransformGroup>
+            <ScaleTransform/>
+            <SkewTransform/>
+            <RotateTransform/>
+            <TranslateTransform/>
+        </TransformGroup>
+    </ContentControl.RenderTransform>
+
+    <ContentControl.Triggers>
+        <EventTrigger RoutedEvent="FrameworkElement.Loaded">
+            <BeginStoryboard Storyboard="{StaticResource InTransition}"/>
+        </EventTrigger>
+    </ContentControl.Triggers>
+
+    <Grid>
+        <Controls:RoundedBox />
+        <Grid x:Name="TheContent" Margin="10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />        
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <Border Grid.Row="0"                 
+                Margin="0,0,0,10" 
+                Padding="5,5,5,5" 
+                BorderBrush="#77000000" 
+                Background="#99B4C6"
+                BorderThickness="1,1,1,1" 
+                CornerRadius="12,12,12,12"      
+                HorizontalAlignment="Stretch" 
+                >
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Orientation="Horizontal" Grid.Column="0" >
+                        <TextBlock VerticalAlignment="Center" Text="{Binding Name}" Margin="20,0,50,0" FontSize="14" FontWeight="Bold" >
+                        <TextBlock.BitmapEffect>
+                            <DropShadowBitmapEffect />
+                        </TextBlock.BitmapEffect>
+                        </TextBlock>
+                    </StackPanel>
+
+                    <ContentPresenter Grid.Column="1" HorizontalAlignment="Right" Content="{Binding CommonCommands}" />
+
+                </Grid>
+            </Border>
+
+            <AnimatedTabControl:AnimatedTabControl 
+                    Grid.Row="1"
+                    x:Name="TestcaseConfigurationTabControl"
+                    IsSynchronizedWithCurrentItem="True"
+                    SelectedItem="{Binding Path=CurrentTabItem, Mode=TwoWay}"   
+                    SelectedIndex="0"
+                    VerticalAlignment="Stretch"
+                    ItemContainerStyle="{StaticResource ShellTabItemStyle}" 
+                    Background="{StaticResource headerBarBG}" ItemsSource="{Binding Tabs}" />
+
+            <!--<Button Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Top" Template="{StaticResource RemoveXButtonTemplate}" Cursor="Hand" ToolTip="Close" Command="{Binding Close}" />-->
+        </Grid>
+    </Grid>
+
+</ContentControl>
