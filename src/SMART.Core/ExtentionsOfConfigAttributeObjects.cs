@@ -19,13 +19,17 @@ namespace SMART.Core
     
     using IOC;
 
-    public static class ExtentionsOfEnumerableExportT_TMetadata
+    public static class ExtentionsOfEnumerableLazyT_TMetadata
     {
 
-        public static T Parse<T, TMetadata>(this IEnumerable<Export<T, TMetadata>> imports, string name)
+        public static T Parse<T, TMetadata>(this IEnumerable<Lazy<T, TMetadata>> imports, string name)
         {
-            var export = imports.FirstOrDefault(e => e.Metadata.ContainsKey("Name") && e.Metadata["Name"].Equals(name));
-            return export != null ? export.GetExportedObject() : default(T);
+            var export = imports.FirstOrDefault(e =>
+            {
+                var c = e.Metadata.GetConfig();
+                return c.ContainsKey("Name") && c["Name"].Equals(name);
+            });
+            return export != null ? export.Value : default(T);
         }
 
         public static TMetadata MetadataView<TMetadata>(this object instance)
@@ -39,7 +43,7 @@ namespace SMART.Core
         public class Imports
         {
             [Import]
-            public IEnumerable<Export<IStatistic, IStatisticMetadata>> Statistics { get; set; }
+            public IEnumerable<Lazy<IStatistic, IStatisticMetadata>> Statistics { get; set; }
         }
 
         private static readonly Imports Available;
