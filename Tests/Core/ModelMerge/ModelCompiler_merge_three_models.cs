@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Technology.BDD.Nunit;
 using NUnit.Framework;
 using SMART.Core;
 using SMART.Core.DomainModel;
