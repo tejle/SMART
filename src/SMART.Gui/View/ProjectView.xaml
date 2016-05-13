@@ -5,7 +5,7 @@
     xmlns:Controls="clr-namespace:SMART.Gui.Controls"
     xmlns:View="clr-namespace:SMART.Gui.View"
     xmlns:ViewModel="clr-namespace:SMART.Gui.ViewModel"
-    xmlns:AnimatingTilePanel="clr-namespace:Microsoft.Samples.KMoore.WPFSamples.AnimatingTilePanel;assembly=J832.Wpf.BagOTricksLib"
+    xmlns:AnimatingTilePanel="clr-namespace:PixelLab.Wpf;assembly=PixelLab.Wpf"
     xmlns:DragDrop="clr-namespace:FluidKit.Helpers.DragDrop"
     xmlns:Gui="clr-namespace:SMART.Gui"
     xmlns:Commands="clr-namespace:SMART.Gui.Commands"
@@ -384,8 +384,7 @@
                                 <!--<WrapPanel />-->
                                 <AnimatingTilePanel:AnimatingTilePanel
                                     ItemHeight="100"                             
-                                    ItemWidth="132" 
-                                    AnimatesNewItem="True"
+                                    ItemWidth="132"
                                     Dampening="0.1"
                                     Attraction="2.5"
                                     Variation="0.5"

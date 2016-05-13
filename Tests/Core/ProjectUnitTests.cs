@@ -46,7 +46,7 @@ namespace SMART.Test.Core
         [Test]
         public void adding_the_same_testcase_twice_should_return_false_and_count_be_one()
         {
-            ITestcase testCase = MockRepository.GenerateStub<ITestcase>();
+            ITestcase testCase = Rhino.Mocks.MockRepository.GenerateStub<ITestcase>();
             Assert.IsTrue(project.AddTestCase(testCase));
             Assert.IsFalse(project.AddTestCase(testCase));
             Assert.AreEqual(1, project.Testcases.Count());
@@ -55,7 +55,7 @@ namespace SMART.Test.Core
         [Test]
         public void removing_a_testcase_that_does_not_exist_should_return_false()
         {
-            ITestcase testCase = MockRepository.GenerateStub<ITestcase>();
+            ITestcase testCase = Rhino.Mocks.MockRepository.GenerateStub<ITestcase>();
             Assert.IsTrue(project.AddTestCase(testCase));
             Assert.IsTrue(project.RemoveTestCase(testCase));
             Assert.IsFalse(project.RemoveTestCase(testCase));

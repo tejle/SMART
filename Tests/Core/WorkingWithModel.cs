@@ -75,7 +75,6 @@ namespace SMART.Test.Core
         }
 
         [Test]
-        [ExpectedException(typeof(ModelException))]
         public void adding_transition_with_invalid_source_should_throw_exception()
         {
             // Assign
@@ -85,12 +84,11 @@ namespace SMART.Test.Core
                                             Destination = model.StopState
                                         };
             // Act
-            model.Add(transition);
+            Assert.Throws<ModelException>(()=>model.Add(transition));
         }
 
 
         [Test]
-        [ExpectedException(typeof(ModelException))]
         public void adding_transition_with_invalid_target_should_throw_exception()
         {
             // Assign
@@ -100,7 +98,7 @@ namespace SMART.Test.Core
                                             Destination = new State()
                                         };
             // Act
-            model.Add(transition);
+            Assert.Throws<ModelException>(() => model.Add(transition));
         }
 
         [Test]

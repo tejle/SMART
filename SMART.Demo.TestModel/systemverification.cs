@@ -150,7 +150,7 @@ namespace SMART.Website
         public virtual void Styrelse()
         {
             throw new Exception("Did not find Daud as a member of the board... !");
-            AssertUrl("http://www.systemverification.com/sv_swe/index.php?s=styrelse");
+            //AssertUrl("http://www.systemverification.com/sv_swe/index.php?s=styrelse");
         }
 
         public virtual void Konsulttjanster()

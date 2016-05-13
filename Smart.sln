@@ -1,12 +1,16 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SMART.Core", "src\SMART.Core\SMART.Core.csproj", "{1EA7DECA-587D-4289-998A-0A58988F9E58}"
-EndProject
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25123.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{641415E3-99BE-4299-A8F3-1434D661F417}"
 	ProjectSection(SolutionItems) = preProject
 		Model merge.txt = Model merge.txt
 	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test projects", "Test projects", "{E7887251-93D1-4508-B1E7-EF5549E9A433}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SMART.Core", "src\SMART.Core\SMART.Core.csproj", "{1EA7DECA-587D-4289-998A-0A58988F9E58}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SMART.Base", "src\SMART.Base\SMART.Base.csproj", "{5D1DDB9B-7EFF-418C-8157-C0C7225AA7BE}"
 EndProject
@@ -18,31 +22,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SMART.Demo.TestModel", "SMA
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Smart.Gui", "src\SMART.Gui\Smart.Gui.csproj", "{D50D4D26-D309-4746-889B-5791CEED8082}"
 EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Smart.Setup", "Smart.Setup\Smart.Setup.vdproj", "{E02261BB-004F-4B4C-8914-92BB45E8BCF3}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SMART.Core.Services", "src\SMART.Core.Services\SMART.Core.Services.csproj", "{BCE2DAE0-3857-4DFE-9578-9763199273F9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SMART.Test", "Tests\SMART.Test.csproj", "{B11B0A91-0455-4CB9-A710-2B0DD25C6D8F}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test projects", "Test projects", "{E7887251-93D1-4508-B1E7-EF5549E9A433}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Specifications", "Specifications", "{B8B4FDC7-D3F9-423F-B5DA-D6B932F7452A}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SMART.Core.Specs", "src\SMART.Core.Specs\SMART.Core.Specs.csproj", "{5055C8E9-2E25-4911-89E0-34949B43EF6D}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "J832.Common", "src\J832.Common\J832.Common.csproj", "{273247A2-A3C8-42D0-8463-F95FC5C0A34C}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "J832.Wpf.BagOTricksLib", "src\J832.Wpf.BagOTricksLibrary\J832.Wpf.BagOTricksLib.csproj", "{E4BBC94F-B837-4668-A127-E36E6DE012F5}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SMART.Core.DomainModel.Specs", "SMART.Core.DomainModel.Specs\SMART.Core.DomainModel.Specs.csproj", "{1D273D49-385F-4D3C-910D-AC2E79C6B3BC}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SMART.Gui.ViewModel.Specs", "SMART.Gui.ViewModel.Specs\SMART.Gui.ViewModel.Specs.csproj", "{DA084178-F586-4649-9158-AC14A7F6E2B6}"
-EndProject
 Global
-	GlobalSection(SubversionScc) = preSolution
-		Svn-Managed = True
-		Manager = AnkhSVN - Subversion Support for Visual Studio
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Debug|x86 = Debug|x86
@@ -118,14 +102,6 @@ Global
 		{D50D4D26-D309-4746-889B-5791CEED8082}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D50D4D26-D309-4746-889B-5791CEED8082}.Release|x86.ActiveCfg = Release|x86
 		{D50D4D26-D309-4746-889B-5791CEED8082}.Release|x86.Build.0 = Release|x86
-		{E02261BB-004F-4B4C-8914-92BB45E8BCF3}.Debug|Any CPU.ActiveCfg = Debug
-		{E02261BB-004F-4B4C-8914-92BB45E8BCF3}.Debug|x86.ActiveCfg = Debug
-		{E02261BB-004F-4B4C-8914-92BB45E8BCF3}.Publish|Any CPU.ActiveCfg = Release
-		{E02261BB-004F-4B4C-8914-92BB45E8BCF3}.Publish|Any CPU.Build.0 = Release
-		{E02261BB-004F-4B4C-8914-92BB45E8BCF3}.Publish|x86.ActiveCfg = Publish
-		{E02261BB-004F-4B4C-8914-92BB45E8BCF3}.Publish|x86.Build.0 = Publish
-		{E02261BB-004F-4B4C-8914-92BB45E8BCF3}.Release|Any CPU.ActiveCfg = Release
-		{E02261BB-004F-4B4C-8914-92BB45E8BCF3}.Release|x86.ActiveCfg = Release
 		{BCE2DAE0-3857-4DFE-9578-9763199273F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{BCE2DAE0-3857-4DFE-9578-9763199273F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BCE2DAE0-3857-4DFE-9578-9763199273F9}.Debug|x86.ActiveCfg = Debug|x86
@@ -148,67 +124,15 @@ Global
 		{B11B0A91-0455-4CB9-A710-2B0DD25C6D8F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B11B0A91-0455-4CB9-A710-2B0DD25C6D8F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B11B0A91-0455-4CB9-A710-2B0DD25C6D8F}.Release|x86.ActiveCfg = Release|x86
-		{5055C8E9-2E25-4911-89E0-34949B43EF6D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5055C8E9-2E25-4911-89E0-34949B43EF6D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5055C8E9-2E25-4911-89E0-34949B43EF6D}.Debug|x86.ActiveCfg = Debug|x86
-		{5055C8E9-2E25-4911-89E0-34949B43EF6D}.Debug|x86.Build.0 = Debug|x86
-		{5055C8E9-2E25-4911-89E0-34949B43EF6D}.Publish|Any CPU.ActiveCfg = Release|Any CPU
-		{5055C8E9-2E25-4911-89E0-34949B43EF6D}.Publish|Any CPU.Build.0 = Release|Any CPU
-		{5055C8E9-2E25-4911-89E0-34949B43EF6D}.Publish|x86.ActiveCfg = Release|x86
-		{5055C8E9-2E25-4911-89E0-34949B43EF6D}.Publish|x86.Build.0 = Release|x86
-		{5055C8E9-2E25-4911-89E0-34949B43EF6D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5055C8E9-2E25-4911-89E0-34949B43EF6D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5055C8E9-2E25-4911-89E0-34949B43EF6D}.Release|x86.ActiveCfg = Release|x86
-		{5055C8E9-2E25-4911-89E0-34949B43EF6D}.Release|x86.Build.0 = Release|x86
-		{273247A2-A3C8-42D0-8463-F95FC5C0A34C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{273247A2-A3C8-42D0-8463-F95FC5C0A34C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{273247A2-A3C8-42D0-8463-F95FC5C0A34C}.Debug|x86.ActiveCfg = Debug|x86
-		{273247A2-A3C8-42D0-8463-F95FC5C0A34C}.Debug|x86.Build.0 = Debug|x86
-		{273247A2-A3C8-42D0-8463-F95FC5C0A34C}.Publish|Any CPU.ActiveCfg = Release|Any CPU
-		{273247A2-A3C8-42D0-8463-F95FC5C0A34C}.Publish|Any CPU.Build.0 = Release|Any CPU
-		{273247A2-A3C8-42D0-8463-F95FC5C0A34C}.Publish|x86.ActiveCfg = Release|Any CPU
-		{273247A2-A3C8-42D0-8463-F95FC5C0A34C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{273247A2-A3C8-42D0-8463-F95FC5C0A34C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{273247A2-A3C8-42D0-8463-F95FC5C0A34C}.Release|x86.ActiveCfg = Release|x86
-		{273247A2-A3C8-42D0-8463-F95FC5C0A34C}.Release|x86.Build.0 = Release|x86
-		{E4BBC94F-B837-4668-A127-E36E6DE012F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E4BBC94F-B837-4668-A127-E36E6DE012F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E4BBC94F-B837-4668-A127-E36E6DE012F5}.Debug|x86.ActiveCfg = Debug|x86
-		{E4BBC94F-B837-4668-A127-E36E6DE012F5}.Debug|x86.Build.0 = Debug|x86
-		{E4BBC94F-B837-4668-A127-E36E6DE012F5}.Publish|Any CPU.ActiveCfg = Release|Any CPU
-		{E4BBC94F-B837-4668-A127-E36E6DE012F5}.Publish|Any CPU.Build.0 = Release|Any CPU
-		{E4BBC94F-B837-4668-A127-E36E6DE012F5}.Publish|x86.ActiveCfg = Release|Any CPU
-		{E4BBC94F-B837-4668-A127-E36E6DE012F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E4BBC94F-B837-4668-A127-E36E6DE012F5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E4BBC94F-B837-4668-A127-E36E6DE012F5}.Release|x86.ActiveCfg = Release|x86
-		{E4BBC94F-B837-4668-A127-E36E6DE012F5}.Release|x86.Build.0 = Release|x86
-		{1D273D49-385F-4D3C-910D-AC2E79C6B3BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1D273D49-385F-4D3C-910D-AC2E79C6B3BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1D273D49-385F-4D3C-910D-AC2E79C6B3BC}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{1D273D49-385F-4D3C-910D-AC2E79C6B3BC}.Debug|x86.Build.0 = Debug|Any CPU
-		{1D273D49-385F-4D3C-910D-AC2E79C6B3BC}.Publish|Any CPU.ActiveCfg = Release|Any CPU
-		{1D273D49-385F-4D3C-910D-AC2E79C6B3BC}.Publish|Any CPU.Build.0 = Release|Any CPU
-		{1D273D49-385F-4D3C-910D-AC2E79C6B3BC}.Publish|x86.ActiveCfg = Release|Any CPU
-		{1D273D49-385F-4D3C-910D-AC2E79C6B3BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1D273D49-385F-4D3C-910D-AC2E79C6B3BC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1D273D49-385F-4D3C-910D-AC2E79C6B3BC}.Release|x86.ActiveCfg = Release|Any CPU
-		{DA084178-F586-4649-9158-AC14A7F6E2B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DA084178-F586-4649-9158-AC14A7F6E2B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DA084178-F586-4649-9158-AC14A7F6E2B6}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{DA084178-F586-4649-9158-AC14A7F6E2B6}.Publish|Any CPU.ActiveCfg = Release|Any CPU
-		{DA084178-F586-4649-9158-AC14A7F6E2B6}.Publish|Any CPU.Build.0 = Release|Any CPU
-		{DA084178-F586-4649-9158-AC14A7F6E2B6}.Publish|x86.ActiveCfg = Release|Any CPU
-		{DA084178-F586-4649-9158-AC14A7F6E2B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DA084178-F586-4649-9158-AC14A7F6E2B6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DA084178-F586-4649-9158-AC14A7F6E2B6}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{B11B0A91-0455-4CB9-A710-2B0DD25C6D8F} = {E7887251-93D1-4508-B1E7-EF5549E9A433}
-		{5055C8E9-2E25-4911-89E0-34949B43EF6D} = {B8B4FDC7-D3F9-423F-B5DA-D6B932F7452A}
-		{1D273D49-385F-4D3C-910D-AC2E79C6B3BC} = {B8B4FDC7-D3F9-423F-B5DA-D6B932F7452A}
-		{DA084178-F586-4649-9158-AC14A7F6E2B6} = {B8B4FDC7-D3F9-423F-B5DA-D6B932F7452A}
+	EndGlobalSection
+	GlobalSection(SubversionScc) = preSolution
+		Svn-Managed = True
+		Manager = AnkhSVN - Subversion Support for Visual Studio
 	EndGlobalSection
 EndGlobal

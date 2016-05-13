@@ -2,6 +2,7 @@ using System.Threading;
 using NUnit.Framework;
 using System;
 using SMART.Core.BusinessLayer.Threading;
+using System.Threading.Tasks;
 
 namespace SMART.Test.Core
 {
@@ -28,25 +29,23 @@ namespace SMART.Test.Core
         }
 
         [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
         public void abortablethreadpool_should_throw_an_exception_if_no_callback_exist()
         {
             // Assign
-            
+
             // Act
-            AbortableThreadPool.QueueUserWorkItem(null);
+            Assert.Throws<ArgumentNullException>(() => AbortableThreadPool.QueueUserWorkItem(null));
 
             // Assert
 
         }
         [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
         public void abortablethreadpool_cancel_should_throw_if_argument_is_null()
         {
             // Assign
 
             // Act
-            AbortableThreadPool.Cancel(null, ThreadPoolAbortMethod.Terminate);
+            Assert.Throws<ArgumentNullException>(() => AbortableThreadPool.Cancel(null, ThreadPoolAbortMethod.Terminate));
 
             // Assert
 
@@ -73,12 +72,12 @@ namespace SMART.Test.Core
         }
 
         [Test]
-        [Ignore]
         public void terminate_abort_thread_exception_will_be_raised()
         {
             // Assign
             bool called = false;
-            WaitCallback callback = (s) =>
+            
+            WaitCallback callback = (s) => 
                                         {
                                             try
                                             {

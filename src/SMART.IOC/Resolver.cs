@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.Composition;
+using System.ComponentModel.Composition.ReflectionModel;
 using System.Configuration;
 using Microsoft.Practices.Unity;
 using Microsoft.Practices.Unity.Configuration;
@@ -46,7 +47,7 @@ namespace SMART.IOC
         {
             var config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
             var section = (UnityConfigurationSection)config.GetSection("unity");
-            section.Containers.Default.Configure(container);
+            section.Configure(container);
         }
 
         public static void RegisterSingleton(Type from, Type to)
@@ -67,36 +68,36 @@ namespace SMART.IOC
     {
         protected override void Initialize()
         {
-            Context.Strategies.AddNew<MEFStrategy>(UnityBuildStage.Initialization);
+           // Context.Strategies.AddNew<MEFStrategy>(UnityBuildStage.Initialization);
         }
     }
 
-    public class MEFStrategy : BuilderStrategy {
-        private bool needComposition;
+    //public class MEFStrategy : BuilderStrategy {
+    //    private bool needComposition;
 
-        public override void PostBuildUp(IBuilderContext context)
-        {
-            if(needComposition)
-            {
-                var policy = context.Policies.Get<ILifetimePolicy>(new NamedTypeBuildKey(typeof(ICompositionService)));
-                var compositionService = policy.GetValue() as ICompositionService;
-                if (compositionService != null) compositionService.Compose();
-                needComposition = false;
-            }
-            base.PostBuildUp(context);
-        }
+    //    public override void PostBuildUp(IBuilderContext context)
+    //    {
+    //        if(needComposition)
+    //        {
+    //            var policy = context.Policies.Get<ILifetimePolicy>(new NamedTypeBuildKey(typeof(ICompositionService)));
+    //            var compositionService = policy.GetValue() as ICompositionService;
+    //            if (compositionService != null)  compositionService.Compose();
+    //            needComposition = false;
+    //        }
+    //        base.PostBuildUp(context);
+    //    }
 
-        public override void PreBuildUp(IBuilderContext context)
-        {
-            var policy = context.Policies.Get<ILifetimePolicy>(new NamedTypeBuildKey(typeof(ICompositionService)));
-            var compositionService = policy.GetValue() as ICompositionService;
+    //    public override void PreBuildUp(IBuilderContext context)
+    //    {
+    //        var policy = context.Policies.Get<ILifetimePolicy>(new NamedTypeBuildKey(typeof(ICompositionService)));
+    //        var compositionService = policy.GetValue() as ICompositionService;
 
-            if (compositionService != null)
-            {
-                compositionService.AddPart(context.Existing);
-                needComposition = true;
-            }
-            base.PreBuildUp(context);
-        }
-    }
+    //        if (compositionService != null)
+    //        {
+    //            compositionService.AddPart(context.Existing);
+    //            needComposition = true;
+    //        }
+    //        base.PreBuildUp(context);
+    //    }
+    //}
 }

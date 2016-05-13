@@ -243,8 +243,6 @@
 
         private void HitTesting(Point hitPoint)
         {
-            bool hitConnectorFlag = false;
-
             var hitObject = designerCanvas.InputHitTest(hitPoint) as DependencyObject;
             
             while (hitObject != null && !(hitObject is DiagramCanvas))
@@ -252,23 +250,12 @@
                 if (hitObject is FrameworkElement)
                 {                    
                     HitConnector = (hitObject as FrameworkElement).DataContext as IConnectable;
-                    hitConnectorFlag = true;
                     return;
                 }
-
-                //if (hitObject is DesignerItem)
-                //{
-                //    HitDesignerItem = hitObject as DesignerItem;
-                //    if (!hitConnectorFlag)
-                //        HitConnector = null;
-                //    return;
-                //}
                 hitObject = VisualTreeHelper.GetParent(hitObject);
             }
 
             HitConnector = null;
-            //HitDesignerItem = null;
         }
-
     }
 }

@@ -30,21 +30,21 @@ namespace SMART.Test
         public class TestClass
         {
             [Import]
-            public Export<FlatFileAdapter> FlatFileAdapter;
+            public Lazy<FlatFileAdapter> FlatFileAdapter;
             [Import]
-            public Export<BreadthFirstAlgorithm> BreadthFirstAlgorithm;
+            public Lazy<BreadthFirstAlgorithm> BreadthFirstAlgorithm;
             [Import]
-            public Export<RandomAlgorithm> RandomAlgorithm;
+            public Lazy<RandomAlgorithm> RandomAlgorithm;
             [Import]
-            public Export<StatisticalStopCriteria> StatisticalStopCriteria;
+            public Lazy<StatisticalStopCriteria> StatisticalStopCriteria;
             [Import]
-            public Export<Sandbox> SimpleSandbox;
+            public Lazy<Sandbox> SimpleSandbox;
             [Import]
-            public Export<InterfaceAdapter> InterfaceAdapter;
+            public Lazy<InterfaceAdapter> InterfaceAdapter;
             [Import]
-            public Export<AssistedRandomAlgorithm> AssistedRandomAlgorithm;
+            public Lazy<AssistedRandomAlgorithm> AssistedRandomAlgorithm;
             [Import]
-            public Export<ConsoleAdapter> ConsoleAdapter;
+            public Lazy<ConsoleAdapter> ConsoleAdapter;
 
             public IModel SimpleModel { get { return GetSimpleModel(); } }
 

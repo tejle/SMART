@@ -90,7 +90,7 @@ namespace SMART.Test.Core.ModelMerge
 
 
 
-        [Test][Ignore]
+        [Test]
         public void should_final_model_contain_one_start_and_one_stop()
         {
 
@@ -102,7 +102,6 @@ namespace SMART.Test.Core.ModelMerge
         }
 
         [Test]
-        [Ignore]
         public void should_map_reference_state_to_models()
         {
             // Assign
@@ -115,7 +114,6 @@ namespace SMART.Test.Core.ModelMerge
         }
 
         [Test]
-        [Ignore]
         public void should_result_in_one_connected_model()
         {
             // Assign
@@ -127,7 +125,6 @@ namespace SMART.Test.Core.ModelMerge
         }
 
         [Test]
-        [Ignore]
         public void all_transitions_in_to_the_reference_in_A_should_go_into_modelB()
         {
             // Assign

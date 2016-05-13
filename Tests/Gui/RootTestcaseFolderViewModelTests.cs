@@ -39,7 +39,6 @@ namespace SMART.Test.Gui
         }
 
         [Test]
-        [Ignore]
         public void property_changed_with_testcase_added()
         {
             // Assign
@@ -52,8 +51,6 @@ namespace SMART.Test.Gui
 
 
         [Test]
-        [Ignore]
-
         public void property_changed_with_testcase_remove()
         {
  

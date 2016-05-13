@@ -11,7 +11,7 @@ namespace SMART.Gui.Converters
     using System.Windows;
     using System.Windows.Data;
 
-    [ValueConversion(typeof(IStatistic), typeof(Export<IStatistic, IStatisticMetadata>))]
+    [ValueConversion(typeof(IStatistic), typeof(Lazy<IStatistic, IStatisticMetadata>))]
     public class IStatisticToExportConverter : IValueConverter
     {
         /// <summary>
@@ -32,9 +32,9 @@ namespace SMART.Gui.Converters
             var exportCollectionView = (parameter as CollectionViewSource);
             if (exportCollectionView == null) return DependencyProperty.UnsetValue;
 
-            var exportCollection = (exportCollectionView.Source as System.Collections.ObjectModel.ObservableCollection<Export<IStatistic, IStatisticMetadata>>);
+            var exportCollection = (exportCollectionView.Source as System.Collections.ObjectModel.ObservableCollection<Lazy<IStatistic, IStatisticMetadata>>);
             var o = exportCollection == null ? DependencyProperty.UnsetValue 
-                        : exportCollection.FirstOrDefault(e => e.GetExportedObject().Equals(value)) ?? DependencyProperty.UnsetValue;
+                        : exportCollection.FirstOrDefault(e => e.Value.Equals(value)) ?? DependencyProperty.UnsetValue;
             return o;
         }
 
@@ -51,10 +51,10 @@ namespace SMART.Gui.Converters
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value == null) return DependencyProperty.UnsetValue;
-            var export = value as Export<IStatistic, IStatisticMetadata>;
+            var export = value as Lazy<IStatistic, IStatisticMetadata>;
 
             var o = export == null ? DependencyProperty.UnsetValue
-                        : export.GetExportedObject() ?? DependencyProperty.UnsetValue;
+                        : export.Value ?? DependencyProperty.UnsetValue;
             return o;
         }
     }

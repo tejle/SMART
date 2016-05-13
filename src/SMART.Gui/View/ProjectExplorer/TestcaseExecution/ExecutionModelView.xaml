@@ -1,0 +1,10 @@
+﻿<ContentControl 
+    x:Class="SMART.Gui.View.TestcaseExecution.ExecutionModelView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:View1="clr-namespace:SMART.Gui.Controls.DiagramControl.View"
+    HorizontalAlignment="Stretch"
+    VerticalAlignment="Stretch"
+    >
+    <View1:DiagramViewer x:Name="diagramViewer" Background="#00FFFFFF" />
+</ContentControl>
