@@ -28,8 +28,6 @@ namespace SMART.Test.Gui
 
         }
         [Test]
-        [Ignore]
-
         public void testcase_property_models_add_should_return_count_one()
         {
             
@@ -39,8 +37,6 @@ namespace SMART.Test.Gui
         }
 
         [Test]
-        [Ignore]
-
         public void testcase_property_models_remove_exsiting_should_return_count_zero()
         {
             testcase.Raise(t => t.PropertyChanged += null, new SmartPropertyChangedEventArgs("Models", model.Object, SmartPropertyChangedAction.Add));
@@ -51,8 +47,6 @@ namespace SMART.Test.Gui
 
 
         [Test]
-        [Ignore]
-
         public void testcase_property_name_should_set_name_from_testcase()
         {
             testcase.SetupGet(t => t.Name).Returns("testcasename");
@@ -62,8 +56,6 @@ namespace SMART.Test.Gui
         }
 
         [Test]
-        [Ignore]
-
         public void adding_a_new_model_should_add_it_to_both_the_project_and_the_testcase()
         {
             // Assign
@@ -79,7 +71,6 @@ namespace SMART.Test.Gui
             testcase.Verify();
         }
 
-        [Ignore]
         [Test]
         public void renaming_should_set_name_on_testcase()
         {
@@ -94,7 +85,6 @@ namespace SMART.Test.Gui
             testcase.Verify();
         }
 
-        [Ignore]
         [Test]
         public void remove_should_remove_testcase_from_project()
         {
@@ -108,26 +98,10 @@ namespace SMART.Test.Gui
             project.Verify();
         }
 
-        [Ignore]
         [Test]
         public void on_creation_models_are_added_to_the_folderviewmodels()
         {
             testcase.VerifyGet(t=>t.Models);
         }
-
-        [Test]
-        [Ignore]
-        public void open_should_raise_smartrouted_event_and_sender_should_be_a_testcase()
-        {
-            //var eventservice = new Mock<IEventService>();
-            //var viewmodel = new TestcaseFolderViewModel(testcase.Object, project.Object, eventservice.Object);
-            //ITestcase t = null;
-            //viewmodel.SmartRoutedEvent += (s, e) => t = e.State as ITestcase;
-
-            //viewmodel.Open.OnExecute.Invoke(null);
-            //Assert.AreSame(testcase.Object, t);
-        }
     }
-
-    
 }

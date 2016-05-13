@@ -1,6 +1,5 @@
 using System;
 using Microsoft.Practices.Unity;
-using SMART.Core.BusinessLayer;
 using SMART.Core.DataLayer;
 using SMART.Core.DataLayer.Interfaces;
 using SMART.Core.DomainModel;

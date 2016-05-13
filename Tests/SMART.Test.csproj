@@ -91,6 +91,22 @@
       <HintPath>..\packages\WatiN.2.1.0\lib\net40\Microsoft.mshtml.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\CommonServiceLocator.1.3\lib\portable-net4+sl5+netcore45+wpa81+wp8\Microsoft.Practices.ServiceLocation.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.4.0.1\lib\net45\Microsoft.Practices.Unity.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity.Configuration, Version=4.0.0.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.4.0.1\lib\net45\Microsoft.Practices.Unity.Configuration.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity.RegistrationByConvention, Version=4.0.0.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.4.0.1\lib\net45\Microsoft.Practices.Unity.RegistrationByConvention.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Moq, Version=4.2.1510.2205, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
       <HintPath>..\packages\Moq.4.2.1510.2205\lib\net40\Moq.dll</HintPath>
       <Private>True</Private>
@@ -161,23 +177,13 @@
     <Compile Include="Base\Algorithms\BreadthFirstAlgorithmTests.cs" />
     <Compile Include="ConsoleRunnerTests.cs" />
     <Compile Include="Core\ConsoleAdapterTests.cs" />
-    <Compile Include="Core\Generate_code_from_model_to_be_executed.cs" />
-    <Compile Include="Core\ModelMerge\ModelCompiler_merge_three_models.cs" />
-    <Compile Include="Core\ModelMerge\ModelCompiler_merge_two_models.cs" />
     <Compile Include="Core\ModelCreation.cs" />
-    <Compile Include="Core\ModelMerge\ModelCompiler_merge_two_models_where_one_has_two_references.cs" />
-    <Compile Include="Core\Testcase_executing_a_sequence.cs" />
-    <Compile Include="Core\Testcase_execution_of_one_step.cs" />
     <Compile Include="Core\TransitionTests.cs" />
-    <Compile Include="Core\ExecutableModelTests.cs" />
     <Compile Include="Core\ModelBuilderTests.cs" />
-    <Compile Include="Core\GraphMerge\ModelMergeTests.cs" />
     <Compile Include="Core\GraphMerge\when_merging_two_models_with_one_reference.cs" />
-    <Compile Include="Core\ModelTests.cs" />
     <Compile Include="Core\ProjectUnitTests.cs" />
     <Compile Include="Core\ResolveTests.cs" />
     <Compile Include="Core\TestcaseUnitTests.cs" />
-    <Compile Include="Core\TestExecutorTests.cs" />
     <Compile Include="Core\ThreadingTests.cs" />
     <Compile Include="Core\StateTests.cs" />
     <Compile Include="Core\WorkingWithModel.cs" />
@@ -196,7 +202,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Base\StopCriterias\StatisticalStopCriteriaTests.cs" />
     <Compile Include="Base\StopCriterias\TimeBasedStopCriteriaTest.cs" />
-    <Compile Include="Services\Repository_get_all_descriptions.cs" />
     <Compile Include="UnitTest1.cs" />
   </ItemGroup>
   <ItemGroup>
