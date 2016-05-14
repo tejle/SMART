@@ -6,7 +6,7 @@ namespace SMART.Core.DomainModel.Layouts
 {
     public class ForceBasedLayout :LayoutBase
     {
-        public event EventHandler LayoutComplete;
+        public new event EventHandler LayoutComplete;
 
         private readonly IModel model;
 
@@ -141,8 +141,7 @@ namespace SMART.Core.DomainModel.Layouts
 
         private void InvokeLayoutComplete(EventArgs e)
         {
-            EventHandler complete = LayoutComplete;
-            if (complete != null) complete(this, e);
+            LayoutComplete?.Invoke(this, e);
         }
     }
 

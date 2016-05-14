@@ -67,6 +67,7 @@ namespace SMART.Test.Core
             Assert.IsFalse(item.TryToStop);
             var status = AbortableThreadPool.Cancel(item, ThreadPoolAbortMethod.Gracefull);
             Assert.AreEqual(WorkItemStatus.Aborted, status);
+            Assert.IsTrue(stopped);
             r.Set();
    
         }
@@ -83,7 +84,7 @@ namespace SMART.Test.Core
                                             {
                                                 Thread.Sleep(1000);
                                             }
-                                            catch (ThreadAbortException e)
+                                            catch (ThreadAbortException)
                                             {
 
                                                 called = true;

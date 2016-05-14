@@ -9,7 +9,7 @@ namespace SMART.Core.DomainModel.Layouts
     public class OrthogonalLayout : LayoutBase
     {
         private readonly IModel model;
-        public event EventHandler LayoutComplete;
+        //public new event EventHandler LayoutComplete;
         List<State> vistedStates = new List<State>();
         List<State> allStates = new List<State>();
         List<State> doneStates = new List<State>();

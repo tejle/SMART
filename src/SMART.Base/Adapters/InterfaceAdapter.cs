@@ -10,7 +10,6 @@ using System.IO;
 
 namespace SMART.Base.Adapters
 {
-    [Obsolete]
     [Export]
     [Export(typeof(IAdapter))]
     [Adapter(Name = "InterfaceAdapter", Description = "This adapter creates an interface")]

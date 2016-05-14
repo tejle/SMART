@@ -17,7 +17,7 @@ namespace SMART.Core.DomainModel.Layouts
         {
         }
 
-        public List<LayoutState> States
+        public new List<LayoutState> States
         {
             get
             {
@@ -28,7 +28,7 @@ namespace SMART.Core.DomainModel.Layouts
             set { states = value; }
         }
 
-        public List<LayoutTransition> Transitions
+        public new List<LayoutTransition> Transitions
         {
             get
             {
@@ -39,7 +39,7 @@ namespace SMART.Core.DomainModel.Layouts
             set { transitions = value; }
         }
 
-        public LayoutState StartState
+        public new LayoutState StartState
         {
             get
             {
@@ -49,7 +49,7 @@ namespace SMART.Core.DomainModel.Layouts
             }
             set { startState = value; }
         }
-        public LayoutState StopState
+        public new LayoutState StopState
         {
             get
             {
