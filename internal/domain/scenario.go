@@ -19,6 +19,7 @@ type Scenario struct {
 	ModelIDs         []uuid.UUID      `json:"modelIds"`
 	Algorithm        string           `json:"algorithm"`
 	GenerationConfig GenerationConfig `json:"generationConfig"`
+	AdapterConfig    AdapterConfig    `json:"adapterConfig"`
 	CreatedAt        time.Time        `json:"createdAt"`
 	UpdatedAt        time.Time        `json:"updatedAt"`
 }
@@ -28,6 +29,7 @@ type CreateScenarioInput struct {
 	ModelIDs         []uuid.UUID      `json:"modelIds"`
 	Algorithm        string           `json:"algorithm,omitempty"`
 	GenerationConfig GenerationConfig `json:"generationConfig,omitempty"`
+	AdapterConfig    AdapterConfig    `json:"adapterConfig,omitempty"`
 }
 
 type UpdateScenarioInput struct {
@@ -71,15 +73,20 @@ type GenerationResult struct {
 	Statistics         map[string]float64 `json:"statistics"`
 }
 
+type RunResult struct {
+	Generation *GenerationResult `json:"generation,omitempty"`
+	Execution  *ExecutionResult  `json:"execution,omitempty"`
+}
+
 type Run struct {
-	ID           uuid.UUID         `json:"id"`
-	OrgID        uuid.UUID         `json:"orgId"`
-	ProjectID    uuid.UUID         `json:"projectId"`
-	ScenarioID   uuid.UUID         `json:"scenarioId"`
-	Kind         RunKind           `json:"kind"`
-	Status       RunStatus         `json:"status"`
-	Result       *GenerationResult `json:"result,omitempty"`
-	ErrorMessage string            `json:"errorMessage,omitempty"`
-	CreatedAt    time.Time         `json:"createdAt"`
-	CompletedAt  *time.Time        `json:"completedAt,omitempty"`
+	ID           uuid.UUID  `json:"id"`
+	OrgID        uuid.UUID  `json:"orgId"`
+	ProjectID    uuid.UUID  `json:"projectId"`
+	ScenarioID   uuid.UUID  `json:"scenarioId"`
+	Kind         RunKind    `json:"kind"`
+	Status       RunStatus  `json:"status"`
+	Result       *RunResult `json:"result,omitempty"`
+	ErrorMessage string     `json:"errorMessage,omitempty"`
+	CreatedAt    time.Time  `json:"createdAt"`
+	CompletedAt  *time.Time `json:"completedAt,omitempty"`
 }

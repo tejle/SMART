@@ -19,16 +19,21 @@ func (s *Store) CreateScenario(ctx context.Context, orgID, projectID uuid.UUID, 
 	if err != nil {
 		return domain.Scenario{}, err
 	}
+	adapterPayload, err := json.Marshal(input.AdapterConfig)
+	if err != nil {
+		return domain.Scenario{}, err
+	}
 
 	var scenario domain.Scenario
 	var cfgBytes []byte
+	var adapterBytes []byte
 	err = s.pool.QueryRow(ctx, `
-		INSERT INTO scenarios (org_id, project_id, name, model_ids, algorithm, generation_config)
-		VALUES ($1, $2, $3, $4, $5, $6::jsonb)
-		RETURNING id, org_id, project_id, name, model_ids, algorithm, generation_config, created_at, updated_at
-	`, orgID, projectID, input.Name, input.ModelIDs, algorithm, cfgPayload).Scan(
+		INSERT INTO scenarios (org_id, project_id, name, model_ids, algorithm, generation_config, adapter_config)
+		VALUES ($1, $2, $3, $4, $5, $6::jsonb, $7::jsonb)
+		RETURNING id, org_id, project_id, name, model_ids, algorithm, generation_config, adapter_config, created_at, updated_at
+	`, orgID, projectID, input.Name, input.ModelIDs, algorithm, cfgPayload, adapterPayload).Scan(
 		&scenario.ID, &scenario.OrgID, &scenario.ProjectID, &scenario.Name, &scenario.ModelIDs,
-		&scenario.Algorithm, &cfgBytes, &scenario.CreatedAt, &scenario.UpdatedAt,
+		&scenario.Algorithm, &cfgBytes, &adapterBytes, &scenario.CreatedAt, &scenario.UpdatedAt,
 	)
 	if err != nil {
 		return domain.Scenario{}, err
@@ -36,12 +41,15 @@ func (s *Store) CreateScenario(ctx context.Context, orgID, projectID uuid.UUID, 
 	if err := json.Unmarshal(cfgBytes, &scenario.GenerationConfig); err != nil {
 		return domain.Scenario{}, err
 	}
+	if err := json.Unmarshal(adapterBytes, &scenario.AdapterConfig); err != nil {
+		return domain.Scenario{}, err
+	}
 	return scenario, nil
 }
 
 func (s *Store) ListScenarios(ctx context.Context, orgID, projectID uuid.UUID) ([]domain.Scenario, error) {
 	rows, err := s.pool.Query(ctx, `
-		SELECT id, org_id, project_id, name, model_ids, algorithm, generation_config, created_at, updated_at
+		SELECT id, org_id, project_id, name, model_ids, algorithm, generation_config, adapter_config, created_at, updated_at
 		FROM scenarios
 		WHERE org_id = $1 AND project_id = $2
 		ORDER BY created_at DESC
@@ -64,7 +72,7 @@ func (s *Store) ListScenarios(ctx context.Context, orgID, projectID uuid.UUID) (
 
 func (s *Store) GetScenario(ctx context.Context, orgID, projectID, scenarioID uuid.UUID) (domain.Scenario, error) {
 	row := s.pool.QueryRow(ctx, `
-		SELECT id, org_id, project_id, name, model_ids, algorithm, generation_config, created_at, updated_at
+		SELECT id, org_id, project_id, name, model_ids, algorithm, generation_config, adapter_config, created_at, updated_at
 		FROM scenarios
 		WHERE org_id = $1 AND project_id = $2 AND id = $3
 	`, orgID, projectID, scenarioID)
@@ -94,22 +102,30 @@ func (s *Store) UpdateScenario(ctx context.Context, orgID, projectID, scenarioID
 	if err != nil {
 		return domain.Scenario{}, err
 	}
+	adapterPayload, err := json.Marshal(current.AdapterConfig)
+	if err != nil {
+		return domain.Scenario{}, err
+	}
 
 	var scenario domain.Scenario
 	var cfgBytes []byte
+	var adapterBytes []byte
 	err = s.pool.QueryRow(ctx, `
 		UPDATE scenarios
-		SET name = $4, model_ids = $5, algorithm = $6, generation_config = $7::jsonb, updated_at = NOW()
+		SET name = $4, model_ids = $5, algorithm = $6, generation_config = $7::jsonb, adapter_config = $8::jsonb, updated_at = NOW()
 		WHERE org_id = $1 AND project_id = $2 AND id = $3
-		RETURNING id, org_id, project_id, name, model_ids, algorithm, generation_config, created_at, updated_at
-	`, orgID, projectID, scenarioID, current.Name, current.ModelIDs, current.Algorithm, cfgPayload).Scan(
+		RETURNING id, org_id, project_id, name, model_ids, algorithm, generation_config, adapter_config, created_at, updated_at
+	`, orgID, projectID, scenarioID, current.Name, current.ModelIDs, current.Algorithm, cfgPayload, adapterPayload).Scan(
 		&scenario.ID, &scenario.OrgID, &scenario.ProjectID, &scenario.Name, &scenario.ModelIDs,
-		&scenario.Algorithm, &cfgBytes, &scenario.CreatedAt, &scenario.UpdatedAt,
+		&scenario.Algorithm, &cfgBytes, &adapterBytes, &scenario.CreatedAt, &scenario.UpdatedAt,
 	)
 	if err != nil {
 		return domain.Scenario{}, err
 	}
 	if err := json.Unmarshal(cfgBytes, &scenario.GenerationConfig); err != nil {
+		return domain.Scenario{}, err
+	}
+	if err := json.Unmarshal(adapterBytes, &scenario.AdapterConfig); err != nil {
 		return domain.Scenario{}, err
 	}
 	return scenario, nil
@@ -165,7 +181,7 @@ func (s *Store) GetRun(ctx context.Context, orgID, runID uuid.UUID) (domain.Run,
 	}
 	run.CompletedAt = completedAt
 	if len(resultPayload) > 0 {
-		var result domain.GenerationResult
+		var result domain.RunResult
 		if err := json.Unmarshal(resultPayload, &result); err != nil {
 			return domain.Run{}, err
 		}
@@ -177,13 +193,17 @@ func (s *Store) GetRun(ctx context.Context, orgID, runID uuid.UUID) (domain.Run,
 func scanScenario(scan func(dest ...any) error) (domain.Scenario, error) {
 	var scenario domain.Scenario
 	var cfgBytes []byte
+	var adapterBytes []byte
 	if err := scan(
 		&scenario.ID, &scenario.OrgID, &scenario.ProjectID, &scenario.Name, &scenario.ModelIDs,
-		&scenario.Algorithm, &cfgBytes, &scenario.CreatedAt, &scenario.UpdatedAt,
+		&scenario.Algorithm, &cfgBytes, &adapterBytes, &scenario.CreatedAt, &scenario.UpdatedAt,
 	); err != nil {
 		return domain.Scenario{}, err
 	}
 	if err := json.Unmarshal(cfgBytes, &scenario.GenerationConfig); err != nil {
+		return domain.Scenario{}, err
+	}
+	if err := json.Unmarshal(adapterBytes, &scenario.AdapterConfig); err != nil {
 		return domain.Scenario{}, err
 	}
 	return scenario, nil

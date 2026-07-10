@@ -11,6 +11,7 @@ import (
 
 	"github.com/tejle/SMART/internal/api"
 	"github.com/tejle/SMART/internal/config"
+	"github.com/tejle/SMART/internal/runevents"
 	"github.com/tejle/SMART/internal/store/postgres"
 )
 
@@ -27,7 +28,7 @@ func main() {
 	}
 	defer db.Close()
 
-	handler := api.NewHandler(db)
+	handler := api.NewHandler(db, runevents.NewHub())
 	router := api.NewRouter(handler, cfg.DevAuth)
 
 	server := &http.Server{

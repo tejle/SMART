@@ -10,15 +10,17 @@ import (
 	"github.com/jackc/pgx/v5"
 	"github.com/tejle/SMART/internal/auth"
 	"github.com/tejle/SMART/internal/domain"
+	"github.com/tejle/SMART/internal/runevents"
 	"github.com/tejle/SMART/internal/store"
 )
 
 type Handler struct {
-	store store.Store
+	store    store.Store
+	runEvents *runevents.Hub
 }
 
-func NewHandler(s store.Store) *Handler {
-	return &Handler{store: s}
+func NewHandler(s store.Store, hub *runevents.Hub) *Handler {
+	return &Handler{store: s, runEvents: hub}
 }
 
 func (h *Handler) Health(w http.ResponseWriter, _ *http.Request) {

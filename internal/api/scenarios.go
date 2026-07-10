@@ -1,8 +1,10 @@
 package api
 
 import (
+	"context"
 	"encoding/json"
 	"errors"
+	"fmt"
 	"math/rand"
 	"net/http"
 	"time"
@@ -92,10 +94,6 @@ func (h *Handler) StartScenarioRun(w http.ResponseWriter, r *http.Request) {
 	if err := json.NewDecoder(r.Body).Decode(&payload); err != nil || payload.Kind == "" {
 		payload.Kind = domain.RunKindGenerate
 	}
-	if payload.Kind != domain.RunKindGenerate {
-		writeError(w, http.StatusBadRequest, "only generate runs are supported in this phase")
-		return
-	}
 
 	scenario, projectID, err := h.findScenario(r, orgID, scenarioID)
 	if err != nil {
@@ -116,7 +114,25 @@ func (h *Handler) StartScenarioRun(w http.ResponseWriter, r *http.Request) {
 	run.Status = domain.RunStatusRunning
 	_ = h.store.UpdateRun(r.Context(), run)
 
-	result, runErr := h.generateForScenario(r, orgID, projectID, scenario)
+	var runResult domain.RunResult
+	var runErr error
+
+	switch payload.Kind {
+	case domain.RunKindGenerate:
+		generation, err := h.generateForScenario(r, orgID, projectID, scenario)
+		if err != nil {
+			runErr = err
+		} else {
+			runResult.Generation = &generation
+		}
+	case domain.RunKindExecute:
+		writeJSON(w, http.StatusAccepted, run)
+		go h.executeScenarioAsync(run, scenario, orgID, projectID)
+		return
+	default:
+		runErr = fmt.Errorf("unsupported run kind")
+	}
+
 	now := time.Now().UTC()
 	run.CompletedAt = &now
 	if runErr != nil {
@@ -124,7 +140,7 @@ func (h *Handler) StartScenarioRun(w http.ResponseWriter, r *http.Request) {
 		run.ErrorMessage = runErr.Error()
 	} else {
 		run.Status = domain.RunStatusCompleted
-		run.Result = &result
+		run.Result = &runResult
 	}
 	_ = h.store.UpdateRun(r.Context(), run)
 
@@ -133,6 +149,40 @@ func (h *Handler) StartScenarioRun(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	writeJSON(w, http.StatusAccepted, run)
+}
+
+func (h *Handler) executeScenarioAsync(run domain.Run, scenario domain.Scenario, orgID, projectID uuid.UUID) {
+	ctx := context.Background()
+	var runResult domain.RunResult
+	var runErr error
+
+	generation, err := h.generateForScenarioCtx(ctx, orgID, projectID, scenario)
+	if err != nil {
+		runErr = err
+	} else {
+		emit := func(event engine.RunEvent) {
+			h.runEvents.Publish(run.ID, event)
+		}
+		execution, err := engine.Execute(ctx, generation.Paths, scenario.AdapterConfig, emit)
+		if err != nil {
+			runErr = err
+		} else {
+			runResult.Generation = &generation
+			runResult.Execution = &execution
+		}
+	}
+
+	now := time.Now().UTC()
+	run.CompletedAt = &now
+	if runErr != nil {
+		run.Status = domain.RunStatusFailed
+		run.ErrorMessage = runErr.Error()
+	} else {
+		run.Status = domain.RunStatusCompleted
+		run.Result = &runResult
+	}
+	_ = h.store.UpdateRun(ctx, run)
+	h.runEvents.Close(run.ID)
 }
 
 func (h *Handler) GetRun(w http.ResponseWriter, r *http.Request) {
@@ -159,6 +209,44 @@ func (h *Handler) GetRun(w http.ResponseWriter, r *http.Request) {
 	writeJSON(w, http.StatusOK, run)
 }
 
+func (h *Handler) StreamRunEvents(w http.ResponseWriter, r *http.Request) {
+	runID, err := uuid.Parse(chi.URLParam(r, "runID"))
+	if err != nil {
+		writeError(w, http.StatusBadRequest, "invalid run id")
+		return
+	}
+
+	flusher, ok := w.(http.Flusher)
+	if !ok {
+		writeError(w, http.StatusInternalServerError, "streaming not supported")
+		return
+	}
+
+	w.Header().Set("Content-Type", "text/event-stream")
+	w.Header().Set("Cache-Control", "no-cache")
+	w.Header().Set("Connection", "keep-alive")
+
+	events := h.runEvents.Subscribe(runID)
+	defer func() {
+		// no-op; hub closes channels when run completes
+	}()
+
+	for {
+		select {
+		case <-r.Context().Done():
+			return
+		case payload, open := <-events:
+			if !open {
+				fmt.Fprintf(w, "event: close\ndata: {}\n\n")
+				flusher.Flush()
+				return
+			}
+			fmt.Fprintf(w, "event: run\ndata: %s\n\n", payload)
+			flusher.Flush()
+		}
+	}
+}
+
 func (h *Handler) findScenario(r *http.Request, orgID, scenarioID uuid.UUID) (domain.Scenario, uuid.UUID, error) {
 	projects, err := h.store.ListProjects(r.Context(), orgID)
 	if err != nil {
@@ -177,9 +265,13 @@ func (h *Handler) findScenario(r *http.Request, orgID, scenarioID uuid.UUID) (do
 }
 
 func (h *Handler) generateForScenario(r *http.Request, orgID, projectID uuid.UUID, scenario domain.Scenario) (domain.GenerationResult, error) {
+	return h.generateForScenarioCtx(r.Context(), orgID, projectID, scenario)
+}
+
+func (h *Handler) generateForScenarioCtx(ctx context.Context, orgID, projectID uuid.UUID, scenario domain.Scenario) (domain.GenerationResult, error) {
 	var models []domain.Model
 	for _, modelID := range scenario.ModelIDs {
-		model, err := h.store.GetModel(r.Context(), orgID, projectID, modelID)
+		model, err := h.store.GetModel(ctx, orgID, projectID, modelID)
 		if err != nil {
 			return domain.GenerationResult{}, err
 		}

@@ -7,7 +7,8 @@ import {
   listModels,
   listProjects,
   listScenarios,
-  startGenerateRun,
+  startRun,
+  subscribeRunEvents,
 } from "./api";
 import ModelEditor from "./ModelEditor";
 import type { Model, Project, Run, Scenario } from "./types";
@@ -23,7 +24,9 @@ export default function App() {
   const [scenarios, setScenarios] = useState<Scenario[]>([]);
   const [scenarioName, setScenarioName] = useState("");
   const [selectedModelIds, setSelectedModelIds] = useState<string[]>([]);
+  const [adapterBaseUrl, setAdapterBaseUrl] = useState("http://localhost:9090");
   const [lastRun, setLastRun] = useState<Run | null>(null);
+  const [runLog, setRunLog] = useState<string[]>([]);
   const [activeModel, setActiveModel] = useState<Model | null>(null);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -88,6 +91,7 @@ export default function App() {
         modelIds: selectedModelIds,
         algorithm: "breadth-first",
         generationConfig: { stateCoverageThreshold: 1, maxSteps: 100 },
+        adapterConfig: { baseUrl: adapterBaseUrl },
       });
       setScenarios((prev) => [scenario, ...prev]);
       setScenarioName("");
@@ -99,15 +103,30 @@ export default function App() {
     }
   }
 
-  async function onGenerate(scenarioId: string) {
+  async function onRun(scenarioId: string, kind: "generate" | "execute") {
     setLoading(true);
     setError("");
+    setRunLog([]);
+    let unsubscribe: (() => void) | undefined;
     try {
-      const run = await startGenerateRun(scenarioId);
-      setLastRun(run);
+      if (kind === "execute") {
+        const pending = await startRun(scenarioId, kind);
+        setLastRun(pending);
+        unsubscribe = subscribeRunEvents(pending.id, (event) => {
+          const e = event as { type?: string; message?: string; step?: { stateLabel?: string } };
+          const line = e.step?.stateLabel
+            ? `${e.type}: ${e.step.stateLabel}`
+            : `${e.type}${e.message ? ` — ${e.message}` : ""}`;
+          setRunLog((prev) => [...prev, line]);
+        });
+      } else {
+        const run = await startRun(scenarioId, kind);
+        setLastRun(run);
+      }
     } catch (err) {
       setError(err instanceof Error ? err.message : "Unknown error");
     } finally {
+      unsubscribe?.();
       setLoading(false);
     }
   }
@@ -281,6 +300,11 @@ export default function App() {
                       </label>
                     ))}
                   </div>
+                  <input
+                    value={adapterBaseUrl}
+                    onChange={(e) => setAdapterBaseUrl(e.target.value)}
+                    placeholder="HTTP adapter base URL"
+                  />
                   <button type="submit" disabled={loading || selectedModelIds.length === 0}>
                     Create scenario
                   </button>
@@ -298,18 +322,41 @@ export default function App() {
                     >
                       <div style={{ display: "flex", justifyContent: "space-between", gap: "0.5rem" }}>
                         <span>{s.name}</span>
-                        <button onClick={() => onGenerate(s.id)} disabled={loading}>
+                        <button onClick={() => onRun(s.id, "generate")} disabled={loading}>
                           Generate
+                        </button>
+                        <button onClick={() => onRun(s.id, "execute")} disabled={loading}>
+                          Execute
                         </button>
                       </div>
                     </li>
                   ))}
                 </ul>
-                {lastRun?.result && (
+                {lastRun?.result?.generation && (
                   <div style={{ marginTop: "1rem", fontSize: 14, opacity: 0.9 }}>
-                    <strong>Last run:</strong> {lastRun.result.paths.length} paths, coverage{" "}
-                    {(lastRun.result.stateCoverageRatio * 100).toFixed(0)}%
+                    <strong>Last run:</strong> {lastRun.result.generation.paths.length} paths, coverage{" "}
+                    {(lastRun.result.generation.stateCoverageRatio * 100).toFixed(0)}%
                   </div>
+                )}
+                {lastRun?.result?.execution && (
+                  <div style={{ marginTop: "0.5rem", fontSize: 14, opacity: 0.9 }}>
+                    Execution: {lastRun.result.execution.stepResults.length} steps,{" "}
+                    {lastRun.result.execution.defectFlows.length} defect flows
+                  </div>
+                )}
+                {runLog.length > 0 && (
+                  <pre
+                    style={{
+                      marginTop: "0.75rem",
+                      padding: "0.75rem",
+                      background: "#111827",
+                      borderRadius: 8,
+                      fontSize: 12,
+                      overflow: "auto",
+                    }}
+                  >
+                    {runLog.join("\n")}
+                  </pre>
                 )}
               </>
             )}

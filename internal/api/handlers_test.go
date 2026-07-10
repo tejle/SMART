@@ -12,6 +12,7 @@ import (
 	"github.com/google/uuid"
 	"github.com/tejle/SMART/internal/auth"
 	"github.com/tejle/SMART/internal/domain"
+	"github.com/tejle/SMART/internal/runevents"
 )
 
 type mockStore struct {
@@ -149,7 +150,7 @@ type notFoundError struct{}
 func (e *notFoundError) Error() string { return "not found" }
 
 func TestHealth(t *testing.T) {
-	h := NewHandler(newMockStore())
+	h := NewHandler(newMockStore(), runevents.NewHub())
 	req := httptest.NewRequest(http.MethodGet, "/healthz", nil)
 	rec := httptest.NewRecorder()
 	NewRouter(h, true).ServeHTTP(rec, req)
@@ -160,7 +161,7 @@ func TestHealth(t *testing.T) {
 }
 
 func TestCreateProjectRequiresOrgHeader(t *testing.T) {
-	h := NewHandler(newMockStore())
+	h := NewHandler(newMockStore(), runevents.NewHub())
 	body, _ := json.Marshal(domain.CreateProjectInput{Name: "Demo"})
 	req := httptest.NewRequest(http.MethodPost, "/v1/projects", bytes.NewReader(body))
 	rec := httptest.NewRecorder()
@@ -173,7 +174,7 @@ func TestCreateProjectRequiresOrgHeader(t *testing.T) {
 
 func TestCreateAndListProjects(t *testing.T) {
 	store := newMockStore()
-	h := NewHandler(store)
+	h := NewHandler(store, runevents.NewHub())
 	router := NewRouter(h, true)
 	orgID := uuid.New()
 

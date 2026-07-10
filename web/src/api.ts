@@ -99,6 +99,7 @@ export async function createScenario(
     modelIds: string[];
     algorithm?: string;
     generationConfig?: { stateCoverageThreshold?: number; maxSteps?: number };
+    adapterConfig?: { baseUrl: string; timeoutSeconds?: number };
   },
 ): Promise<Scenario> {
   const res = await fetch(`/v1/projects/${projectId}/scenarios`, {
@@ -110,12 +111,21 @@ export async function createScenario(
   return res.json();
 }
 
-export async function startGenerateRun(scenarioId: string): Promise<Run> {
+export async function startRun(scenarioId: string, kind: "generate" | "execute"): Promise<Run> {
   const res = await fetch(`/v1/scenarios/${scenarioId}/runs`, {
     method: "POST",
     headers: { "Content-Type": "application/json", ...orgHeaders() },
-    body: JSON.stringify({ kind: "generate" }),
+    body: JSON.stringify({ kind }),
   });
-  if (!res.ok) throw new Error(await parseError(res, "Failed to start generation"));
+  if (!res.ok) throw new Error(await parseError(res, `Failed to start ${kind} run`));
   return res.json();
+}
+
+export function subscribeRunEvents(runId: string, onEvent: (payload: unknown) => void) {
+  const source = new EventSource(`/v1/runs/${runId}/events`);
+  source.addEventListener("run", (event) => {
+    onEvent(JSON.parse((event as MessageEvent).data));
+  });
+  source.addEventListener("close", () => source.close());
+  return () => source.close();
 }

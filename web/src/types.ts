@@ -53,6 +53,11 @@ export type GenerationConfig = {
   maxSteps?: number;
 };
 
+export type AdapterConfig = {
+  baseUrl: string;
+  timeoutSeconds?: number;
+};
+
 export type Scenario = {
   id: string;
   orgId: string;
@@ -61,6 +66,7 @@ export type Scenario = {
   modelIds: string[];
   algorithm: string;
   generationConfig: GenerationConfig;
+  adapterConfig: AdapterConfig;
   createdAt: string;
   updatedAt: string;
 };
@@ -77,6 +83,18 @@ export type GenerationResult = {
   statistics: Record<string, number>;
 };
 
+export type ExecutionResult = {
+  paths: TestPath[];
+  stepResults: { step: TestPath["steps"][number]; success: boolean; error?: string }[];
+  defectFlows: TestPath[];
+  completedRounds: number;
+};
+
+export type RunResult = {
+  generation?: GenerationResult;
+  execution?: ExecutionResult;
+};
+
 export type Run = {
   id: string;
   orgId: string;
@@ -84,7 +102,7 @@ export type Run = {
   scenarioId: string;
   kind: "generate" | "execute";
   status: "pending" | "running" | "completed" | "failed";
-  result?: GenerationResult;
+  result?: RunResult;
   errorMessage?: string;
   createdAt: string;
   completedAt?: string;
