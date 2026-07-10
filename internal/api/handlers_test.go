@@ -99,6 +99,49 @@ func (m *mockStore) DeleteModel(_ context.Context, _, _, _ uuid.UUID) error {
 	return errNotFound
 }
 
+func (m *mockStore) CreateScenario(_ context.Context, orgID, projectID uuid.UUID, input domain.CreateScenarioInput) (domain.Scenario, error) {
+	return domain.Scenario{
+		ID:        uuid.New(),
+		OrgID:     orgID,
+		ProjectID: projectID,
+		Name:      input.Name,
+		ModelIDs:  input.ModelIDs,
+		Algorithm: "breadth-first",
+		CreatedAt: time.Now().UTC(),
+		UpdatedAt: time.Now().UTC(),
+	}, nil
+}
+
+func (m *mockStore) ListScenarios(_ context.Context, _, _ uuid.UUID) ([]domain.Scenario, error) {
+	return []domain.Scenario{}, nil
+}
+
+func (m *mockStore) GetScenario(_ context.Context, _, _, _ uuid.UUID) (domain.Scenario, error) {
+	return domain.Scenario{}, errNotFound
+}
+
+func (m *mockStore) UpdateScenario(_ context.Context, _, _, _ uuid.UUID, _ domain.UpdateScenarioInput) (domain.Scenario, error) {
+	return domain.Scenario{}, errNotFound
+}
+
+func (m *mockStore) CreateRun(_ context.Context, orgID, projectID, scenarioID uuid.UUID, kind domain.RunKind) (domain.Run, error) {
+	return domain.Run{
+		ID:         uuid.New(),
+		OrgID:      orgID,
+		ProjectID:  projectID,
+		ScenarioID: scenarioID,
+		Kind:       kind,
+		Status:     domain.RunStatusPending,
+		CreatedAt:  time.Now().UTC(),
+	}, nil
+}
+
+func (m *mockStore) UpdateRun(_ context.Context, _ domain.Run) error { return nil }
+
+func (m *mockStore) GetRun(_ context.Context, _, _ uuid.UUID) (domain.Run, error) {
+	return domain.Run{}, errNotFound
+}
+
 var errNotFound = &notFoundError{}
 
 type notFoundError struct{}

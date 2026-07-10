@@ -28,6 +28,7 @@ func NewRouter(h *Handler, devAuth bool) http.Handler {
 
 	r.Route("/v1", func(r chi.Router) {
 		r.Post("/orgs", h.CreateOrganization)
+		r.Get("/catalog/plugins", h.PluginCatalog)
 
 		r.Group(func(r chi.Router) {
 			if devAuth {
@@ -42,6 +43,11 @@ func NewRouter(h *Handler, devAuth bool) http.Handler {
 			r.Get("/projects/{projectID}/models/{modelID}", h.GetModel)
 			r.Put("/projects/{projectID}/models/{modelID}", h.UpdateModel)
 			r.Delete("/projects/{projectID}/models/{modelID}", h.DeleteModel)
+
+			r.Post("/projects/{projectID}/scenarios", h.CreateScenario)
+			r.Get("/projects/{projectID}/scenarios", h.ListScenarios)
+			r.Post("/scenarios/{scenarioID}/runs", h.StartScenarioRun)
+			r.Get("/runs/{runID}", h.GetRun)
 		})
 	})
 

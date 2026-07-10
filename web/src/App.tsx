@@ -3,11 +3,14 @@ import {
   createModel,
   createOrganization,
   createProject,
+  createScenario,
   listModels,
   listProjects,
+  listScenarios,
+  startGenerateRun,
 } from "./api";
 import ModelEditor from "./ModelEditor";
-import type { Model, Project } from "./types";
+import type { Model, Project, Run, Scenario } from "./types";
 
 export default function App() {
   const [orgId, setOrgId] = useState(localStorage.getItem("smart.orgId") ?? "");
@@ -17,6 +20,10 @@ export default function App() {
   const [projects, setProjects] = useState<Project[]>([]);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [models, setModels] = useState<Model[]>([]);
+  const [scenarios, setScenarios] = useState<Scenario[]>([]);
+  const [scenarioName, setScenarioName] = useState("");
+  const [selectedModelIds, setSelectedModelIds] = useState<string[]>([]);
+  const [lastRun, setLastRun] = useState<Run | null>(null);
   const [activeModel, setActiveModel] = useState<Model | null>(null);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -32,6 +39,9 @@ export default function App() {
     if (!selectedProject) return;
     listModels(selectedProject.id)
       .then(setModels)
+      .catch((err: Error) => setError(err.message));
+    listScenarios(selectedProject.id)
+      .then(setScenarios)
       .catch((err: Error) => setError(err.message));
   }, [selectedProject?.id]);
 
@@ -60,6 +70,41 @@ export default function App() {
       setProjects((prev) => [project, ...prev]);
       setSelectedProject(project);
       setProjectName("");
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Unknown error");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function onCreateScenario(e: FormEvent) {
+    e.preventDefault();
+    if (!selectedProject || selectedModelIds.length === 0) return;
+    setLoading(true);
+    setError("");
+    try {
+      const scenario = await createScenario(selectedProject.id, {
+        name: scenarioName,
+        modelIds: selectedModelIds,
+        algorithm: "breadth-first",
+        generationConfig: { stateCoverageThreshold: 1, maxSteps: 100 },
+      });
+      setScenarios((prev) => [scenario, ...prev]);
+      setScenarioName("");
+      setSelectedModelIds([]);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Unknown error");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function onGenerate(scenarioId: string) {
+    setLoading(true);
+    setError("");
+    try {
+      const run = await startGenerateRun(scenarioId);
+      setLastRun(run);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Unknown error");
     } finally {
@@ -125,7 +170,7 @@ export default function App() {
           </form>
         </section>
       ) : (
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1.5rem" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "1.5rem" }}>
           <section>
             <h2>Projects</h2>
             <form onSubmit={onCreateProject} style={{ display: "grid", gap: "0.75rem", marginBottom: "1rem" }}>
@@ -203,6 +248,69 @@ export default function App() {
                     </li>
                   ))}
                 </ul>
+              </>
+            )}
+          </section>
+
+          <section>
+            <h2>Scenarios</h2>
+            {!selectedProject ? (
+              <p style={{ opacity: 0.7 }}>Select a project to configure scenarios.</p>
+            ) : (
+              <>
+                <form onSubmit={onCreateScenario} style={{ display: "grid", gap: "0.75rem", marginBottom: "1rem" }}>
+                  <input
+                    value={scenarioName}
+                    onChange={(e) => setScenarioName(e.target.value)}
+                    placeholder="Scenario name"
+                    required
+                  />
+                  <div style={{ display: "grid", gap: "0.35rem" }}>
+                    {models.map((m) => (
+                      <label key={m.id} style={{ fontSize: 14 }}>
+                        <input
+                          type="checkbox"
+                          checked={selectedModelIds.includes(m.id)}
+                          onChange={(e) => {
+                            setSelectedModelIds((prev) =>
+                              e.target.checked ? [...prev, m.id] : prev.filter((id) => id !== m.id),
+                            );
+                          }}
+                        />{" "}
+                        {m.name}
+                      </label>
+                    ))}
+                  </div>
+                  <button type="submit" disabled={loading || selectedModelIds.length === 0}>
+                    Create scenario
+                  </button>
+                </form>
+                <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
+                  {scenarios.map((s) => (
+                    <li
+                      key={s.id}
+                      style={{
+                        padding: "0.75rem 1rem",
+                        border: "1px solid #2a3558",
+                        borderRadius: 8,
+                        marginBottom: "0.5rem",
+                      }}
+                    >
+                      <div style={{ display: "flex", justifyContent: "space-between", gap: "0.5rem" }}>
+                        <span>{s.name}</span>
+                        <button onClick={() => onGenerate(s.id)} disabled={loading}>
+                          Generate
+                        </button>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+                {lastRun?.result && (
+                  <div style={{ marginTop: "1rem", fontSize: 14, opacity: 0.9 }}>
+                    <strong>Last run:</strong> {lastRun.result.paths.length} paths, coverage{" "}
+                    {(lastRun.result.stateCoverageRatio * 100).toFixed(0)}%
+                  </div>
+                )}
               </>
             )}
           </section>

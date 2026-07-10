@@ -1,4 +1,11 @@
-import type { Model, ModelGraph, Organization, Project } from "./types";
+import type {
+  Model,
+  ModelGraph,
+  Organization,
+  Project,
+  Run,
+  Scenario,
+} from "./types";
 
 const orgHeaders = (): Record<string, string> => {
   const orgId = localStorage.getItem("smart.orgId");
@@ -76,5 +83,39 @@ export async function updateModel(
     body: JSON.stringify(payload),
   });
   if (!res.ok) throw new Error(await parseError(res, "Failed to update model"));
+  return res.json();
+}
+
+export async function listScenarios(projectId: string): Promise<Scenario[]> {
+  const res = await fetch(`/v1/projects/${projectId}/scenarios`, { headers: orgHeaders() });
+  if (!res.ok) throw new Error(await parseError(res, "Failed to list scenarios"));
+  return res.json();
+}
+
+export async function createScenario(
+  projectId: string,
+  payload: {
+    name: string;
+    modelIds: string[];
+    algorithm?: string;
+    generationConfig?: { stateCoverageThreshold?: number; maxSteps?: number };
+  },
+): Promise<Scenario> {
+  const res = await fetch(`/v1/projects/${projectId}/scenarios`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json", ...orgHeaders() },
+    body: JSON.stringify(payload),
+  });
+  if (!res.ok) throw new Error(await parseError(res, "Failed to create scenario"));
+  return res.json();
+}
+
+export async function startGenerateRun(scenarioId: string): Promise<Run> {
+  const res = await fetch(`/v1/scenarios/${scenarioId}/runs`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json", ...orgHeaders() },
+    body: JSON.stringify({ kind: "generate" }),
+  });
+  if (!res.ok) throw new Error(await parseError(res, "Failed to start generation"));
   return res.json();
 }

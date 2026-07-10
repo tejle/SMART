@@ -19,4 +19,13 @@ type Store interface {
 	GetModel(ctx context.Context, orgID, projectID, modelID uuid.UUID) (domain.Model, error)
 	UpdateModel(ctx context.Context, orgID, projectID, modelID uuid.UUID, name *string, graph *domain.ModelGraph) (domain.Model, error)
 	DeleteModel(ctx context.Context, orgID, projectID, modelID uuid.UUID) error
+
+	CreateScenario(ctx context.Context, orgID, projectID uuid.UUID, input domain.CreateScenarioInput) (domain.Scenario, error)
+	ListScenarios(ctx context.Context, orgID, projectID uuid.UUID) ([]domain.Scenario, error)
+	GetScenario(ctx context.Context, orgID, projectID, scenarioID uuid.UUID) (domain.Scenario, error)
+	UpdateScenario(ctx context.Context, orgID, projectID, scenarioID uuid.UUID, input domain.UpdateScenarioInput) (domain.Scenario, error)
+
+	CreateRun(ctx context.Context, orgID, projectID, scenarioID uuid.UUID, kind domain.RunKind) (domain.Run, error)
+	UpdateRun(ctx context.Context, run domain.Run) error
+	GetRun(ctx context.Context, orgID, runID uuid.UUID) (domain.Run, error)
 }

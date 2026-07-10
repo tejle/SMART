@@ -47,3 +47,45 @@ export type Model = {
   createdAt: string;
   updatedAt: string;
 };
+
+export type GenerationConfig = {
+  stateCoverageThreshold?: number;
+  maxSteps?: number;
+};
+
+export type Scenario = {
+  id: string;
+  orgId: string;
+  projectId: string;
+  name: string;
+  modelIds: string[];
+  algorithm: string;
+  generationConfig: GenerationConfig;
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type TestPath = {
+  id: string;
+  steps: { stateId: string; stateLabel: string; action?: string }[];
+};
+
+export type GenerationResult = {
+  paths: TestPath[];
+  visitedStateIds: string[];
+  stateCoverageRatio: number;
+  statistics: Record<string, number>;
+};
+
+export type Run = {
+  id: string;
+  orgId: string;
+  projectId: string;
+  scenarioId: string;
+  kind: "generate" | "execute";
+  status: "pending" | "running" | "completed" | "failed";
+  result?: GenerationResult;
+  errorMessage?: string;
+  createdAt: string;
+  completedAt?: string;
+};
