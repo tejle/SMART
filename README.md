@@ -2,7 +2,7 @@
 
 SMART is being revived as a cloud-native, multi-tenant SaaS for model-based testing (MBT). Users model requirements as state machines, configure generation and execution strategies, and run adaptive test paths in the browser.
 
-The legacy WPF desktop codebase under `src/` remains as a behavioral reference until Phase 5 archival.
+The legacy WPF desktop codebase lives under [`legacy/`](legacy/) as a read-only behavioral reference.
 
 ## Stack
 
