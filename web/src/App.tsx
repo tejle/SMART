@@ -8,6 +8,7 @@ import {
   listProjects,
   listScenarios,
   startRun,
+  runReportUrl,
   subscribeRunEvents,
 } from "./api";
 import ModelEditor from "./ModelEditor";
@@ -336,6 +337,10 @@ export default function App() {
                   <div style={{ marginTop: "1rem", fontSize: 14, opacity: 0.9 }}>
                     <strong>Last run:</strong> {lastRun.result.generation.paths.length} paths, coverage{" "}
                     {(lastRun.result.generation.stateCoverageRatio * 100).toFixed(0)}%
+                    {" · "}
+                    <a href={runReportUrl(lastRun.id)} target="_blank" rel="noreferrer">
+                      View report
+                    </a>
                   </div>
                 )}
                 {lastRun?.result?.execution && (

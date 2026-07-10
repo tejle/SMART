@@ -49,6 +49,7 @@ func NewRouter(h *Handler, devAuth bool) http.Handler {
 			r.Post("/scenarios/{scenarioID}/runs", h.StartScenarioRun)
 			r.Get("/runs/{runID}", h.GetRun)
 			r.Get("/runs/{runID}/events", h.StreamRunEvents)
+			r.Get("/runs/{runID}/report", h.RunReportHTML)
 		})
 	})
 

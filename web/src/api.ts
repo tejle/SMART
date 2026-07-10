@@ -121,6 +121,10 @@ export async function startRun(scenarioId: string, kind: "generate" | "execute")
   return res.json();
 }
 
+export function runReportUrl(runId: string) {
+  return `/v1/runs/${runId}/report`;
+}
+
 export function subscribeRunEvents(runId: string, onEvent: (payload: unknown) => void) {
   const source = new EventSource(`/v1/runs/${runId}/events`);
   source.addEventListener("run", (event) => {
