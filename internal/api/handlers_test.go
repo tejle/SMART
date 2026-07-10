@@ -144,6 +144,10 @@ func (m *mockStore) GetRun(_ context.Context, _, _ uuid.UUID) (domain.Run, error
 	return domain.Run{}, errNotFound
 }
 
+func (m *mockStore) ListRunsByProject(_ context.Context, _, _ uuid.UUID) ([]domain.Run, error) {
+	return []domain.Run{}, nil
+}
+
 func (m *mockStore) RecordAudit(_ context.Context, _ store.AuditEntry) error {
 	return nil
 }

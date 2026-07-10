@@ -3,7 +3,9 @@ import "@xyflow/react/dist/style.css";
 import { useMemo } from "react";
 import { graphToFlow } from "./graph";
 import { highlightEdges, highlightNodes } from "./graphStyles";
-import type { ExecutionResult, Model, Run } from "./types";
+import SequenceList from "./SequenceList";
+import { normalizeStateId, parseTestPath } from "./testSequence";
+import type { ExecutionResult, Model, ModelGraph, Run } from "./types";
 
 type Props = {
   model: Model;
@@ -24,8 +26,7 @@ export default function ExecutionView({ model, run, activeStateId, log, onBack }
   const visitedIds = useMemo(() => {
     const ids = new Set<string>();
     execution?.stepResults.forEach((sr) => {
-      const id = sr.step.stateId.split(":").pop() ?? sr.step.stateId;
-      ids.add(id);
+      ids.add(normalizeStateId(sr.step.stateId));
     });
     return ids;
   }, [execution]);
@@ -33,13 +34,16 @@ export default function ExecutionView({ model, run, activeStateId, log, onBack }
   const failedIds = useMemo(() => {
     const ids = new Set<string>();
     execution?.stepResults.forEach((sr) => {
-      if (!sr.success) {
-        const id = sr.step.stateId.split(":").pop() ?? sr.step.stateId;
-        ids.add(id);
-      }
+      if (!sr.success) ids.add(normalizeStateId(sr.step.stateId));
     });
     return ids;
   }, [execution]);
+
+  const primaryPath = execution?.paths[0];
+  const sequence = useMemo(
+    () => (primaryPath ? parseTestPath(primaryPath, model.graph) : []),
+    [primaryPath, model.graph],
+  );
 
   const nodes = highlightNodes(baseNodes, { visitedIds, activeId: activeStateId, failedIds });
   const edges = highlightEdges(baseEdges, {});
@@ -62,9 +66,9 @@ export default function ExecutionView({ model, run, activeStateId, log, onBack }
         }}
       >
         <button onClick={onBack}>Back</button>
-        <strong>Executing {model.name}</strong>
+        <strong>{isRunning ? "Executing" : "Execution"} {model.name}</strong>
         <span style={{ fontSize: 14, opacity: 0.85 }}>
-          {isRunning ? "Running…" : `Completed — ${passedSteps}/${totalSteps} steps passed`}
+          {isRunning ? "Running…" : `Completed — ${passedSteps}/${totalSteps} validations passed`}
         </span>
         {execution && execution.defectFlows.length > 0 && (
           <span style={{ fontSize: 14, color: "#f87171" }}>
@@ -72,7 +76,7 @@ export default function ExecutionView({ model, run, activeStateId, log, onBack }
           </span>
         )}
       </header>
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 320px", minHeight: 0 }}>
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 360px", minHeight: 0 }}>
         <div style={{ minHeight: 0, display: "grid", gridTemplateRows: "1fr auto" }}>
           <ReactFlow nodes={nodes} edges={edges} fitView nodesDraggable={false} nodesConnectable={false}>
             <Background gap={16} color="#1f2937" />
@@ -90,10 +94,16 @@ export default function ExecutionView({ model, run, activeStateId, log, onBack }
               borderTop: "1px solid #2a3558",
             }}
           >
-            {log.length > 0 ? log.join("\n") : "Waiting for execution events…"}
+            {log.length > 0 ? log.join("\n") : isRunning ? "Waiting for execution events…" : "Run completed."}
           </pre>
         </div>
-        <ExecutionSidebar execution={execution} progress={progress} isRunning={isRunning} />
+        <ExecutionSidebar
+          execution={execution}
+          sequence={sequence}
+          graph={model.graph}
+          progress={progress}
+          isRunning={isRunning}
+        />
       </div>
     </div>
   );
@@ -101,10 +111,14 @@ export default function ExecutionView({ model, run, activeStateId, log, onBack }
 
 function ExecutionSidebar({
   execution,
+  sequence,
+  graph,
   progress,
   isRunning,
 }: {
   execution?: ExecutionResult;
+  sequence: ReturnType<typeof parseTestPath>;
+  graph: ModelGraph;
   progress: number;
   isRunning: boolean;
 }) {
@@ -137,7 +151,14 @@ function ExecutionSidebar({
             {execution.paths.length} path{execution.paths.length === 1 ? "" : "s"}
           </p>
 
-          <h3 style={{ margin: "0 0 0.75rem", fontSize: 14 }}>Steps</h3>
+          {sequence.length > 0 && (
+            <>
+              <h3 style={{ margin: "0 0 0.75rem", fontSize: 14 }}>Executed sequence</h3>
+              <SequenceList items={sequence} compact />
+            </>
+          )}
+
+          <h3 style={{ margin: "1rem 0 0.75rem", fontSize: 14 }}>Validation results</h3>
           <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "grid", gap: "0.35rem" }}>
             {execution.stepResults.map((sr, i) => (
               <li
@@ -151,13 +172,15 @@ function ExecutionSidebar({
                 }}
               >
                 <div style={{ display: "flex", justifyContent: "space-between", gap: "0.5rem" }}>
-                  <span>{sr.step.stateLabel}</span>
+                  <span>
+                    Validate <strong>{sr.step.stateLabel}</strong>
+                  </span>
                   <span style={{ color: sr.success ? "#4ade80" : "#f87171" }}>
                     {sr.success ? "pass" : "fail"}
                   </span>
                 </div>
                 {sr.step.action && (
-                  <div style={{ opacity: 0.7, marginTop: 2 }}>Action: {sr.step.action}</div>
+                  <div style={{ opacity: 0.7, marginTop: 2 }}>After action: {sr.step.action}</div>
                 )}
                 {sr.error && <div style={{ color: "#f87171", marginTop: 2 }}>{sr.error}</div>}
               </li>
@@ -178,7 +201,7 @@ function ExecutionSidebar({
                       fontSize: 11,
                     }}
                   >
-                    {flow.steps.map((s) => s.stateLabel).join(" → ")}
+                    <SequenceList items={parseTestPath(flow, graph)} compact />
                   </li>
                 ))}
               </ul>
@@ -190,8 +213,8 @@ function ExecutionSidebar({
       )}
 
       <div style={{ marginTop: "1rem", fontSize: 12, opacity: 0.7 }}>
-        <div>Green = visited · Blue = active</div>
-        <div>Red = failed step</div>
+        <div>Green = validated · Blue = active</div>
+        <div>Red = failed validation</div>
       </div>
     </aside>
   );

@@ -143,6 +143,29 @@ func (h *Handler) StartScenarioRun(w http.ResponseWriter, r *http.Request) {
 	writeJSON(w, http.StatusAccepted, run)
 }
 
+func (h *Handler) ListProjectRuns(w http.ResponseWriter, r *http.Request) {
+	orgID, ok := auth.OrgIDFromContext(r.Context())
+	if !ok {
+		writeError(w, http.StatusUnauthorized, "missing organization context")
+		return
+	}
+	projectID, err := uuid.Parse(chi.URLParam(r, "projectID"))
+	if err != nil {
+		writeError(w, http.StatusBadRequest, "invalid project id")
+		return
+	}
+
+	runs, err := h.store.ListRunsByProject(r.Context(), orgID, projectID)
+	if err != nil {
+		writeError(w, http.StatusInternalServerError, "failed to list runs")
+		return
+	}
+	if runs == nil {
+		runs = []domain.Run{}
+	}
+	writeJSON(w, http.StatusOK, runs)
+}
+
 func (h *Handler) GetRun(w http.ResponseWriter, r *http.Request) {
 	orgID, ok := auth.OrgIDFromContext(r.Context())
 	if !ok {

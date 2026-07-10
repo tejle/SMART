@@ -165,18 +165,46 @@ func (s *Store) UpdateRun(ctx context.Context, run domain.Run) error {
 }
 
 func (s *Store) GetRun(ctx context.Context, orgID, runID uuid.UUID) (domain.Run, error) {
-	var run domain.Run
-	var resultPayload []byte
-	var completedAt *time.Time
-	err := s.pool.QueryRow(ctx, `
+	row := s.pool.QueryRow(ctx, `
 		SELECT id, org_id, project_id, scenario_id, kind, status, result, error_message, created_at, completed_at
 		FROM runs
 		WHERE org_id = $1 AND id = $2
-	`, orgID, runID).Scan(
+	`, orgID, runID)
+	return scanRun(row.Scan)
+}
+
+func (s *Store) ListRunsByProject(ctx context.Context, orgID, projectID uuid.UUID) ([]domain.Run, error) {
+	rows, err := s.pool.Query(ctx, `
+		SELECT id, org_id, project_id, scenario_id, kind, status, result, error_message, created_at, completed_at
+		FROM runs
+		WHERE org_id = $1 AND project_id = $2
+		ORDER BY created_at DESC
+		LIMIT 100
+	`, orgID, projectID)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var runs []domain.Run
+	for rows.Next() {
+		run, err := scanRun(rows.Scan)
+		if err != nil {
+			return nil, err
+		}
+		runs = append(runs, run)
+	}
+	return runs, rows.Err()
+}
+
+func scanRun(scan func(dest ...any) error) (domain.Run, error) {
+	var run domain.Run
+	var resultPayload []byte
+	var completedAt *time.Time
+	if err := scan(
 		&run.ID, &run.OrgID, &run.ProjectID, &run.ScenarioID, &run.Kind, &run.Status,
 		&resultPayload, &run.ErrorMessage, &run.CreatedAt, &completedAt,
-	)
-	if err != nil {
+	); err != nil {
 		return domain.Run{}, err
 	}
 	run.CompletedAt = completedAt

@@ -7,6 +7,7 @@ import {
   getModel,
   getRun,
   listModels,
+  listProjectRuns,
   listProjects,
   listScenarios,
   startRun,
@@ -16,6 +17,7 @@ import {
 import ExecutionView from "./ExecutionView";
 import GenerationView from "./GenerationView";
 import ModelEditor from "./ModelEditor";
+import RunHistory from "./RunHistory";
 import type { Model, Project, Run, Scenario } from "./types";
 
 export default function App() {
@@ -30,7 +32,8 @@ export default function App() {
   const [scenarioName, setScenarioName] = useState("");
   const [selectedModelIds, setSelectedModelIds] = useState<string[]>([]);
   const [adapterBaseUrl, setAdapterBaseUrl] = useState("http://localhost:9090");
-  const [lastRun, setLastRun] = useState<Run | null>(null);
+  const [viewingRun, setViewingRun] = useState<Run | null>(null);
+  const [projectRuns, setProjectRuns] = useState<Run[]>([]);
   const [runLog, setRunLog] = useState<string[]>([]);
   const [executionModel, setExecutionModel] = useState<Model | null>(null);
   const [generationModel, setGenerationModel] = useState<Model | null>(null);
@@ -48,6 +51,11 @@ export default function App() {
       .catch((err: Error) => setError(err.message));
   }, [orgId]);
 
+  async function refreshRuns(projectId: string) {
+    const runs = await listProjectRuns(projectId);
+    setProjectRuns(runs);
+  }
+
   useEffect(() => {
     if (!selectedProject) return;
     listModels(selectedProject.id)
@@ -56,7 +64,23 @@ export default function App() {
     listScenarios(selectedProject.id)
       .then(setScenarios)
       .catch((err: Error) => setError(err.message));
+    refreshRuns(selectedProject.id).catch((err: Error) => setError(err.message));
   }, [selectedProject?.id]);
+
+  function openGenerationRun(run: Run) {
+    const model = modelForScenario(run.scenarioId);
+    if (!model || !run.result?.generation) return;
+    setViewingRun(run);
+    setGenerationModel(model);
+  }
+
+  function openExecutionRun(run: Run) {
+    const model = modelForScenario(run.scenarioId);
+    if (!model) return;
+    setViewingRun(run);
+    setExecutionModel(model);
+    setRunLog([]);
+  }
 
   async function openModelEditor(model: Model) {
     if (!selectedProject) return;
@@ -167,12 +191,13 @@ export default function App() {
     setActiveStateId(undefined);
     setGenerationModel(null);
     setExecutionModel(null);
+    setViewingRun(null);
 
     const model = modelForScenario(scenarioId);
 
     try {
       const pending = await startRun(scenarioId, kind);
-      setLastRun(pending);
+      setViewingRun(pending);
 
       if (kind === "execute") {
         if (model) setExecutionModel(model);
@@ -194,17 +219,19 @@ export default function App() {
         });
 
         const completed = await waitForRun(pending.id);
-        setLastRun(completed);
+        setViewingRun(completed);
         unsubscribe();
       } else {
         if (model) setGenerationModel(model);
         const completed = await waitForRun(pending.id);
-        setLastRun(completed);
+        setViewingRun(completed);
       }
+      if (selectedProject) await refreshRuns(selectedProject.id);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Unknown error");
       setExecutionModel(null);
       setGenerationModel(null);
+      setViewingRun(null);
     } finally {
       setLoading(false);
     }
@@ -226,27 +253,33 @@ export default function App() {
     }
   }
 
-  if (generationModel && lastRun?.result?.generation) {
+  if (generationModel && viewingRun?.result?.generation) {
     return (
       <GenerationView
         model={generationModel}
-        result={lastRun.result.generation}
-        onBack={() => setGenerationModel(null)}
+        result={viewingRun.result.generation}
+        onBack={() => {
+          setGenerationModel(null);
+          setViewingRun(null);
+        }}
         onViewReport={() => {
-          openRunReport(lastRun.id).catch((err: Error) => setError(err.message));
+          openRunReport(viewingRun.id).catch((err: Error) => setError(err.message));
         }}
       />
     );
   }
 
-  if (executionModel) {
+  if (executionModel && viewingRun) {
     return (
       <ExecutionView
         model={executionModel}
-        run={lastRun ?? { id: "", orgId: "", projectId: "", scenarioId: "", kind: "execute", status: "running", createdAt: "" }}
+        run={viewingRun}
         activeStateId={activeStateId}
         log={runLog}
-        onBack={() => setExecutionModel(null)}
+        onBack={() => {
+          setExecutionModel(null);
+          setViewingRun(null);
+        }}
       />
     );
   }
@@ -270,7 +303,7 @@ export default function App() {
   }
 
   return (
-    <main style={{ maxWidth: 960, margin: "0 auto", padding: "2rem 1rem" }}>
+    <main style={{ maxWidth: 1100, margin: "0 auto", padding: "2rem 1rem" }}>
       <header style={{ marginBottom: "2rem" }}>
         <p style={{ opacity: 0.7, margin: 0 }}>Model-based testing SaaS</p>
         <h1 style={{ margin: "0.25rem 0 0" }}>SMART</h1>
@@ -441,95 +474,26 @@ export default function App() {
                     </li>
                   ))}
                 </ul>
-                {lastRun && (
-                  <div style={{ marginTop: "1rem", fontSize: 14, opacity: 0.9 }}>
-                    <strong>Last run:</strong> {lastRun.kind} · {lastRun.status}
-                    {lastRun.result?.generation && (
-                      <>
-                        {" · "}
-                        {lastRun.result.generation.paths.length} paths,{" "}
-                        {(lastRun.result.generation.stateCoverageRatio * 100).toFixed(0)}% coverage
-                        {lastRun.status === "completed" && (
-                          <>
-                            {" · "}
-                            <button
-                              type="button"
-                              onClick={() => {
-                                const model = modelForScenario(lastRun.scenarioId);
-                                if (model && lastRun.result?.generation) {
-                                  setGenerationModel(model);
-                                }
-                              }}
-                              style={{
-                                background: "none",
-                                border: "none",
-                                color: "#60a5fa",
-                                cursor: "pointer",
-                                padding: 0,
-                                textDecoration: "underline",
-                                font: "inherit",
-                              }}
-                            >
-                              View generation
-                            </button>
-                          </>
-                        )}
-                        {" · "}
-                        <button
-                          type="button"
-                          onClick={() => {
-                            openRunReport(lastRun.id).catch((err: Error) => setError(err.message));
-                          }}
-                          style={{
-                            background: "none",
-                            border: "none",
-                            color: "#60a5fa",
-                            cursor: "pointer",
-                            padding: 0,
-                            textDecoration: "underline",
-                            font: "inherit",
-                          }}
-                        >
-                          View report
-                        </button>
-                      </>
-                    )}
-                    {lastRun.result?.execution && (
-                      <>
-                        {" · "}
-                        {lastRun.result.execution.stepResults.length} steps,{" "}
-                        {lastRun.result.execution.defectFlows.length} defects
-                        {lastRun.status === "completed" && (
-                          <>
-                            {" · "}
-                            <button
-                              type="button"
-                              onClick={() => {
-                                const model = modelForScenario(lastRun.scenarioId);
-                                if (model) setExecutionModel(model);
-                              }}
-                              style={{
-                                background: "none",
-                                border: "none",
-                                color: "#60a5fa",
-                                cursor: "pointer",
-                                padding: 0,
-                                textDecoration: "underline",
-                                font: "inherit",
-                              }}
-                            >
-                              View execution
-                            </button>
-                          </>
-                        )}
-                      </>
-                    )}
-                  </div>
-                )}
               </>
             )}
           </section>
         </div>
+      )}
+
+      {selectedProject && orgId && (
+        <section style={{ marginTop: "2rem" }}>
+          <h2>Run history</h2>
+          <p style={{ fontSize: 14, opacity: 0.7, marginTop: 0 }}>
+            All generation and execution runs for this project.
+          </p>
+          <RunHistory
+            runs={projectRuns}
+            scenarios={scenarios}
+            onOpenGeneration={openGenerationRun}
+            onOpenExecution={openExecutionRun}
+            onError={setError}
+          />
+        </section>
       )}
     </main>
   );

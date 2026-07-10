@@ -127,6 +127,12 @@ export async function getRun(runId: string): Promise<Run> {
   return res.json();
 }
 
+export async function listProjectRuns(projectId: string): Promise<Run[]> {
+  const res = await fetch(`/v1/projects/${projectId}/runs`, { headers: orgHeaders() });
+  if (!res.ok) throw new Error(await parseError(res, "Failed to list runs"));
+  return res.json();
+}
+
 export function runReportUrl(runId: string) {
   return `/v1/runs/${runId}/report`;
 }

@@ -70,11 +70,25 @@ export function highlightNodes(
 
 export function highlightEdges(
   edges: Edge<FlowEdgeData>[],
-  options: { activeEdgeId?: string; pathEdgeIds?: Set<string> },
+  options: {
+    activeEdgeId?: string;
+    activeTraverse?: { fromStateId: string; toStateId: string };
+    pathEdgeIds?: Set<string>;
+  },
 ): Edge<FlowEdgeData>[] {
+  const resolvedActiveId =
+    options.activeEdgeId ??
+    (options.activeTraverse
+      ? edges.find(
+          (e) =>
+            e.source === options.activeTraverse!.fromStateId &&
+            e.target === options.activeTraverse!.toStateId,
+        )?.id
+      : undefined);
+
   return edges.map((edge) => {
     const onPath = options.pathEdgeIds?.has(edge.id);
-    const active = options.activeEdgeId === edge.id;
+    const active = resolvedActiveId === edge.id;
     return {
       ...edge,
       animated: active || onPath,
