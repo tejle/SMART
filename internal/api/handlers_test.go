@@ -70,6 +70,35 @@ func (m *mockStore) GetProject(_ context.Context, orgID, projectID uuid.UUID) (d
 	return p, nil
 }
 
+func (m *mockStore) CreateModel(_ context.Context, orgID, projectID uuid.UUID, name string, graph domain.ModelGraph) (domain.Model, error) {
+	model := domain.Model{
+		ID:        uuid.New(),
+		OrgID:     orgID,
+		ProjectID: projectID,
+		Name:      name,
+		Graph:     graph,
+		CreatedAt: time.Now().UTC(),
+		UpdatedAt: time.Now().UTC(),
+	}
+	return model, nil
+}
+
+func (m *mockStore) ListModels(_ context.Context, _, _ uuid.UUID) ([]domain.Model, error) {
+	return []domain.Model{}, nil
+}
+
+func (m *mockStore) GetModel(_ context.Context, _, _, _ uuid.UUID) (domain.Model, error) {
+	return domain.Model{}, errNotFound
+}
+
+func (m *mockStore) UpdateModel(_ context.Context, _, _, _ uuid.UUID, _ *string, _ *domain.ModelGraph) (domain.Model, error) {
+	return domain.Model{}, errNotFound
+}
+
+func (m *mockStore) DeleteModel(_ context.Context, _, _, _ uuid.UUID) error {
+	return errNotFound
+}
+
 var errNotFound = &notFoundError{}
 
 type notFoundError struct{}

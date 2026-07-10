@@ -2,9 +2,11 @@ package postgres
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 
 	"github.com/google/uuid"
+	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/tejle/SMART/internal/domain"
 	"github.com/tejle/SMART/internal/store"
@@ -91,6 +93,125 @@ func (s *Store) GetProject(ctx context.Context, orgID, projectID uuid.UUID) (dom
 		WHERE org_id = $1 AND id = $2
 	`, orgID, projectID).Scan(&project.ID, &project.OrgID, &project.Name, &project.CreatedAt, &project.UpdatedAt)
 	return project, err
+}
+
+func (s *Store) CreateModel(ctx context.Context, orgID, projectID uuid.UUID, name string, graph domain.ModelGraph) (domain.Model, error) {
+	payload, err := json.Marshal(graph)
+	if err != nil {
+		return domain.Model{}, err
+	}
+
+	var model domain.Model
+	err = s.pool.QueryRow(ctx, `
+		INSERT INTO models (org_id, project_id, name, graph)
+		VALUES ($1, $2, $3, $4::jsonb)
+		RETURNING id, org_id, project_id, name, graph, created_at, updated_at
+	`, orgID, projectID, name, payload).Scan(
+		&model.ID, &model.OrgID, &model.ProjectID, &model.Name, &payload, &model.CreatedAt, &model.UpdatedAt,
+	)
+	if err != nil {
+		return domain.Model{}, err
+	}
+	if err := json.Unmarshal(payload, &model.Graph); err != nil {
+		return domain.Model{}, err
+	}
+	return model, nil
+}
+
+func (s *Store) ListModels(ctx context.Context, orgID, projectID uuid.UUID) ([]domain.Model, error) {
+	rows, err := s.pool.Query(ctx, `
+		SELECT id, org_id, project_id, name, graph, created_at, updated_at
+		FROM models
+		WHERE org_id = $1 AND project_id = $2
+		ORDER BY created_at DESC
+	`, orgID, projectID)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var models []domain.Model
+	for rows.Next() {
+		model, err := scanModel(rows.Scan)
+		if err != nil {
+			return nil, err
+		}
+		models = append(models, model)
+	}
+	return models, rows.Err()
+}
+
+func (s *Store) GetModel(ctx context.Context, orgID, projectID, modelID uuid.UUID) (domain.Model, error) {
+	row := s.pool.QueryRow(ctx, `
+		SELECT id, org_id, project_id, name, graph, created_at, updated_at
+		FROM models
+		WHERE org_id = $1 AND project_id = $2 AND id = $3
+	`, orgID, projectID, modelID)
+	return scanModel(row.Scan)
+}
+
+func (s *Store) UpdateModel(ctx context.Context, orgID, projectID, modelID uuid.UUID, name *string, graph *domain.ModelGraph) (domain.Model, error) {
+	current, err := s.GetModel(ctx, orgID, projectID, modelID)
+	if err != nil {
+		return domain.Model{}, err
+	}
+
+	nextName := current.Name
+	if name != nil {
+		nextName = *name
+	}
+	nextGraph := current.Graph
+	if graph != nil {
+		nextGraph = *graph
+	}
+
+	payload, err := json.Marshal(nextGraph)
+	if err != nil {
+		return domain.Model{}, err
+	}
+
+	var model domain.Model
+	err = s.pool.QueryRow(ctx, `
+		UPDATE models
+		SET name = $4, graph = $5::jsonb, updated_at = NOW()
+		WHERE org_id = $1 AND project_id = $2 AND id = $3
+		RETURNING id, org_id, project_id, name, graph, created_at, updated_at
+	`, orgID, projectID, modelID, nextName, payload).Scan(
+		&model.ID, &model.OrgID, &model.ProjectID, &model.Name, &payload, &model.CreatedAt, &model.UpdatedAt,
+	)
+	if err != nil {
+		return domain.Model{}, err
+	}
+	if err := json.Unmarshal(payload, &model.Graph); err != nil {
+		return domain.Model{}, err
+	}
+	return model, nil
+}
+
+func (s *Store) DeleteModel(ctx context.Context, orgID, projectID, modelID uuid.UUID) error {
+	tag, err := s.pool.Exec(ctx, `
+		DELETE FROM models
+		WHERE org_id = $1 AND project_id = $2 AND id = $3
+	`, orgID, projectID, modelID)
+	if err != nil {
+		return err
+	}
+	if tag.RowsAffected() == 0 {
+		return pgx.ErrNoRows
+	}
+	return nil
+}
+
+func scanModel(scan func(dest ...any) error) (domain.Model, error) {
+	var model domain.Model
+	var payload []byte
+	if err := scan(&model.ID, &model.OrgID, &model.ProjectID, &model.Name, &payload, &model.CreatedAt, &model.UpdatedAt); err != nil {
+		return domain.Model{}, err
+	}
+	if err := json.Unmarshal(payload, &model.Graph); err != nil {
+		return domain.Model{}, err
+	}
+	return model, nil
 }
 
 var _ store.Store = (*Store)(nil)

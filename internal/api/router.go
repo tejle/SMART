@@ -36,6 +36,12 @@ func NewRouter(h *Handler, devAuth bool) http.Handler {
 			r.Post("/projects", h.CreateProject)
 			r.Get("/projects", h.ListProjects)
 			r.Get("/projects/{projectID}", h.GetProject)
+
+			r.Post("/projects/{projectID}/models", h.CreateModel)
+			r.Get("/projects/{projectID}/models", h.ListModels)
+			r.Get("/projects/{projectID}/models/{modelID}", h.GetModel)
+			r.Put("/projects/{projectID}/models/{modelID}", h.UpdateModel)
+			r.Delete("/projects/{projectID}/models/{modelID}", h.DeleteModel)
 		})
 	})
 
