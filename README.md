@@ -20,9 +20,9 @@ make docker-up
 # Run migrations
 make migrate-up
 
-# API + worker
+# API + worker (worker processes queued runs via Redis/Asynq)
 make api
-make worker   # separate terminal
+make worker   # separate terminal — required for generate/execute jobs
 
 # Web UI
 make web-dev
