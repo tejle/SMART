@@ -28,4 +28,6 @@ type Store interface {
 	CreateRun(ctx context.Context, orgID, projectID, scenarioID uuid.UUID, kind domain.RunKind) (domain.Run, error)
 	UpdateRun(ctx context.Context, run domain.Run) error
 	GetRun(ctx context.Context, orgID, runID uuid.UUID) (domain.Run, error)
+
+	RecordAudit(ctx context.Context, entry AuditEntry) error
 }

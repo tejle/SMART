@@ -13,6 +13,7 @@ import (
 	"github.com/tejle/SMART/internal/auth"
 	"github.com/tejle/SMART/internal/domain"
 	"github.com/tejle/SMART/internal/runevents"
+	"github.com/tejle/SMART/internal/store"
 )
 
 type mockStore struct {
@@ -143,6 +144,10 @@ func (m *mockStore) GetRun(_ context.Context, _, _ uuid.UUID) (domain.Run, error
 	return domain.Run{}, errNotFound
 }
 
+func (m *mockStore) RecordAudit(_ context.Context, _ store.AuditEntry) error {
+	return nil
+}
+
 var errNotFound = &notFoundError{}
 
 type notFoundError struct{}
@@ -150,7 +155,7 @@ type notFoundError struct{}
 func (e *notFoundError) Error() string { return "not found" }
 
 func TestHealth(t *testing.T) {
-	h := NewHandler(newMockStore(), runevents.NewHub())
+	h := NewHandler(newMockStore(), runevents.NewHub(), nil, nil)
 	req := httptest.NewRequest(http.MethodGet, "/healthz", nil)
 	rec := httptest.NewRecorder()
 	NewRouter(h, true).ServeHTTP(rec, req)
@@ -161,7 +166,7 @@ func TestHealth(t *testing.T) {
 }
 
 func TestCreateProjectRequiresOrgHeader(t *testing.T) {
-	h := NewHandler(newMockStore(), runevents.NewHub())
+	h := NewHandler(newMockStore(), runevents.NewHub(), nil, nil)
 	body, _ := json.Marshal(domain.CreateProjectInput{Name: "Demo"})
 	req := httptest.NewRequest(http.MethodPost, "/v1/projects", bytes.NewReader(body))
 	rec := httptest.NewRecorder()
@@ -174,7 +179,7 @@ func TestCreateProjectRequiresOrgHeader(t *testing.T) {
 
 func TestCreateAndListProjects(t *testing.T) {
 	store := newMockStore()
-	h := NewHandler(store, runevents.NewHub())
+	h := NewHandler(store, runevents.NewHub(), nil, nil)
 	router := NewRouter(h, true)
 	orgID := uuid.New()
 
