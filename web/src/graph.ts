@@ -1,5 +1,6 @@
 import dagre from "dagre";
 import { MarkerType, type Edge, type Node } from "@xyflow/react";
+import { stateNodeStyle } from "./graphStyles";
 import type { ModelGraph, State, StateType, Transition } from "./types";
 
 export type FlowNodeData = {
@@ -27,22 +28,9 @@ export function graphToFlow(graph: ModelGraph): {
     position: { x: state.location.x, y: state.location.y },
     data: { label: state.label, stateType: state.type },
     style: {
+      ...stateNodeStyle(state.type),
       width: state.size.width,
       height: state.size.height,
-      borderRadius: state.type === "start" || state.type === "stop" ? 999 : 8,
-      border:
-        state.type === "start"
-          ? "2px solid #4ade80"
-          : state.type === "stop"
-            ? "2px solid #f87171"
-            : "1px solid #64748b",
-      background: "#111827",
-      color: "#e5e7eb",
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-      fontSize: 12,
-      padding: 4,
     },
   }));
 
@@ -54,7 +42,10 @@ export function graphToFlow(graph: ModelGraph): {
     label: edgeDisplayLabel(t.action, t.guard),
     animated: false,
     style: { stroke: "#94a3b8" },
-    labelStyle: { fill: "#cbd5e1", fontSize: 10 },
+    labelStyle: { fill: "#e8edf7", fontSize: 11, fontWeight: 500 },
+    labelBgStyle: { fill: "#1e293b", fillOpacity: 0.95 },
+    labelBgPadding: [6, 8] as [number, number],
+    labelBgBorderRadius: 4,
     markerEnd: { type: MarkerType.ArrowClosed, color: "#94a3b8", width: 18, height: 18 },
   }));
 

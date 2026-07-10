@@ -23,7 +23,73 @@ body {
   font-family: inherit;
 }
 
+.react-flow__edge-text {
+  fill: #e8edf7;
+}
+
+.react-flow__edge-textbg {
+  fill: #1e293b;
+}
+
+.react-flow__controls {
+  background: #1e293b;
+  border: 1px solid #2a3558;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+}
+
+.react-flow__controls-button {
+  background: #1e293b;
+  border-bottom: 1px solid #2a3558;
+  fill: #e8edf7;
+  color: #e8edf7;
+}
+
+.react-flow__controls-button:hover {
+  background: #334155;
+}
+
+.react-flow__controls-button:last-child {
+  border-bottom: none;
+}
+
+.react-flow__controls-button svg {
+  fill: #e8edf7;
+}
+
+.react-flow__minimap {
+  background: #111827;
+  border: 1px solid #2a3558;
+}
+
+.react-flow__minimap-mask {
+  fill: rgba(11, 16, 32, 0.65);
+}
+
+.react-flow__minimap-node {
+  fill: #334155;
+  stroke: #64748b;
+}
+
 button,
-input {
+input,
+select {
   font: inherit;
+  color: inherit;
+  background: #111827;
+  border: 1px solid #2a3558;
+  border-radius: 6px;
+  padding: 0.5rem 0.75rem;
+}
+
+button {
+  cursor: pointer;
+}
+
+button:hover:not(:disabled) {
+  background: #1e293b;
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }

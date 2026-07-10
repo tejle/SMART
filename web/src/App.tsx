@@ -4,6 +4,7 @@ import {
   createOrganization,
   createProject,
   createScenario,
+  getModel,
   getRun,
   listModels,
   listProjects,
@@ -13,6 +14,7 @@ import {
   subscribeRunEvents,
 } from "./api";
 import ExecutionView from "./ExecutionView";
+import GenerationView from "./GenerationView";
 import ModelEditor from "./ModelEditor";
 import type { Model, Project, Run, Scenario } from "./types";
 
@@ -31,10 +33,13 @@ export default function App() {
   const [lastRun, setLastRun] = useState<Run | null>(null);
   const [runLog, setRunLog] = useState<string[]>([]);
   const [executionModel, setExecutionModel] = useState<Model | null>(null);
+  const [generationModel, setGenerationModel] = useState<Model | null>(null);
   const [activeStateId, setActiveStateId] = useState<string | undefined>();
-  const [activeModel, setActiveModel] = useState<Model | null>(null);
+  const [editorStack, setEditorStack] = useState<Model[]>([]);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+
+  const activeModel = editorStack[editorStack.length - 1] ?? null;
 
   useEffect(() => {
     if (!orgId) return;
@@ -52,6 +57,37 @@ export default function App() {
       .then(setScenarios)
       .catch((err: Error) => setError(err.message));
   }, [selectedProject?.id]);
+
+  async function openModelEditor(model: Model) {
+    if (!selectedProject) return;
+    setError("");
+    try {
+      const fresh = await getModel(selectedProject.id, model.id);
+      setEditorStack([fresh]);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Failed to open model");
+    }
+  }
+
+  async function navigateToSubmodel(stateLabel: string) {
+    if (!selectedProject) return;
+    setError("");
+    try {
+      let target = models.find((m) => m.name === stateLabel);
+      if (!target) {
+        target = await createModel(selectedProject.id, stateLabel);
+        setModels((prev) => [target!, ...prev]);
+      }
+      const fresh = await getModel(selectedProject.id, target.id);
+      setEditorStack((prev) => [...prev, fresh]);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Failed to open submodel");
+    }
+  }
+
+  function handleEditorBack() {
+    setEditorStack((prev) => (prev.length > 1 ? prev.slice(0, -1) : []));
+  }
 
   async function onCreateOrg(e: FormEvent) {
     e.preventDefault();
@@ -119,46 +155,56 @@ export default function App() {
     throw new Error("Run timed out");
   }
 
+  function modelForScenario(scenarioId: string): Model | undefined {
+    const scenario = scenarios.find((s) => s.id === scenarioId);
+    return models.find((m) => scenario?.modelIds.includes(m.id));
+  }
+
   async function onRun(scenarioId: string, kind: "generate" | "execute") {
     setLoading(true);
     setError("");
     setRunLog([]);
     setActiveStateId(undefined);
+    setGenerationModel(null);
+    setExecutionModel(null);
+
+    const model = modelForScenario(scenarioId);
+
     try {
       const pending = await startRun(scenarioId, kind);
       setLastRun(pending);
 
       if (kind === "execute") {
-        const scenario = scenarios.find((s) => s.id === scenarioId);
-        const model = models.find((m) => scenario?.modelIds.includes(m.id));
-        if (model) {
-          setExecutionModel(model);
-        }
+        if (model) setExecutionModel(model);
+
         const unsubscribe = subscribeRunEvents(pending.id, (event) => {
           const e = event as {
             type?: string;
             message?: string;
-            step?: { stateLabel?: string; stateId?: string };
+            step?: { stateLabel?: string; stateId?: string; action?: string };
+            success?: boolean;
           };
           if (e.step?.stateId) {
             setActiveStateId(e.step.stateId.split(":").pop());
           }
           const line = e.step?.stateLabel
-            ? `${e.type}: ${e.step.stateLabel}`
+            ? `${e.type}: ${e.step.stateLabel}${e.success === false ? " (failed)" : ""}`
             : `${e.type}${e.message ? ` — ${e.message}` : ""}`;
           setRunLog((prev) => [...prev, line]);
         });
+
         const completed = await waitForRun(pending.id);
         setLastRun(completed);
         unsubscribe();
-        setExecutionModel(null);
       } else {
+        if (model) setGenerationModel(model);
         const completed = await waitForRun(pending.id);
         setLastRun(completed);
       }
     } catch (err) {
       setError(err instanceof Error ? err.message : "Unknown error");
       setExecutionModel(null);
+      setGenerationModel(null);
     } finally {
       setLoading(false);
     }
@@ -180,10 +226,24 @@ export default function App() {
     }
   }
 
+  if (generationModel && lastRun?.result?.generation) {
+    return (
+      <GenerationView
+        model={generationModel}
+        result={lastRun.result.generation}
+        onBack={() => setGenerationModel(null)}
+        onViewReport={() => {
+          openRunReport(lastRun.id).catch((err: Error) => setError(err.message));
+        }}
+      />
+    );
+  }
+
   if (executionModel) {
     return (
       <ExecutionView
         model={executionModel}
+        run={lastRun ?? { id: "", orgId: "", projectId: "", scenarioId: "", kind: "execute", status: "running", createdAt: "" }}
         activeStateId={activeStateId}
         log={runLog}
         onBack={() => setExecutionModel(null)}
@@ -195,10 +255,15 @@ export default function App() {
     return (
       <ModelEditor
         model={activeModel}
-        onBack={() => setActiveModel(null)}
+        breadcrumbs={editorStack.map((m) => m.name)}
+        onBack={handleEditorBack}
+        onNavigateToSubmodel={navigateToSubmodel}
         onModelUpdated={(model) => {
           setModels((prev) => prev.map((m) => (m.id === model.id ? model : m)));
-          setActiveModel((current) => (current ? model : null));
+          setEditorStack((current) => {
+            if (!current.length) return current;
+            return current.map((m) => (m.id === model.id ? model : m));
+          });
         }}
       />
     );
@@ -291,7 +356,7 @@ export default function App() {
                   {models.map((m) => (
                     <li key={m.id} style={{ marginBottom: "0.5rem" }}>
                       <button
-                        onClick={() => setActiveModel(m)}
+                        onClick={() => void openModelEditor(m)}
                         style={{
                           width: "100%",
                           textAlign: "left",
@@ -364,61 +429,102 @@ export default function App() {
                         marginBottom: "0.5rem",
                       }}
                     >
-                      <div style={{ display: "flex", justifyContent: "space-between", gap: "0.5rem" }}>
+                      <div style={{ display: "flex", justifyContent: "space-between", gap: "0.5rem", flexWrap: "wrap" }}>
                         <span>{s.name}</span>
-                        <button onClick={() => onRun(s.id, "generate")} disabled={loading}>
-                          Generate
+                        <button onClick={() => void onRun(s.id, "generate")} disabled={loading}>
+                          {loading ? "Running…" : "Generate"}
                         </button>
-                        <button onClick={() => onRun(s.id, "execute")} disabled={loading}>
-                          Execute
+                        <button onClick={() => void onRun(s.id, "execute")} disabled={loading}>
+                          {loading ? "Running…" : "Execute"}
                         </button>
                       </div>
                     </li>
                   ))}
                 </ul>
-                {lastRun?.result?.generation && (
+                {lastRun && (
                   <div style={{ marginTop: "1rem", fontSize: 14, opacity: 0.9 }}>
-                    <strong>Last run:</strong> {lastRun.result.generation.paths.length} paths, coverage{" "}
-                    {(lastRun.result.generation.stateCoverageRatio * 100).toFixed(0)}%
-                    {" · "}
-                    <button
-                      type="button"
-                      onClick={() => {
-                        openRunReport(lastRun.id).catch((err: Error) => setError(err.message));
-                      }}
-                      style={{
-                        background: "none",
-                        border: "none",
-                        color: "#60a5fa",
-                        cursor: "pointer",
-                        padding: 0,
-                        textDecoration: "underline",
-                        font: "inherit",
-                      }}
-                    >
-                      View report
-                    </button>
+                    <strong>Last run:</strong> {lastRun.kind} · {lastRun.status}
+                    {lastRun.result?.generation && (
+                      <>
+                        {" · "}
+                        {lastRun.result.generation.paths.length} paths,{" "}
+                        {(lastRun.result.generation.stateCoverageRatio * 100).toFixed(0)}% coverage
+                        {lastRun.status === "completed" && (
+                          <>
+                            {" · "}
+                            <button
+                              type="button"
+                              onClick={() => {
+                                const model = modelForScenario(lastRun.scenarioId);
+                                if (model && lastRun.result?.generation) {
+                                  setGenerationModel(model);
+                                }
+                              }}
+                              style={{
+                                background: "none",
+                                border: "none",
+                                color: "#60a5fa",
+                                cursor: "pointer",
+                                padding: 0,
+                                textDecoration: "underline",
+                                font: "inherit",
+                              }}
+                            >
+                              View generation
+                            </button>
+                          </>
+                        )}
+                        {" · "}
+                        <button
+                          type="button"
+                          onClick={() => {
+                            openRunReport(lastRun.id).catch((err: Error) => setError(err.message));
+                          }}
+                          style={{
+                            background: "none",
+                            border: "none",
+                            color: "#60a5fa",
+                            cursor: "pointer",
+                            padding: 0,
+                            textDecoration: "underline",
+                            font: "inherit",
+                          }}
+                        >
+                          View report
+                        </button>
+                      </>
+                    )}
+                    {lastRun.result?.execution && (
+                      <>
+                        {" · "}
+                        {lastRun.result.execution.stepResults.length} steps,{" "}
+                        {lastRun.result.execution.defectFlows.length} defects
+                        {lastRun.status === "completed" && (
+                          <>
+                            {" · "}
+                            <button
+                              type="button"
+                              onClick={() => {
+                                const model = modelForScenario(lastRun.scenarioId);
+                                if (model) setExecutionModel(model);
+                              }}
+                              style={{
+                                background: "none",
+                                border: "none",
+                                color: "#60a5fa",
+                                cursor: "pointer",
+                                padding: 0,
+                                textDecoration: "underline",
+                                font: "inherit",
+                              }}
+                            >
+                              View execution
+                            </button>
+                          </>
+                        )}
+                      </>
+                    )}
                   </div>
-                )}
-                {lastRun?.result?.execution && (
-                  <div style={{ marginTop: "0.5rem", fontSize: 14, opacity: 0.9 }}>
-                    Execution: {lastRun.result.execution.stepResults.length} steps,{" "}
-                    {lastRun.result.execution.defectFlows.length} defect flows
-                  </div>
-                )}
-                {runLog.length > 0 && (
-                  <pre
-                    style={{
-                      marginTop: "0.75rem",
-                      padding: "0.75rem",
-                      background: "#111827",
-                      borderRadius: 8,
-                      fontSize: 12,
-                      overflow: "auto",
-                    }}
-                  >
-                    {runLog.join("\n")}
-                  </pre>
                 )}
               </>
             )}

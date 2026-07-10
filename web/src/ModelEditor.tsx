@@ -26,12 +26,15 @@ import {
   newStateId,
   newTransitionId,
 } from "./graph";
+import { stateNodeStyle } from "./graphStyles";
 import type { Model, StateType } from "./types";
 
 type Props = {
   model: Model;
+  breadcrumbs?: string[];
   onBack: () => void;
   onModelUpdated: (model: Model) => void;
+  onNavigateToSubmodel?: (stateLabel: string) => void;
 };
 
 const stateTypeOptions: { value: StateType; label: string }[] = [
@@ -42,27 +45,6 @@ const stateTypeOptions: { value: StateType; label: string }[] = [
   { value: "localRef", label: "Local reference" },
 ];
 
-function stateNodeStyle(stateType: StateType) {
-  return {
-    width: 120,
-    height: 48,
-    borderRadius: stateType === "start" || stateType === "stop" ? 999 : 8,
-    border:
-      stateType === "start"
-        ? "2px solid #4ade80"
-        : stateType === "stop"
-          ? "2px solid #f87171"
-          : "1px solid #64748b",
-    background: "#111827",
-    color: "#e5e7eb",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    fontSize: 12,
-    padding: 4,
-  };
-}
-
 function PropertiesPanel({
   modelName,
   onModelNameChange,
@@ -72,6 +54,7 @@ function PropertiesPanel({
   onUpdateEdge,
   onDeleteNode,
   onDeleteEdge,
+  onOpenSubmodel,
 }: {
   modelName: string;
   onModelNameChange: (name: string) => void;
@@ -81,11 +64,14 @@ function PropertiesPanel({
   onUpdateEdge: (id: string, patch: Partial<FlowEdgeData>) => void;
   onDeleteNode: (id: string) => void;
   onDeleteEdge: (id: string) => void;
+  onOpenSubmodel?: (label: string) => void;
 }) {
   const fieldStyle = { display: "grid", gap: "0.35rem", marginBottom: "1rem" };
   const labelStyle = { fontSize: 12, opacity: 0.75 };
 
   if (selectedNode) {
+    const isRef =
+      selectedNode.data.stateType === "globalRef" || selectedNode.data.stateType === "localRef";
     return (
       <aside style={{ padding: "1rem", borderLeft: "1px solid #2a3558", overflow: "auto" }}>
         <h3 style={{ margin: "0 0 1rem", fontSize: 14 }}>State</h3>
@@ -110,7 +96,21 @@ function PropertiesPanel({
             ))}
           </select>
         </label>
-        <button type="button" onClick={() => onDeleteNode(selectedNode.id)} style={{ color: "#f87171" }}>
+        {isRef && (
+          <>
+            <p style={{ fontSize: 12, opacity: 0.6, margin: "0 0 0.75rem" }}>
+              Double-click to open the submodel named after this state.
+            </p>
+            <button type="button" onClick={() => onOpenSubmodel?.(selectedNode.data.label)}>
+              Open submodel
+            </button>
+          </>
+        )}
+        <button
+          type="button"
+          onClick={() => onDeleteNode(selectedNode.id)}
+          style={{ color: "#f87171", marginTop: "0.75rem" }}
+        >
           Delete state
         </button>
       </aside>
@@ -159,7 +159,13 @@ function PropertiesPanel({
   );
 }
 
-export default function ModelEditor({ model, onBack, onModelUpdated }: Props) {
+export default function ModelEditor({
+  model,
+  breadcrumbs = [],
+  onBack,
+  onModelUpdated,
+  onNavigateToSubmodel,
+}: Props) {
   const initial = useMemo(() => graphToFlow(model.graph), [model.id]);
   const [nodes, setNodes] = useState<Node<FlowNodeData>[]>(initial.nodes);
   const [edges, setEdges] = useState<Edge<FlowEdgeData>[]>(initial.edges);
@@ -168,20 +174,33 @@ export default function ModelEditor({ model, onBack, onModelUpdated }: Props) {
   const [selectedEdgeId, setSelectedEdgeId] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
   const [savedAt, setSavedAt] = useState<string | null>(null);
+  const [isDirty, setIsDirty] = useState(false);
   const [error, setError] = useState("");
+
+  const nodesRef = useRef(nodes);
+  const edgesRef = useRef(edges);
+  const modelNameRef = useRef(modelName);
+  const dirtyRef = useRef(false);
   const saveTimer = useRef<number | null>(null);
-  const closingRef = useRef(false);
+  const mountedRef = useRef(true);
+
+  nodesRef.current = nodes;
+  edgesRef.current = edges;
+  modelNameRef.current = modelName;
 
   useEffect(() => {
     const next = graphToFlow(model.graph);
     setNodes(next.nodes);
     setEdges(next.edges);
     setModelName(model.name);
-  }, [model.id, model.updatedAt]);
+    dirtyRef.current = false;
+    setIsDirty(false);
+  }, [model.id]);
 
   useEffect(() => {
+    mountedRef.current = true;
     return () => {
-      closingRef.current = true;
+      mountedRef.current = false;
       if (saveTimer.current) window.clearTimeout(saveTimer.current);
     };
   }, []);
@@ -192,44 +211,54 @@ export default function ModelEditor({ model, onBack, onModelUpdated }: Props) {
       nextEdges: Edge<FlowEdgeData>[],
       nextName?: string,
     ) => {
-      if (closingRef.current) return;
       setSaving(true);
       setError("");
       try {
         const payload: { name?: string; graph?: ReturnType<typeof flowToGraph> } = {
           graph: flowToGraph(nextNodes, nextEdges),
         };
-        if (nextName !== undefined && nextName !== model.name) {
-          payload.name = nextName;
+        const nameToSave = nextName ?? modelNameRef.current;
+        if (nameToSave !== model.name) {
+          payload.name = nameToSave;
         }
         const updated = await updateModel(model.projectId, model.id, payload);
-        if (closingRef.current) return;
+        if (!mountedRef.current) return;
+        dirtyRef.current = false;
+        setIsDirty(false);
         onModelUpdated(updated);
         setSavedAt(new Date().toLocaleTimeString());
       } catch (err) {
-        if (!closingRef.current) {
+        if (mountedRef.current) {
           setError(err instanceof Error ? err.message : "Save failed");
         }
       } finally {
-        if (!closingRef.current) setSaving(false);
+        if (mountedRef.current) setSaving(false);
       }
     },
     [model.id, model.name, model.projectId, onModelUpdated],
   );
 
-  const scheduleSave = useCallback(
-    (nextNodes: Node<FlowNodeData>[], nextEdges: Edge<FlowEdgeData>[], nextName?: string) => {
-      if (saveTimer.current) window.clearTimeout(saveTimer.current);
-      saveTimer.current = window.setTimeout(() => {
-        void persist(nextNodes, nextEdges, nextName);
-      }, 800);
-    },
-    [persist],
-  );
-
-  const handleBack = () => {
-    closingRef.current = true;
+  const scheduleSave = useCallback(() => {
+    dirtyRef.current = true;
+    setIsDirty(true);
     if (saveTimer.current) window.clearTimeout(saveTimer.current);
+    saveTimer.current = window.setTimeout(() => {
+      void persist(nodesRef.current, edgesRef.current, modelNameRef.current);
+    }, 800);
+  }, [persist]);
+
+  const flushSave = async () => {
+    if (saveTimer.current) {
+      window.clearTimeout(saveTimer.current);
+      saveTimer.current = null;
+    }
+    if (dirtyRef.current) {
+      await persist(nodesRef.current, edgesRef.current, modelNameRef.current);
+    }
+  };
+
+  const handleBack = async () => {
+    await flushSave();
     onBack();
   };
 
@@ -237,22 +266,22 @@ export default function ModelEditor({ model, onBack, onModelUpdated }: Props) {
     (changes) => {
       setNodes((current) => {
         const next = applyNodeChanges(changes, current);
-        scheduleSave(next, edges, modelName);
+        scheduleSave();
         return next;
       });
     },
-    [edges, modelName, scheduleSave],
+    [scheduleSave],
   );
 
   const onEdgesChange: OnEdgesChange<Edge<FlowEdgeData>> = useCallback(
     (changes) => {
       setEdges((current) => {
         const next = applyEdgeChanges(changes, current);
-        scheduleSave(nodes, next, modelName);
+        scheduleSave();
         return next;
       });
     },
-    [nodes, modelName, scheduleSave],
+    [scheduleSave],
   );
 
   const onConnect = useCallback(
@@ -263,65 +292,60 @@ export default function ModelEditor({ model, onBack, onModelUpdated }: Props) {
             ...connection,
             id: newTransitionId(),
             data: { action: "", guard: "" },
+            labelStyle: { fill: "#e8edf7", fontSize: 11 },
+            labelBgStyle: { fill: "#1e293b", fillOpacity: 0.95 },
+            labelBgPadding: [6, 8],
+            labelBgBorderRadius: 4,
             markerEnd: { type: MarkerType.ArrowClosed, color: "#94a3b8", width: 18, height: 18 },
           },
           current,
         );
-        scheduleSave(nodes, next, modelName);
+        scheduleSave();
         return next;
       });
     },
-    [nodes, modelName, scheduleSave],
+    [scheduleSave],
   );
 
   const updateNode = (id: string, patch: Partial<FlowNodeData>) => {
-    const nextNodes = nodes.map((node) => {
-      if (node.id !== id) return node;
-      const data = { ...node.data, ...patch };
-      return {
-        ...node,
-        data,
-        style: stateNodeStyle(data.stateType),
-      };
-    });
-    setNodes(nextNodes);
-    scheduleSave(nextNodes, edges, modelName);
+    setNodes((current) =>
+      current.map((node) => {
+        if (node.id !== id) return node;
+        const data = { ...node.data, ...patch };
+        return { ...node, data, style: stateNodeStyle(data.stateType) };
+      }),
+    );
+    scheduleSave();
   };
 
   const updateEdge = (id: string, patch: Partial<FlowEdgeData>) => {
-    const nextEdges = edges.map((edge) => {
-      if (edge.id !== id) return edge;
-      const data = { ...(edge.data ?? { action: "", guard: "" }), ...patch };
-      return {
-        ...edge,
-        data,
-        label: edgeDisplayLabel(data.action, data.guard),
-      };
-    });
-    setEdges(nextEdges);
-    scheduleSave(nodes, nextEdges, modelName);
+    setEdges((current) =>
+      current.map((edge) => {
+        if (edge.id !== id) return edge;
+        const data = { ...(edge.data ?? { action: "", guard: "" }), ...patch };
+        return { ...edge, data, label: edgeDisplayLabel(data.action, data.guard) };
+      }),
+    );
+    scheduleSave();
   };
 
   const deleteNode = (id: string) => {
-    const nextNodes = nodes.filter((n) => n.id !== id);
-    const nextEdges = edges.filter((e) => e.source !== id && e.target !== id);
-    setNodes(nextNodes);
-    setEdges(nextEdges);
+    setNodes((current) => current.filter((n) => n.id !== id));
+    setEdges((current) => current.filter((e) => e.source !== id && e.target !== id));
     setSelectedNodeId(null);
-    scheduleSave(nextNodes, nextEdges, modelName);
+    scheduleSave();
   };
 
   const deleteEdge = (id: string) => {
-    const nextEdges = edges.filter((e) => e.id !== id);
-    setEdges(nextEdges);
+    setEdges((current) => current.filter((e) => e.id !== id));
     setSelectedEdgeId(null);
-    scheduleSave(nodes, nextEdges, modelName);
+    scheduleSave();
   };
 
   const addState = (stateType: StateType, label: string) => {
     const id = newStateId();
-    const nextNodes: Node<FlowNodeData>[] = [
-      ...nodes,
+    setNodes((current) => [
+      ...current,
       {
         id,
         type: "state",
@@ -329,20 +353,26 @@ export default function ModelEditor({ model, onBack, onModelUpdated }: Props) {
         data: { label, stateType },
         style: stateNodeStyle(stateType),
       },
-    ];
-    setNodes(nextNodes);
-    scheduleSave(nextNodes, edges, modelName);
+    ]);
+    scheduleSave();
   };
 
   const runLayout = () => {
-    const laidOut = autoLayout(nodes, edges);
-    setNodes(laidOut);
-    scheduleSave(laidOut, edges, modelName);
+    setNodes((current) => autoLayout(current, edgesRef.current));
+    scheduleSave();
   };
 
   const handleModelNameChange = (name: string) => {
     setModelName(name);
-    scheduleSave(nodes, edges, name);
+    scheduleSave();
+  };
+
+  const openSubmodel = (label: string) => {
+    if (!label.trim()) return;
+    void (async () => {
+      await flushSave();
+      onNavigateToSubmodel?.(label.trim());
+    })();
   };
 
   const selectedNode = nodes.find((n) => n.id === selectedNodeId) ?? null;
@@ -360,14 +390,19 @@ export default function ModelEditor({ model, onBack, onModelUpdated }: Props) {
           flexWrap: "wrap",
         }}
       >
-        <button onClick={handleBack}>Back</button>
+        <button onClick={() => void handleBack()}>Back</button>
+        {breadcrumbs.length > 0 && (
+          <span style={{ fontSize: 13, opacity: 0.7 }}>
+            {breadcrumbs.join(" › ")}
+          </span>
+        )}
         <strong>{modelName}</strong>
         <button onClick={() => addState("normal", "New state")}>Add state</button>
         <button onClick={() => addState("start", "Start")}>Add start</button>
         <button onClick={() => addState("stop", "Stop")}>Add stop</button>
         <button onClick={runLayout}>Auto layout</button>
         <span style={{ marginLeft: "auto", opacity: 0.75, fontSize: 14 }}>
-          {saving ? "Saving..." : savedAt ? `Saved ${savedAt}` : "Ready"}
+          {saving ? "Saving..." : savedAt ? `Saved ${savedAt}` : isDirty ? "Unsaved" : "Ready"}
         </span>
       </header>
       {error && (
@@ -383,6 +418,11 @@ export default function ModelEditor({ model, onBack, onModelUpdated }: Props) {
             onNodesChange={onNodesChange}
             onEdgesChange={onEdgesChange}
             onConnect={onConnect}
+            onNodeDoubleClick={(_, node) => {
+              if (node.data.stateType === "globalRef" || node.data.stateType === "localRef") {
+                openSubmodel(node.data.label);
+              }
+            }}
             onSelectionChange={({ nodes: selNodes, edges: selEdges }) => {
               setSelectedNodeId(selNodes[0]?.id ?? null);
               setSelectedEdgeId(selEdges[0]?.id ?? null);
@@ -404,6 +444,7 @@ export default function ModelEditor({ model, onBack, onModelUpdated }: Props) {
           onUpdateEdge={updateEdge}
           onDeleteNode={deleteNode}
           onDeleteEdge={deleteEdge}
+          onOpenSubmodel={openSubmodel}
         />
       </div>
     </div>
