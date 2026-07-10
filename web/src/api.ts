@@ -131,6 +131,16 @@ export function runReportUrl(runId: string) {
   return `/v1/runs/${runId}/report`;
 }
 
+export async function openRunReport(runId: string): Promise<void> {
+  const res = await fetch(runReportUrl(runId), { headers: orgHeaders() });
+  if (!res.ok) throw new Error(await parseError(res, "Failed to load report"));
+  const html = await res.text();
+  const blob = new Blob([html], { type: "text/html" });
+  const url = URL.createObjectURL(blob);
+  window.open(url, "_blank", "noopener,noreferrer");
+  window.setTimeout(() => URL.revokeObjectURL(url), 60_000);
+}
+
 export function subscribeRunEvents(runId: string, onEvent: (payload: unknown) => void) {
   const source = new EventSource(`/v1/runs/${runId}/events`);
   source.addEventListener("run", (event) => {

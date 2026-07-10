@@ -1,5 +1,5 @@
 import dagre from "dagre";
-import type { Edge, Node } from "@xyflow/react";
+import { MarkerType, type Edge, type Node } from "@xyflow/react";
 import type { ModelGraph, State, StateType, Transition } from "./types";
 
 export type FlowNodeData = {
@@ -7,7 +7,20 @@ export type FlowNodeData = {
   stateType: StateType;
 };
 
-export function graphToFlow(graph: ModelGraph): { nodes: Node<FlowNodeData>[]; edges: Edge[] } {
+export type FlowEdgeData = {
+  action: string;
+  guard: string;
+};
+
+export function edgeDisplayLabel(action?: string, guard?: string): string {
+  const parts = [action, guard].filter(Boolean);
+  return parts.join(" / ");
+}
+
+export function graphToFlow(graph: ModelGraph): {
+  nodes: Node<FlowNodeData>[];
+  edges: Edge<FlowEdgeData>[];
+} {
   const nodes: Node<FlowNodeData>[] = graph.states.map((state) => ({
     id: state.id,
     type: "state",
@@ -33,20 +46,22 @@ export function graphToFlow(graph: ModelGraph): { nodes: Node<FlowNodeData>[]; e
     },
   }));
 
-  const edges: Edge[] = graph.transitions.map((t) => ({
+  const edges: Edge<FlowEdgeData>[] = graph.transitions.map((t) => ({
     id: t.id,
     source: t.sourceId,
     target: t.targetId,
-    label: t.action || t.guard || "",
+    data: { action: t.action ?? "", guard: t.guard ?? "" },
+    label: edgeDisplayLabel(t.action, t.guard),
     animated: false,
     style: { stroke: "#94a3b8" },
     labelStyle: { fill: "#cbd5e1", fontSize: 10 },
+    markerEnd: { type: MarkerType.ArrowClosed, color: "#94a3b8", width: 18, height: 18 },
   }));
 
   return { nodes, edges };
 }
 
-export function flowToGraph(nodes: Node<FlowNodeData>[], edges: Edge[]): ModelGraph {
+export function flowToGraph(nodes: Node<FlowNodeData>[], edges: Edge<FlowEdgeData>[]): ModelGraph {
   const states: State[] = nodes.map((node) => ({
     id: node.id,
     label: node.data.label,
@@ -62,13 +77,14 @@ export function flowToGraph(nodes: Node<FlowNodeData>[], edges: Edge[]): ModelGr
     id: edge.id,
     sourceId: edge.source,
     targetId: edge.target,
-    action: typeof edge.label === "string" ? edge.label : "",
+    action: edge.data?.action ?? "",
+    guard: edge.data?.guard ?? "",
   }));
 
   return { states, transitions };
 }
 
-export function autoLayout(nodes: Node<FlowNodeData>[], edges: Edge[]) {
+export function autoLayout(nodes: Node<FlowNodeData>[], edges: Edge<FlowEdgeData>[]) {
   const g = new dagre.graphlib.Graph();
   g.setDefaultEdgeLabel(() => ({}));
   g.setGraph({ rankdir: "LR", nodesep: 60, ranksep: 100 });

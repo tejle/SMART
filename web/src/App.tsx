@@ -9,7 +9,7 @@ import {
   listProjects,
   listScenarios,
   startRun,
-  runReportUrl,
+  openRunReport,
   subscribeRunEvents,
 } from "./api";
 import ExecutionView from "./ExecutionView";
@@ -197,8 +197,8 @@ export default function App() {
         model={activeModel}
         onBack={() => setActiveModel(null)}
         onModelUpdated={(model) => {
-          setActiveModel(model);
           setModels((prev) => prev.map((m) => (m.id === model.id ? model : m)));
+          setActiveModel((current) => (current ? model : null));
         }}
       />
     );
@@ -381,9 +381,23 @@ export default function App() {
                     <strong>Last run:</strong> {lastRun.result.generation.paths.length} paths, coverage{" "}
                     {(lastRun.result.generation.stateCoverageRatio * 100).toFixed(0)}%
                     {" · "}
-                    <a href={runReportUrl(lastRun.id)} target="_blank" rel="noreferrer">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        openRunReport(lastRun.id).catch((err: Error) => setError(err.message));
+                      }}
+                      style={{
+                        background: "none",
+                        border: "none",
+                        color: "#60a5fa",
+                        cursor: "pointer",
+                        padding: 0,
+                        textDecoration: "underline",
+                        font: "inherit",
+                      }}
+                    >
                       View report
-                    </a>
+                    </button>
                   </div>
                 )}
                 {lastRun?.result?.execution && (
