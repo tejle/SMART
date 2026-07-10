@@ -121,6 +121,12 @@ export async function startRun(scenarioId: string, kind: "generate" | "execute")
   return res.json();
 }
 
+export async function getRun(runId: string): Promise<Run> {
+  const res = await fetch(`/v1/runs/${runId}`, { headers: orgHeaders() });
+  if (!res.ok) throw new Error(await parseError(res, "Failed to get run"));
+  return res.json();
+}
+
 export function runReportUrl(runId: string) {
   return `/v1/runs/${runId}/report`;
 }

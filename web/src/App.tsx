@@ -4,6 +4,7 @@ import {
   createOrganization,
   createProject,
   createScenario,
+  getRun,
   listModels,
   listProjects,
   listScenarios,
@@ -11,6 +12,7 @@ import {
   runReportUrl,
   subscribeRunEvents,
 } from "./api";
+import ExecutionView from "./ExecutionView";
 import ModelEditor from "./ModelEditor";
 import type { Model, Project, Run, Scenario } from "./types";
 
@@ -28,6 +30,8 @@ export default function App() {
   const [adapterBaseUrl, setAdapterBaseUrl] = useState("http://localhost:9090");
   const [lastRun, setLastRun] = useState<Run | null>(null);
   const [runLog, setRunLog] = useState<string[]>([]);
+  const [executionModel, setExecutionModel] = useState<Model | null>(null);
+  const [activeStateId, setActiveStateId] = useState<string | undefined>();
   const [activeModel, setActiveModel] = useState<Model | null>(null);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -104,30 +108,58 @@ export default function App() {
     }
   }
 
+  async function waitForRun(runId: string): Promise<Run> {
+    for (let attempt = 0; attempt < 90; attempt++) {
+      const run = await getRun(runId);
+      if (run.status === "completed" || run.status === "failed") {
+        return run;
+      }
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+    }
+    throw new Error("Run timed out");
+  }
+
   async function onRun(scenarioId: string, kind: "generate" | "execute") {
     setLoading(true);
     setError("");
     setRunLog([]);
-    let unsubscribe: (() => void) | undefined;
+    setActiveStateId(undefined);
     try {
+      const pending = await startRun(scenarioId, kind);
+      setLastRun(pending);
+
       if (kind === "execute") {
-        const pending = await startRun(scenarioId, kind);
-        setLastRun(pending);
-        unsubscribe = subscribeRunEvents(pending.id, (event) => {
-          const e = event as { type?: string; message?: string; step?: { stateLabel?: string } };
+        const scenario = scenarios.find((s) => s.id === scenarioId);
+        const model = models.find((m) => scenario?.modelIds.includes(m.id));
+        if (model) {
+          setExecutionModel(model);
+        }
+        const unsubscribe = subscribeRunEvents(pending.id, (event) => {
+          const e = event as {
+            type?: string;
+            message?: string;
+            step?: { stateLabel?: string; stateId?: string };
+          };
+          if (e.step?.stateId) {
+            setActiveStateId(e.step.stateId.split(":").pop());
+          }
           const line = e.step?.stateLabel
             ? `${e.type}: ${e.step.stateLabel}`
             : `${e.type}${e.message ? ` — ${e.message}` : ""}`;
           setRunLog((prev) => [...prev, line]);
         });
+        const completed = await waitForRun(pending.id);
+        setLastRun(completed);
+        unsubscribe();
+        setExecutionModel(null);
       } else {
-        const run = await startRun(scenarioId, kind);
-        setLastRun(run);
+        const completed = await waitForRun(pending.id);
+        setLastRun(completed);
       }
     } catch (err) {
       setError(err instanceof Error ? err.message : "Unknown error");
+      setExecutionModel(null);
     } finally {
-      unsubscribe?.();
       setLoading(false);
     }
   }
@@ -146,6 +178,17 @@ export default function App() {
     } finally {
       setLoading(false);
     }
+  }
+
+  if (executionModel) {
+    return (
+      <ExecutionView
+        model={executionModel}
+        activeStateId={activeStateId}
+        log={runLog}
+        onBack={() => setExecutionModel(null)}
+      />
+    );
   }
 
   if (activeModel) {
