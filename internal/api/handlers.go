@@ -10,17 +10,20 @@ import (
 	"github.com/jackc/pgx/v5"
 	"github.com/tejle/SMART/internal/auth"
 	"github.com/tejle/SMART/internal/domain"
+	"github.com/tejle/SMART/internal/queue"
 	"github.com/tejle/SMART/internal/runevents"
 	"github.com/tejle/SMART/internal/store"
 )
 
 type Handler struct {
-	store    store.Store
+	store     store.Store
 	runEvents *runevents.Hub
+	redis     *runevents.RedisBridge
+	queue     *queue.Client
 }
 
-func NewHandler(s store.Store, hub *runevents.Hub) *Handler {
-	return &Handler{store: s, runEvents: hub}
+func NewHandler(s store.Store, hub *runevents.Hub, redisBridge *runevents.RedisBridge, queueClient *queue.Client) *Handler {
+	return &Handler{store: s, runEvents: hub, redis: redisBridge, queue: queueClient}
 }
 
 func (h *Handler) Health(w http.ResponseWriter, _ *http.Request) {

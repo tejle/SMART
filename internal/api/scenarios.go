@@ -1,21 +1,19 @@
 package api
 
 import (
-	"context"
 	"encoding/json"
 	"errors"
 	"fmt"
-	"math/rand"
 	"net/http"
-	"time"
 
 	"github.com/go-chi/chi/v5"
 	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5"
 	"github.com/tejle/SMART/internal/auth"
 	"github.com/tejle/SMART/internal/domain"
-	"github.com/tejle/SMART/internal/engine"
 	"github.com/tejle/SMART/internal/plugins"
+	"github.com/tejle/SMART/internal/queue"
+	"github.com/tejle/SMART/internal/store"
 )
 
 func (h *Handler) PluginCatalog(w http.ResponseWriter, _ *http.Request) {
@@ -111,78 +109,38 @@ func (h *Handler) StartScenarioRun(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	run.Status = domain.RunStatusRunning
-	_ = h.store.UpdateRun(r.Context(), run)
+	_ = h.store.RecordAudit(r.Context(), store.AuditEntry{
+		OrgID:        orgID,
+		Actor:        "api",
+		Action:       "run.start",
+		ResourceType: "run",
+		ResourceID:   &run.ID,
+		Metadata: map[string]any{
+			"kind":       payload.Kind,
+			"scenarioId": scenarioID.String(),
+		},
+	})
 
-	var runResult domain.RunResult
-	var runErr error
-
-	switch payload.Kind {
-	case domain.RunKindGenerate:
-		generation, err := h.generateForScenario(r, orgID, projectID, scenario)
-		if err != nil {
-			runErr = err
-		} else {
-			runResult.Generation = &generation
-		}
-	case domain.RunKindExecute:
-		writeJSON(w, http.StatusAccepted, run)
-		go h.executeScenarioAsync(run, scenario, orgID, projectID)
-		return
-	default:
-		runErr = fmt.Errorf("unsupported run kind")
-	}
-
-	now := time.Now().UTC()
-	run.CompletedAt = &now
-	if runErr != nil {
-		run.Status = domain.RunStatusFailed
-		run.ErrorMessage = runErr.Error()
-	} else {
-		run.Status = domain.RunStatusCompleted
-		run.Result = &runResult
-	}
-	_ = h.store.UpdateRun(r.Context(), run)
-
-	if runErr != nil {
-		writeError(w, http.StatusInternalServerError, run.ErrorMessage)
+	if h.queue == nil {
+		writeError(w, http.StatusServiceUnavailable, "job queue unavailable")
 		return
 	}
+
+	if err := h.queue.EnqueueProcessRun(r.Context(), queue.ProcessRunPayload{
+		RunID:      run.ID,
+		OrgID:      orgID,
+		ProjectID:  projectID,
+		ScenarioID: scenario.ID,
+		Kind:       payload.Kind,
+	}); err != nil {
+		writeError(w, http.StatusInternalServerError, "failed to enqueue run")
+		return
+	}
+
+	run.Status = domain.RunStatusPending
+	_ = h.store.UpdateRun(r.Context(), run)
+	_ = scenario
 	writeJSON(w, http.StatusAccepted, run)
-}
-
-func (h *Handler) executeScenarioAsync(run domain.Run, scenario domain.Scenario, orgID, projectID uuid.UUID) {
-	ctx := context.Background()
-	var runResult domain.RunResult
-	var runErr error
-
-	generation, err := h.generateForScenarioCtx(ctx, orgID, projectID, scenario)
-	if err != nil {
-		runErr = err
-	} else {
-		emit := func(event engine.RunEvent) {
-			h.runEvents.Publish(run.ID, event)
-		}
-		execution, err := engine.Execute(ctx, generation.Paths, scenario.AdapterConfig, emit)
-		if err != nil {
-			runErr = err
-		} else {
-			runResult.Generation = &generation
-			runResult.Execution = &execution
-		}
-	}
-
-	now := time.Now().UTC()
-	run.CompletedAt = &now
-	if runErr != nil {
-		run.Status = domain.RunStatusFailed
-		run.ErrorMessage = runErr.Error()
-	} else {
-		run.Status = domain.RunStatusCompleted
-		run.Result = &runResult
-	}
-	_ = h.store.UpdateRun(ctx, run)
-	h.runEvents.Close(run.ID)
 }
 
 func (h *Handler) GetRun(w http.ResponseWriter, r *http.Request) {
@@ -226,21 +184,43 @@ func (h *Handler) StreamRunEvents(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Cache-Control", "no-cache")
 	w.Header().Set("Connection", "keep-alive")
 
-	events := h.runEvents.Subscribe(runID)
-	defer func() {
-		// no-op; hub closes channels when run completes
-	}()
+	localEvents := h.runEvents.Subscribe(runID)
+	redisEvents := make(chan string, 16)
+
+	if h.redis != nil {
+		pubsub, err := h.redis.Subscribe(r.Context(), runID)
+		if err == nil {
+			defer pubsub.Close()
+			go func() {
+				ch := pubsub.Channel()
+				for {
+					select {
+					case <-r.Context().Done():
+						return
+					case msg, ok := <-ch:
+						if !ok {
+							return
+						}
+						redisEvents <- msg.Payload
+					}
+				}
+			}()
+		}
+	}
 
 	for {
 		select {
 		case <-r.Context().Done():
 			return
-		case payload, open := <-events:
+		case payload, open := <-localEvents:
 			if !open {
 				fmt.Fprintf(w, "event: close\ndata: {}\n\n")
 				flusher.Flush()
 				return
 			}
+			fmt.Fprintf(w, "event: run\ndata: %s\n\n", payload)
+			flusher.Flush()
+		case payload := <-redisEvents:
 			fmt.Fprintf(w, "event: run\ndata: %s\n\n", payload)
 			flusher.Flush()
 		}
@@ -262,25 +242,4 @@ func (h *Handler) findScenario(r *http.Request, orgID, scenarioID uuid.UUID) (do
 		}
 	}
 	return domain.Scenario{}, uuid.Nil, pgx.ErrNoRows
-}
-
-func (h *Handler) generateForScenario(r *http.Request, orgID, projectID uuid.UUID, scenario domain.Scenario) (domain.GenerationResult, error) {
-	return h.generateForScenarioCtx(r.Context(), orgID, projectID, scenario)
-}
-
-func (h *Handler) generateForScenarioCtx(ctx context.Context, orgID, projectID uuid.UUID, scenario domain.Scenario) (domain.GenerationResult, error) {
-	var models []domain.Model
-	for _, modelID := range scenario.ModelIDs {
-		model, err := h.store.GetModel(ctx, orgID, projectID, modelID)
-		if err != nil {
-			return domain.GenerationResult{}, err
-		}
-		models = append(models, model)
-	}
-
-	graph, err := engine.Compile(models)
-	if err != nil {
-		return domain.GenerationResult{}, err
-	}
-	return engine.Generate(graph, scenario.Algorithm, scenario.GenerationConfig, rand.New(rand.NewSource(time.Now().UnixNano())))
 }
